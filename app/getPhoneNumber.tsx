@@ -1,9 +1,8 @@
 import { View } from "react-native";
 import { Stack } from "expo-router";
 import React from "react";
-import ScreenHeaderProgress from "../components/common/header/screenHeaderProgress/screenHeaderProgress";
+import { Header, ScreenHeaderProgress } from "../components/";
 import commonStyles from "../styles/common";
-import Header from "../components/onboarding/header";
 
 const GetPhoneNumber = () => {
   return (

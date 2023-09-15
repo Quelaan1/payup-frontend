@@ -1,7 +1,7 @@
 // Header
 import ScreenHeaderBtn from "./common/header/ScreenHeaderBtn";
 import ScreenHeaderProgress from "./common/header/screenHeaderProgress/screenHeaderProgress";
-import ScreenHeaderTitle from "./common/header/screenHeaderTitle/screenHeaderTItle";
+import ScreenHeaderTitle from "./common/header/screenHeaderTitle/screenHeaderTitle";
 
 // Buttons
 import LargeButton from "./common/buttons/largeButton/largeButton";

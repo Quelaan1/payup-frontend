@@ -2,11 +2,12 @@ import { StyleSheet, View } from "react-native";
 import React from "react";
 import CustomCarousel from "carousel-with-pagination-rn";
 import { Stack, useRouter } from "expo-router";
-import ScreenHeaderTitle from "../components/common/header/screenHeaderTitle/screenHeaderTItle";
-import IntroCards from "../components/common/cards/introCards/introCards";
-import { LargeButton } from "../components/common/buttons/largeButton/largeButton";
-import images from "../constants/images";
-import { COLORS } from "../constants";
+import {
+  IntroCards,
+  LargeButton,
+  ScreenHeaderTitle,
+} from "../components/index";
+import { COLORS, images } from "../constants";
 import commonStyles from "../styles/common";
 
 const cards = [
