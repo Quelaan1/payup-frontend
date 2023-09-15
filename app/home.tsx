@@ -1,9 +1,12 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View } from "react-native";
+import { Stack } from "expo-router";
+import React from "react";
 
 const Home = () => {
   return (
     <View>
+      <Stack.Screen />
+
       <Text>home</Text>
     </View>
   );
