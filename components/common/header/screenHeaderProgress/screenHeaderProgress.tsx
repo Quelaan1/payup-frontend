@@ -1,8 +1,13 @@
 import { View } from "react-native";
 import { images } from "../../../../constants";
+import { JSX } from "react";
 
-const ScreenHeaderProgress = ({ progress }) => {
-  let image;
+interface Progress {
+  progress: "zero" | "one" | "two";
+}
+
+const ScreenHeaderProgress = ({ progress }: Progress): JSX.Element => {
+  let image: JSX.Element | null;
 
   switch (progress) {
     case "zero":

@@ -2,7 +2,11 @@ import React from "react";
 import styles from "./largeButton.style";
 import { Text, TouchableOpacity, View } from "react-native";
 
-const LargeButton = ({ text, onPress }) => {
+interface Props {
+  text: string;
+  onPress: () => void;
+}
+const LargeButton = ({ text, onPress }: Props): React.JSX.Element => {
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -12,4 +16,4 @@ const LargeButton = ({ text, onPress }) => {
   );
 };
 
-export default LargeButton
+export default LargeButton;

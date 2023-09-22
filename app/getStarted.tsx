@@ -10,7 +10,13 @@ import {
 import { COLORS, images } from "../constants";
 import commonStyles from "../styles/common";
 
-const cards = [
+export interface Card {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const cards: Card[] = [
   {
     id: 1,
     title: "Easy Credit Transfers",
@@ -31,7 +37,7 @@ const cards = [
   },
 ];
 
-const GetStarted = () => {
+const GetStarted = (): React.JSX.Element => {
   const router = useRouter();
 
   const handleNext = async () => {
@@ -61,7 +67,13 @@ const GetStarted = () => {
         indicatorHorizontalPadding={5}
         paginationContainerStyle={{ paddingTop: 15 }}
         renderItem={({ item }) => {
-          return <IntroCards item={item} />;
+          return (
+            <IntroCards
+              id={item}
+              description={item.description}
+              title={item.title}
+            />
+          );
         }}
       />
 

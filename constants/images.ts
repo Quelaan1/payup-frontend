@@ -1,3 +1,4 @@
+// @ts-nocheck
 import frame from "../assets/images/frame.svg";
 import logo from "../assets/images/logo.png";
 import progressZero from "../assets/images/progress_screen_zero.svg";

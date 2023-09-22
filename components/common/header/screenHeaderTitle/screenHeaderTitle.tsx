@@ -4,7 +4,7 @@ import { Image, Text, View } from "react-native";
 import styles from "../screenheader.style";
 import { images } from "../../../../constants";
 
-const ScreenHeaderTitle = () => {
+const ScreenHeaderTitle = (): React.JSX.Element => {
   return (
     <View style={styles.logo}>
       <Image source={images.logo} style={styles.logoImage} />
