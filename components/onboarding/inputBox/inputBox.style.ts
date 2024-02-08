@@ -8,7 +8,16 @@ const Styles = StyleSheet.create({
     position: "relative",
     width: "100%",
   },
+
+  InputContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+  },
+
   input: {
+    width: "100%",
     padding: 14,
     borderRadius: 4,
     backgroundColor: "#fff",
@@ -17,18 +26,48 @@ const Styles = StyleSheet.create({
       width: 0,
       height: 1,
     },
-    shadowRadius: 4,
-    elevation: 4,
-    shadowOpacity: 1,
+    shadowOpacity: 0.3,
     borderStyle: "solid",
     borderColor: "#d0d3d8",
     borderWidth: 1,
   },
 
-  Image: {
+  image: {
     position: "absolute",
-    top: 14,
-    right: 30,
+    right: 10,
+  },
+
+  inputError: {
+    width: "100%",
+    padding: 14,
+    borderRadius: 4,
+    backgroundColor: COLORS.LightRed,
+    borderStyle: "solid",
+    borderColor: COLORS.Red,
+    borderWidth: 1,
+  },
+
+  error: {
+    paddingTop: 4,
+    paddingLeft: 4,
+    color: COLORS.Red,
+    fontSize: 14,
+  },
+
+  otpContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 34,
+    gap: 10,
+    paddingHorizontal: 20,
+  },
+
+  otp: {
+    fontSize: 24,
+    textAlign: "center",
+    width: 32,
+    borderBottomWidth: 2.5,
+    borderBottomColor: COLORS.DarkGray50,
   },
 });
 

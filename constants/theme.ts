@@ -4,13 +4,21 @@ const COLORS = {
   tertiary: "#FF7754",
 
   DarkGray: "#64748b",
+  DarkGray50: "rgba(100,116,139,0.5)",
   MediumGray: "#83829A",
-  LightGray: "#C1C0C8",
+  LightGray: "#D9D9D9",
 
-  white: "#F3F4F8",
+  white: "#FFFFFF",
   lightWhite: "#FAFAFC",
 
   skinBackground: "#F9EFE5",
+
+  Red: "rgba(244,67,54,0.97)",
+  LightRed: "rgba(225,150,145,0.09)",
+  Green: "#4CAF50",
+  Blue: "#2196F3",
+  Yellow: "#FFEB3B",
+  Purple: "#9C27B0",
 };
 
 const FONT = {

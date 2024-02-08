@@ -9,6 +9,7 @@ import {
 } from "../components/index";
 import { COLORS, images } from "../constants";
 import commonStyles from "../styles/common";
+import Footer from "../components/onboarding/footer/footer";
 
 export interface Card {
   id: number;
@@ -46,36 +47,38 @@ const GetStarted = (): React.JSX.Element => {
 
   return (
     <View style={commonStyles.container}>
-      <Stack.Screen
-        options={{
-          headerTitle: () => <ScreenHeaderTitle />,
-          headerTitleAlign: "center",
-          headerShadowVisible: false,
-          headerStyle: { backgroundColor: COLORS.skinBackground },
-        }}
-      />
+      <View>
+        <Stack.Screen
+          options={{
+            navigationBarColor: COLORS.white,
+            headerTitle: () => <ScreenHeaderTitle />,
+            headerStyle: { backgroundColor: COLORS.skinBackground },
+          }}
+        />
 
-      <View style={styles.frameContainer}>
-        <images.frame width={"100%"} />
+        <View style={styles.frameContainer}>
+          {/*// @ts-ignore */}
+          <images.frame width={"100%"} />
+        </View>
+
+        <CustomCarousel
+          data={cards}
+          indicatorWidth={[12, 18, 12]}
+          indicatorHeight={[8, 12, 8]}
+          inidicatorBorderRadius={4}
+          indicatorHorizontalPadding={5}
+          paginationContainerStyle={{ paddingTop: 15 }}
+          renderItem={({ item }) => {
+            return (
+              <IntroCards
+                id={item}
+                description={item.description}
+                title={item.title}
+              />
+            );
+          }}
+        />
       </View>
-
-      <CustomCarousel
-        data={cards}
-        indicatorWidth={[12, 18, 12]}
-        indicatorHeight={[8, 12, 8]}
-        inidicatorBorderRadius={4}
-        indicatorHorizontalPadding={5}
-        paginationContainerStyle={{ paddingTop: 15 }}
-        renderItem={({ item }) => {
-          return (
-            <IntroCards
-              id={item}
-              description={item.description}
-              title={item.title}
-            />
-          );
-        }}
-      />
 
       <LargeButton text={"Next"} onPress={handleNext} />
     </View>

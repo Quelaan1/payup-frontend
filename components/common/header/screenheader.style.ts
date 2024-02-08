@@ -1,6 +1,5 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
-// @ts-ignore
 const styles = StyleSheet.create({
   // btnContainer: {
   //   width: 40,

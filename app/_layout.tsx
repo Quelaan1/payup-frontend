@@ -1,4 +1,4 @@
-import { SplashScreen, Stack } from "expo-router";
+import { Stack, SplashScreen } from "expo-router";
 import {
   IBMPlexSans_100Thin,
   IBMPlexSans_100Thin_Italic,
@@ -38,7 +38,7 @@ export default function Layout() {
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
-      SplashScreen.hideAsync();
+      await SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
@@ -46,6 +46,17 @@ export default function Layout() {
     return null;
   }
 
-  // @ts-ignore
-  return <Stack onLayout={onLayoutRootView} />;
+  return (
+    <Stack
+      screenOptions={{
+        autoHideHomeIndicator: true,
+        headerTitleAlign: "center",
+        headerShadowVisible: false,
+        headerBackTitleVisible: false,
+        headerTintColor: "black",
+      }}
+      /*//@ts-ignore*/
+      onLayout={onLayoutRootView}
+    />
+  );
 }

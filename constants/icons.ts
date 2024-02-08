@@ -1,4 +1,3 @@
-// @ts-nocheck
 import heart from "../assets/icons/heart.png";
 import menu from "../assets/icons/menu.png";
 import search from "../assets/icons/search.png";
@@ -10,6 +9,8 @@ import location from "../assets/icons/location.png";
 import chevronLeft from "../assets/icons/chevron-left.png";
 import chevronRight from "../assets/icons/chevron-right.png";
 import phone from "../assets/icons/phone.svg";
+import mobile from "../assets/icons/mobile.svg";
+import spinner from "../assets/icons/spinner.svg";
 
 export default {
   heart,
@@ -23,4 +24,6 @@ export default {
   chevronLeft,
   chevronRight,
   phone,
+  spinner,
+  mobile,
 };

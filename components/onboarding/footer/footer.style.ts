@@ -6,12 +6,12 @@ const Styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    paddingBottom: 12,
-    paddingHorizontal: 30,
+    paddingBottom: 20,
+    paddingHorizontal: 34,
   },
   text: {
-    fontSize: 11,
-    textAlign: "center",
+    fontSize: 8.5,
+    textAlign: "left",
     fontFamily: "SemiBold",
   },
   subtext: {

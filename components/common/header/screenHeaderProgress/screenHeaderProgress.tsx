@@ -11,12 +11,15 @@ const ScreenHeaderProgress = ({ progress }: Progress): JSX.Element => {
 
   switch (progress) {
     case "zero":
+      // @ts-ignore
       image = <images.progressZero width={160} height={40} />;
       break;
     case "one":
+      // @ts-ignore
       image = <images.progressOne width={160} height={40} />;
       break;
     case "two":
+      // @ts-ignore
       image = <images.progressTwo width={160} height={40} />;
       break;
     default:
