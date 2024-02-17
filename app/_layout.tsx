@@ -1,5 +1,4 @@
-import { Stack, SplashScreen } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import { Stack, SplashScreen } from 'expo-router';
 import {
   IBMPlexSans_100Thin,
   IBMPlexSans_100Thin_Italic,
@@ -16,10 +15,11 @@ import {
   IBMPlexSans_700Bold,
   IBMPlexSans_700Bold_Italic,
   useFonts,
-} from "@expo-google-fonts/ibm-plex-sans";
-import { useCallback } from "react";
+} from '@expo-google-fonts/ibm-plex-sans';
+import { useCallback } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-export function Layout() {
+export default function Layout() {
   let [fontsLoaded, error] = useFonts({
     Thin: IBMPlexSans_100Thin,
     ThinItalic: IBMPlexSans_100Thin_Italic,
@@ -47,7 +47,7 @@ export function Layout() {
     );
   }
 
-  const onLayoutRootView = useCallback(() => {
+  const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
@@ -58,28 +58,28 @@ export function Layout() {
   }
 
   return (
-    <View onLayout={onLayoutRootView}>
-      <Stack
-        screenOptions={{
-          autoHideHomeIndicator: true,
-          headerTitleAlign: "center",
-          headerShadowVisible: false,
-          headerBackTitleVisible: false,
-          headerTintColor: "black",
-        }}
-      />
-    </View>
+    <Stack
+      screenOptions={{
+        autoHideHomeIndicator: true,
+        headerTitleAlign: 'center',
+        headerShadowVisible: false,
+        headerBackTitleVisible: false,
+        headerTintColor: 'black',
+      }}
+      /*//@ts-ignore*/
+      onLayout={onLayoutRootView}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   errorContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   errorText: {
     fontSize: 16,
-    color: "red",
+    color: 'red',
   },
 });
