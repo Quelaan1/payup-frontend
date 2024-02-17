@@ -4,21 +4,24 @@ import {
   TouchableWithoutFeedback,
   View,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import commonStyles from "../../styles/common";
 import { router, Stack } from "expo-router";
 import { Header, LargeButton, ScreenHeaderProgress } from "../../components";
 import React, { useState } from "react";
-import { COLORS, icons } from "../../constants";
+import { COLORS, ICONS } from "../../constants";
 import Loader from "../../components/common/loader/loader";
 import Styles from "../../components/common/inputBox/inputBox.style";
 import InfoCard from "../../components/common/infoCard/infoCard";
 import { points } from "../../constants/onboard/GstInfo";
+import ButtonStyles from "../../components/common/buttons/largeButton/largeButton.style";
 
 const Tax = (): React.JSX.Element => {
   const [value, setValue] = React.useState("");
   const [error, setError] = React.useState("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [showInfoCard, setShowInfoCard] = useState(false);
 
   const onChange = (value: string) => {
     setValue(value);
@@ -27,24 +30,45 @@ const Tax = (): React.JSX.Element => {
   const handleSend = () => {
     // setIsVerifying(true);
 
-    router.push("/onboard/user-details");
+    const userName = "Pushpa";
+
+    router.push("/onboard/user-details?userName=" + userName);
+  };
+
+  const handleInfoPress = () => {
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss;
+    }
+
+    setShowInfoCard(!showInfoCard);
+  };
+
+  const handleOutsidePress = () => {
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss;
+    }
+
+    if (showInfoCard) {
+      setShowInfoCard(false);
+    }
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View>
+    <TouchableWithoutFeedback onPress={handleOutsidePress}>
+      <View style={commonStyles.container}>
         <Stack.Screen
           options={{
-            navigationBarColor: COLORS.white,
+            navigationBarColor: COLORS.White,
             headerTitle: () => <ScreenHeaderProgress progress={"two"} />,
           }}
         />
 
-        <View style={commonStyles.container}>
+        <View>
           <Header
             title={"Enter your GSTIN or PAN"}
             description={"We require your GSTIN or PAN to open your account"}
           />
+
           <View style={Styles.container}>
             <View style={Styles.InputContainer}>
               <TextInput
@@ -55,21 +79,30 @@ const Tax = (): React.JSX.Element => {
                 keyboardType={"default"}
               />
 
-              <icons.info style={Styles.image} width={26} height={26} />
+              <TouchableOpacity style={Styles.image} onPress={handleInfoPress}>
+                <ICONS.info width={26} height={26} />
+              </TouchableOpacity>
             </View>
 
             {error && <Text style={Styles.error}>{error}</Text>}
           </View>
 
-          <InfoCard
-            ImagePath={icons.infoFilled}
-            Title="Why GST/PAN is required?"
-            Points={points}
-          />
+          {showInfoCard && (
+            <InfoCard
+              ImagePath={ICONS.infoFilled}
+              Title="Why GST/PAN is required?"
+              Points={points}
+            />
+          )}
+        </View>
 
-          <LargeButton text={"Next"} onPress={handleSend} />
+        <View>
+          <View style={ButtonStyles.buttonParent}>
+            <LargeButton text={"Next"} onPress={handleSend} />
+          </View>
+
           {isVerifying && (
-            <Loader ImagePath={icons.mobile} Message={"Verifying number"} />
+            <Loader ImagePath={ICONS.mobile} Message={"Verifying GST/PAN"} />
           )}
         </View>
       </View>

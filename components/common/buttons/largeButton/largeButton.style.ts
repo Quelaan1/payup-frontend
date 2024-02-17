@@ -1,24 +1,32 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
-  buttonContainer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
+const ButtonStyles = StyleSheet.create({
+  buttonParent: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
     paddingBottom: 50,
-    paddingHorizontal: 30,
+  },
+  buttonContainer: {
+    width: "100%",
   },
   button: {
     backgroundColor: "black",
     padding: 10,
     borderRadius: 4,
   },
+  filledButton: {
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 10,
+    borderRadius: 4,
+  },
   buttonText: {
     textAlign: "center",
-    color: "white",
-    fontFamily: "Bold",
+    fontFamily: "Medium",
     fontSize: 18,
   },
 });
 
-export default styles;
+export default ButtonStyles;

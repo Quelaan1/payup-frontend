@@ -4,6 +4,8 @@ import logo from "../assets/images/logo.png";
 import progressZero from "../assets/images/progress_screen_zero.svg";
 import progressOne from "../assets/images/progress_screen_one.svg";
 import progressTwo from "../assets/images/progress_screen_two.svg";
+import aadhaarProcess from "../assets/images/aadhaar_process.png";
+import securityImage from "../assets/images/Security_Image.svg";
 
 export default {
   frame,
@@ -11,4 +13,6 @@ export default {
   progressZero,
   progressOne,
   progressTwo,
+  aadhaarProcess,
+  securityImage,
 };

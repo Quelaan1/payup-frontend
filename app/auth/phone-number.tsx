@@ -4,10 +4,11 @@ import React from "react";
 import { Header, ScreenHeaderProgress } from "../../components";
 import commonStyles from "../../styles/common";
 import InputBox from "../../components/common/inputBox/inputBox";
-import { COLORS, icons } from "../../constants";
+import { COLORS, ICONS } from "../../constants";
 import { LargeButton } from "../../components";
 import Footer from "../../components/common/footer/footer";
 import Loader from "../../components/common/loader/loader";
+import ButtonStyles from "../../components/common/buttons/largeButton/largeButton.style";
 
 const phoneNumber = (): React.JSX.Element => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
@@ -41,15 +42,15 @@ const phoneNumber = (): React.JSX.Element => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View>
+      <View style={commonStyles.container}>
         <Stack.Screen
           options={{
-            navigationBarColor: COLORS.white,
+            navigationBarColor: COLORS.White,
             headerTitle: () => <ScreenHeaderProgress progress={"zero"} />,
           }}
         />
 
-        <View style={commonStyles.container}>
+        <View>
           <Header
             title={"Welcome to PayUp.\nLet's get you started"}
             description={
@@ -59,19 +60,23 @@ const phoneNumber = (): React.JSX.Element => {
 
           <InputBox
             placeholder={"Phone Number"}
-            ImagePath={icons.phone}
+            ImagePath={ICONS.phone}
             onChangeText={onChange}
             value={phoneNumber}
             error={error}
             type={"phoneNumber"}
           />
+        </View>
 
-          <LargeButton text={"Next"} onPress={handleSend} />
+        <View>
+          <View style={ButtonStyles.buttonParent}>
+            <LargeButton text={"Next"} onPress={handleSend} />
+          </View>
 
           <Footer />
 
           {isSendingSMS && (
-            <Loader ImagePath={icons.phone} Message={"Sending SMS"} />
+            <Loader ImagePath={ICONS.phone} Message={"Sending SMS"} />
           )}
         </View>
       </View>

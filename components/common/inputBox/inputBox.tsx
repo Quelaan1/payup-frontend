@@ -9,6 +9,7 @@ import {
 import Styles from "./inputBox.style";
 import React, { memo, MutableRefObject } from "react";
 import { SvgProps } from "react-native-svg";
+import _ from "lodash";
 
 interface Props {
   placeholder?: string;
@@ -20,6 +21,8 @@ interface Props {
   type: "phoneNumber" | "otp";
   otpValue?: string;
   inputRefs?: MutableRefObject<any>[];
+  digits?: number;
+  setOtp?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const InputBox = memo(function ({
@@ -32,32 +35,49 @@ const InputBox = memo(function ({
   type,
   otpValue,
   inputRefs,
+  digits,
+  setOtp,
 }: Props): React.JSX.Element {
   const onKeyPress = (
     e: NativeSyntheticEvent<TextInputKeyPressEventData>,
-    position: string,
+    position: number
   ) => {
-    const prevPosition = parseInt(position) - 2;
+    const prevPosition = position - 1;
+    const key = e.nativeEvent.key;
 
-    if (e.nativeEvent.key === "Backspace" && prevPosition >= 0) {
+    if (
+      otpValue &&
+      setOtp &&
+      otpValue[position] &&
+      key !== "Backspace" &&
+      inputRefs
+    ) {
+      const newOtp =
+        otpValue.substring(0, position) +
+        key +
+        otpValue.substring(position + 1);
+
+      setOtp(newOtp);
+
+      inputRefs[position + 1].current.focus();
+
+      return;
+    }
+
+    if (key === "Backspace" && prevPosition >= 0) {
       if (inputRefs) {
         inputRefs[prevPosition].current.focus();
       }
     }
 
-    const newPosition = parseInt(position);
+    const newPosition = position;
 
     // Focus next input if current input is filled
-    if (
-      otpValue &&
-      newPosition < 6 &&
-      e.nativeEvent.key !== "Backspace" &&
-      inputRefs
-    ) {
+    if (otpValue && newPosition < 6 && key !== "Backspace" && inputRefs) {
       inputRefs[newPosition].current.focus();
     }
 
-    if (newPosition === 6 && e.nativeEvent.key !== "Backspace") {
+    if (newPosition === 6 && key !== "Backspace") {
       Keyboard.dismiss();
     }
   };
@@ -86,23 +106,24 @@ const InputBox = memo(function ({
     case "otp":
       return (
         <View style={Styles.otpContainer}>
-          {otpValue &&
-            Object.keys(otpValue).map((key) => {
+          {digits &&
+            _.times(digits, (index) => {
+              // Pass the index argument
+              const key = `${index}`; // Generate a unique key for each TextInput
               return (
                 <TextInput
                   onKeyPress={(event) => {
-                    onKeyPress(event, key);
+                    onKeyPress(event, index);
                   }}
                   maxLength={1}
-                  key={key}
+                  key={key} // Use the generated key
                   style={Styles.otp}
                   onChangeText={(text) => {
-                    onChangeWithPosition &&
-                      onChangeWithPosition(text, parseInt(key));
+                    onChangeWithPosition && onChangeWithPosition(text, index);
                   }}
-                  value={otpValue}
+                  value={otpValue && otpValue[index]}
                   keyboardType={"number-pad"}
-                  ref={inputRefs && inputRefs[parseInt(key) - 1]}
+                  ref={inputRefs && inputRefs[index]}
                 />
               );
             })}

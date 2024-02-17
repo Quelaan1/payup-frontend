@@ -1,5 +1,5 @@
-import images from "./images";
-import icons from "./icons";
-import { COLORS, FONT, SIZES, SHADOWS } from "./theme";
+import IMAGES from "./images";
+import ICONS from "./icons";
+import { COLORS, SIZES, SHADOWS } from "./theme";
 
-export { images, icons, COLORS, FONT, SIZES, SHADOWS };
+export { IMAGES, ICONS, COLORS, SIZES, SHADOWS };

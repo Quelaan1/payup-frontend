@@ -4,7 +4,6 @@ import { COLORS } from "../../constants";
 const Styles = StyleSheet.create({
   container: {
     marginTop: 36,
-    paddingLeft: 20,
     gap: 6,
   },
   title: {
@@ -13,12 +12,12 @@ const Styles = StyleSheet.create({
     lineHeight: 32,
   },
   description: {
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 14,
+    fontWeight: "400",
     fontFamily: "Medium",
     color: COLORS.DarkGray,
     textAlign: "left",
-    width: 300,
+    width: 400,
   },
 });
 

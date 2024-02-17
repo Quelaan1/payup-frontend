@@ -7,9 +7,10 @@ import {
   LargeButton,
   ScreenHeaderTitle,
 } from "../components/index";
-import { COLORS, images } from "../constants";
+import { COLORS, IMAGES } from "../constants";
 import commonStyles from "../styles/common";
 import CardsData from "../statics/cards/startup-cards.json";
+import ButtonStyles from "../components/common/buttons/largeButton/largeButton.style";
 
 export interface Card {
   id: number;
@@ -23,22 +24,23 @@ const GetStarted = (): React.JSX.Element => {
   const router = useRouter();
 
   const handleNext = () => {
-    router.push("/auth/phone-number");
+    // router.push("/auth/phone-number");
+    router.push("/auth/secure-app");
   };
 
   return (
-    <View style={commonStyles.container}>
+    <View style={{ ...commonStyles.container, paddingHorizontal: 0 }}>
       <View>
         <Stack.Screen
           options={{
-            navigationBarColor: COLORS.white,
+            navigationBarColor: COLORS.White,
             headerTitle: () => <ScreenHeaderTitle />,
             headerStyle: { backgroundColor: COLORS.skinBackground },
           }}
         />
 
         <View style={styles.frameContainer}>
-          <images.frame width={"100%"} />
+          <IMAGES.frame width={"100%"} />
         </View>
 
         <CustomCarousel
@@ -60,7 +62,9 @@ const GetStarted = (): React.JSX.Element => {
         />
       </View>
 
-      <LargeButton text={"Next"} onPress={handleNext} />
+      <View style={{ ...ButtonStyles.buttonParent, paddingHorizontal: 20 }}>
+        <LargeButton text={"Next"} onPress={handleNext} />
+      </View>
     </View>
   );
 };
