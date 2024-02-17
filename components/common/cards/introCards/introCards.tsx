@@ -1,7 +1,7 @@
-import React from "react";
-import { Image, Text, View } from "react-native";
-import styles from "./introCards.style";
-import { Card } from "../../../../app/getStarted";
+import React from 'react';
+import { Image, Text, View } from 'react-native';
+import styles from './introCards.style';
+import { Card } from '../../../../app/get-started';
 
 const IntroCards = ({ id, description, title }: Card): React.JSX.Element => {
   return (

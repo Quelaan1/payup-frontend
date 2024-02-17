@@ -1,8 +1,8 @@
-import { SafeAreaView, View } from "react-native";
-import React, { useState } from "react";
-import GetStarted from "./getStarted";
-import Home from "./home";
-import * as SplashScreen from "expo-splash-screen";
+import { SafeAreaView, View } from 'react-native';
+import React, { useState } from 'react';
+import GetStarted from './get-started';
+import Home from './home';
+import * as SplashScreen from 'expo-splash-screen';
 SplashScreen.preventAutoHideAsync().then((r) => {});
 
 const Index = () => {

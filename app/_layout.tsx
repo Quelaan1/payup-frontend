@@ -1,4 +1,5 @@
 import { Stack, SplashScreen } from "expo-router";
+import { View, Text, StyleSheet } from "react-native";
 import {
   IBMPlexSans_100Thin,
   IBMPlexSans_100Thin_Italic,
@@ -19,7 +20,7 @@ import {
 import { useCallback } from "react";
 
 export default function Layout() {
-  let [fontsLoaded] = useFonts({
+  let [fontsLoaded, error] = useFonts({
     Thin: IBMPlexSans_100Thin,
     ThinItalic: IBMPlexSans_100Thin_Italic,
     ExtraLight: IBMPlexSans_200ExtraLight,
@@ -36,9 +37,19 @@ export default function Layout() {
     BoldItalic: IBMPlexSans_700Bold_Italic,
   });
 
-  const onLayoutRootView = useCallback(async () => {
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>
+          Error loading fonts: {error.message}
+        </Text>
+      </View>
+    );
+  }
+
+  const onLayoutRootView = useCallback(() => {
     if (fontsLoaded) {
-      await SplashScreen.hideAsync();
+      SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
@@ -47,16 +58,28 @@ export default function Layout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        autoHideHomeIndicator: true,
-        headerTitleAlign: "center",
-        headerShadowVisible: false,
-        headerBackTitleVisible: false,
-        headerTintColor: "black",
-      }}
-      /*//@ts-ignore*/
-      onLayout={onLayoutRootView}
-    />
+    <View onLayout={onLayoutRootView}>
+      <Stack
+        screenOptions={{
+          autoHideHomeIndicator: true,
+          headerTitleAlign: "center",
+          headerShadowVisible: false,
+          headerBackTitleVisible: false,
+          headerTintColor: "black",
+        }}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorText: {
+    fontSize: 16,
+    color: "red",
+  },
+});
