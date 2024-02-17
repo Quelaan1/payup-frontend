@@ -19,7 +19,7 @@ import {
 } from "@expo-google-fonts/ibm-plex-sans";
 import { useCallback } from "react";
 
-export default function Layout() {
+export function Layout() {
   let [fontsLoaded, error] = useFonts({
     Thin: IBMPlexSans_100Thin,
     ThinItalic: IBMPlexSans_100Thin_Italic,
