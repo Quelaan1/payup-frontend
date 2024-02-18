@@ -14,6 +14,10 @@ import spinner from "../assets/icons/spinner.svg";
 import info from "../assets/icons/info.svg";
 import infoFilled from "../assets/icons/info-filled.svg";
 import infoSquare from "../assets/icons/Info_square.svg";
+import keypad from "../assets/icons/keypad.svg";
+import offline from "../assets/icons/offline.svg";
+import online from "../assets/icons/online.svg";
+import lock from "../assets/icons/lock.svg";
 
 export default {
   heart,
@@ -32,4 +36,8 @@ export default {
   info,
   infoFilled,
   infoSquare,
+  keypad,
+  offline,
+  online,
+  lock,
 };
