@@ -1,22 +1,36 @@
 // Header
-import ScreenHeaderBtn from "./common/header/ScreenHeaderBtn";
-import ScreenHeaderProgress from "./common/header/screenHeaderProgress/screenHeaderProgress";
-import ScreenHeaderTitle from "./common/header/screenHeaderTitle/screenHeaderTitle";
+import ScreenHeaderProgress from './common/header/stackHeader/stackHeaderProgress/screenHeaderProgress'
+import ScreenHeaderTitle from './common/header/stackHeader/stackHeaderTitle/screenHeaderTitle'
 
 // Buttons
-import LargeButton from "./common/buttons/largeButton/largeButton";
+import CommonButton from './common/buttons/commonButton/commonButton'
 
 // Cards
-import IntroCards from "./common/cards/introCards/introCards";
+import IntroCards from './common/cards/introCards/introCards'
 
-// Onboarding
-import Header from "./onboarding/header";
+// Header
+import Header from './common/header/header'
+
+// Footer
+import Footer from './common/footer/footer'
+
+//infoBox
+import InfoBox from './common/infoBox/infoBox'
+
+//inputBox
+import InputBox from './common/inputBox/inputBox'
+
+//Loader
+import Loader from './common/loader/loader'
 
 export {
-  ScreenHeaderBtn,
-  Header,
-  LargeButton,
-  IntroCards,
-  ScreenHeaderProgress,
-  ScreenHeaderTitle,
-};
+	Header,
+	CommonButton,
+	IntroCards,
+	ScreenHeaderProgress,
+	ScreenHeaderTitle,
+	Footer,
+	InfoBox,
+	InputBox,
+	Loader,
+}

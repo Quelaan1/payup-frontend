@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { IMAGES } from "../../../../constants";
+import { IMAGES } from "../../../../../constants";
 import { JSX } from "react";
 
 interface Progress {

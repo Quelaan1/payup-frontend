@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, Text, View } from "react-native";
 
-import styles from "../screenheader.style";
-import { IMAGES } from "../../../../constants";
+import styles from "../../screenheader.style";
+import { IMAGES } from "../../../../../constants";
 
 const ScreenHeaderTitle = (): React.JSX.Element => {
   return (
