@@ -1,24 +1,54 @@
-// @ts-ignore
-import { renderRouter, screen } from 'expo-router/testing-library';
-import {CommonButton} from "../../../components";
+import { render, screen, fireEvent } from "@testing-library/react-native";
+import CommonButton from "../../../components/common/buttons/commonButton/commonButton";
 
-it('my-test', async () => {
-    const mockOnPress = () => {
-        console.log("Pressed")
-    }
+test("Renders button with props and clicks it", () => {
+  const Text: string = "Test";
+  const mockHandlePress: jest.Mock<any, any, any> = jest.fn();
 
-    const MockComponent = jest.fn(() => <CommonButton  onPress={mockOnPress} text={"Mocking text"}/>);
+  render(<CommonButton onPress={mockHandlePress} text={Text} />);
 
-    renderRouter(
-        {
-            index: MockComponent,
-            'directory/a': MockComponent,
-            '(group)/b': MockComponent,
-        },
-        {
-            initialUrl: '/directory/a',
-        }
-    );
+  const button = screen.getByText(Text);
 
-    expect(screen).toHavePathname('/directory/a');
+  expect(button).toBeDefined();
+
+  expect(button).toHaveTextContent("Test");
+
+  fireEvent.press(button);
+
+  expect(mockHandlePress).toHaveBeenCalledTimes(1);
+});
+
+test("Renders button styles with type", () => {
+  const buttonOneText: string = "One";
+  const buttonTwoText: string = "Two";
+  const buttonThreeText: string = "Three";
+
+  const mockHandlePress: jest.Mock<any, any, any> = jest.fn();
+
+  render(<CommonButton onPress={mockHandlePress} text={buttonOneText} />);
+  const buttonOne = screen.getByText(buttonOneText);
+  expect(buttonOne).toBeDefined();
+  expect(buttonOne).toHaveStyle({ color: "black" });
+
+  render(
+    <CommonButton
+      onPress={mockHandlePress}
+      text={buttonTwoText}
+      type={"Primary"}
+    />,
+  );
+  const buttonTwo = screen.getByText(buttonTwoText);
+  expect(buttonTwo).toBeDefined();
+  expect(buttonTwo).toHaveStyle({ color: "black" });
+
+  render(
+    <CommonButton
+      onPress={mockHandlePress}
+      text={buttonThreeText}
+      type={"Secondary"}
+    />,
+  );
+  const buttonThree = screen.getByText(buttonThreeText);
+  expect(buttonThree).toBeDefined();
+  expect(buttonThree).toHaveStyle({ color: "white" });
 });

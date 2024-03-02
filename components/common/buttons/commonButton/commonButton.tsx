@@ -15,12 +15,12 @@ const CommonButton = ({
 	return (
 		<View style={styles.buttonContainer}>
 			<TouchableOpacity
-				style={type === 'Primary' ? styles.filledButton : styles.button}
+				style={type === 'Primary' ? styles.button : styles.filledButton}
 				onPress={onPress}>
 				<Text
 					style={{
 						...styles.buttonText,
-						color: type === 'Primary' ? 'black' : 'white',
+						color: type === 'Primary' ? 'white' : 'black',
 					}}>
 					{text}
 				</Text>

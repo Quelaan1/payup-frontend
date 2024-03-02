@@ -5,33 +5,13 @@ import { Header, CommonButton } from '../../components'
 import React, { useRef, useState } from 'react'
 import { COLORS, ICONS } from '../../constants'
 import Loader from '../../components/common/loader/loader'
-import InputBox from '../../components/common/inputBox/inputBox'
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style'
+import OTPInput from '../../components/common/otpInput/otpInput'
 
 const createPin = (): React.JSX.Element => {
-	const inputRefs: React.RefObject<HTMLInputElement>[] = Array(4)
-		.fill(null)
-		.map(() => useRef(null))
-
 	const [pin, setPin] = useState('')
-
 	const [error, setError] = React.useState('')
 	const [isVerifying, setIsVerifying] = useState(false)
-
-	const onChange = (value: string, position: number) => {
-		// Ensure only numeric characters are added to Pin
-		if (!isNaN(Number(value))) {
-			const newPin =
-				pin.substring(0, position) + value + pin.substring(position + 1)
-
-			setPin(newPin)
-
-			// Focus next input if current input is filled
-			if (value.length === 1 && position < 5) {
-				inputRefs[position + 1]?.current?.focus()
-			}
-		}
-	}
 
 	const handleSend = () => {
 		const OTP = Object.values(pin)
@@ -66,15 +46,7 @@ const createPin = (): React.JSX.Element => {
 				<View>
 					<Header title={'Create a 4-digit PayUp PIN'} description={''} />
 
-					<InputBox
-						onChangeWithPosition={onChange}
-						error={error}
-						type={'otp'}
-						otpValue={pin}
-						inputRefs={inputRefs}
-						digits={4}
-						setOtp={setPin}
-					/>
+					<OTPInput error={error} value={pin} digits={4} setValue={setPin} />
 				</View>
 
 				<View>

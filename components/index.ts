@@ -1,6 +1,6 @@
 // Header
-import ScreenHeaderProgress from './common/header/stackHeader/stackHeaderProgress/screenHeaderProgress'
-import ScreenHeaderTitle from './common/header/stackHeader/stackHeaderTitle/screenHeaderTitle'
+import ScreenHeaderProgress from './common/header/screenHeader/screenHeaderProgress/screenHeaderProgress'
+import ScreenHeaderTitle from './common/header/screenHeader/screenHeaderTitle/screenHeaderTitle'
 
 // Buttons
 import CommonButton from './common/buttons/commonButton/commonButton'

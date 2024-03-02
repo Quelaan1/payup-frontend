@@ -6,33 +6,14 @@ import React, { useRef, useState } from 'react'
 import { COLORS, ICONS } from '../../constants'
 import Footer from '../../components/common/footer/footer'
 import Loader from '../../components/common/loader/loader'
-import InputBox from '../../components/common/inputBox/inputBox'
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style'
+import OTPInput from '../../components/common/otpInput/otpInput'
 
 const otpVerification = (): React.JSX.Element => {
-	const inputRefs: React.RefObject<HTMLInputElement>[] = Array(6)
-		.fill(null)
-		.map(() => useRef(null))
-
 	const [otp, setOtp] = useState('')
 
 	const [error, setError] = React.useState('')
 	const [isVerifying, setIsVerifying] = useState(false)
-
-	const onChange = (value: string, position: number) => {
-		// Ensure only numeric characters are added to OTP
-		if (!isNaN(Number(value))) {
-			const newOtp =
-				otp.substring(0, position) + value + otp.substring(position + 1)
-
-			setOtp(newOtp)
-
-			// Focus next input if current input is filled
-			if (value.length === 1 && position < 5) {
-				inputRefs[position + 1]?.current?.focus()
-			}
-		}
-	}
 
 	const handleSend = () => {
 		const OTP = Object.values(otp)
@@ -70,15 +51,7 @@ const otpVerification = (): React.JSX.Element => {
 						description={'Enter the OTP you received'}
 					/>
 
-					<InputBox
-						onChangeWithPosition={onChange}
-						error={error}
-						type={'otp'}
-						otpValue={otp}
-						inputRefs={inputRefs}
-						digits={6}
-						setOtp={setOtp}
-					/>
+					<OTPInput error={error} value={otp} digits={6} setValue={setOtp} />
 				</View>
 
 				<View>
