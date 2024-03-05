@@ -58,14 +58,17 @@ const phoneNumber = (): React.JSX.Element => {
 						}
 					/>
 
-					<InputBox
-						placeholder={'Phone Number'}
-						ImagePath={ICONS.phone}
-						onChangeText={onChange}
-						value={phoneNumber}
-						error={error}
-						type={'phoneNumber'}
-					/>
+					<View style={{ marginTop: 34 }}>
+						<InputBox
+							placeholder={'Phone Number'}
+							ImagePath={ICONS.phone}
+							onChangeText={onChange}
+							value={phoneNumber}
+							error={error}
+							keyboardType={'number-pad'}
+							autoFocus
+						/>
+					</View>
 				</View>
 
 				<View>

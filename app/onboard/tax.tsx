@@ -8,7 +8,12 @@ import {
 } from 'react-native'
 import commonStyles from '../../styles/common'
 import { router, Stack } from 'expo-router'
-import { Header, CommonButton, ScreenHeaderProgress } from '../../components'
+import {
+	Header,
+	CommonButton,
+	ScreenHeaderProgress,
+	InputBox,
+} from '../../components'
 import React, { useState } from 'react'
 import { COLORS, ICONS } from '../../constants'
 import Loader from '../../components/common/loader/loader'
@@ -18,13 +23,18 @@ import { points } from '../../constants/onboard/GstInfo'
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style'
 
 const Tax = (): React.JSX.Element => {
-	const [value, setValue] = React.useState('')
+	const [pan, setPan] = React.useState('')
+	const [name, setName] = React.useState('')
 	const [error, setError] = React.useState('')
 	const [isVerifying, setIsVerifying] = useState(false)
 	const [showInfoCard, setShowInfoCard] = useState(false)
 
-	const onChange = (value: string) => {
-		setValue(value)
+	const onChangePan = (value: string) => {
+		setPan(value)
+	}
+
+	const onChangeName = (value: string) => {
+		setName(value)
 	}
 
 	const handleSend = () => {
@@ -70,13 +80,23 @@ const Tax = (): React.JSX.Element => {
 					/>
 
 					<View style={Styles.container}>
+						<View style={{ marginTop: 34 }}>
+							<InputBox
+								value={name}
+								placeholder={'Name'}
+								error={error}
+								autoFocus={true}
+								onChangeText={onChangeName}
+							/>
+						</View>
+
 						<View style={Styles.InputContainer}>
-							<TextInput
-								style={error ? Styles.inputError : Styles.input}
-								onChangeText={onChange}
-								value={value}
+							<InputBox
+								value={pan}
 								placeholder={'GST or PAN'}
 								keyboardType={'default'}
+								error={error}
+								onChangeText={onChangePan}
 							/>
 
 							<TouchableOpacity style={Styles.image} onPress={handleInfoPress}>

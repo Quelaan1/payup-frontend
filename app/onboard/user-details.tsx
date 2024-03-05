@@ -7,7 +7,12 @@ import {
 } from 'react-native'
 import commonStyles from '../../styles/common'
 import { router, Stack, useLocalSearchParams } from 'expo-router'
-import { Header, CommonButton, ScreenHeaderProgress } from '../../components'
+import {
+	Header,
+	CommonButton,
+	ScreenHeaderProgress,
+	InputBox,
+} from '../../components'
 import React from 'react'
 import { COLORS } from '../../constants'
 import Styles from '../../components/common/inputBox/inputBox.style'
@@ -57,24 +62,23 @@ const UserDetails = (): React.JSX.Element => {
 						/>
 
 						<View style={{ ...Styles.container, display: 'flex', gap: 16 }}>
-							<View style={Styles.InputContainer}>
-								<TextInput
-									style={error ? Styles.inputError : Styles.input}
+							<View style={{ marginTop: 34 }}>
+								<InputBox
 									value={value}
 									selectTextOnFocus={false}
 									editable={false}
 									placeholder={'Name'}
+									error={error}
 								/>
 							</View>
 
 							<View style={Styles.InputContainer}>
-								<TextInput
-									style={error ? Styles.inputError : Styles.input}
+								<InputBox
 									value={value}
-									selectTextOnFocus={false}
-									editable={false}
 									placeholder={'Email address'}
 									keyboardType={'default'}
+									autoFocus
+									error={error}
 								/>
 							</View>
 

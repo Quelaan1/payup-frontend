@@ -1,9 +1,9 @@
-import { TextInput, View, Text } from 'react-native'
+import { TextInput, View, Text, TextInputProps } from 'react-native'
 import Styles from './inputBox.style'
 import React, { memo } from 'react'
 import { SvgProps } from 'react-native-svg'
 
-type Props = {
+interface Props extends TextInputProps {
 	placeholder?: string
 	value?: string
 	onChangeText?: (text: string) => void
@@ -17,16 +17,18 @@ const InputBox = memo(function ({
 	onChangeText,
 	value,
 	error,
+	...textInputProps
 }: Props): React.JSX.Element {
 	return (
 		<View style={Styles.container}>
 			<View style={Styles.InputContainer}>
 				<TextInput
+					testID='input-box'
 					style={error ? Styles.inputError : Styles.input}
 					onChangeText={onChangeText}
 					value={value}
 					placeholder={placeholder}
-					keyboardType={'number-pad'}
+					{...textInputProps}
 				/>
 
 				{ImagePath && <ImagePath width={26} height={26} style={Styles.image} />}

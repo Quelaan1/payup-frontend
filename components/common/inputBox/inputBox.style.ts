@@ -3,9 +3,10 @@ import { COLORS } from '../../../constants'
 
 const Styles = StyleSheet.create({
 	container: {
-		marginTop: 34,
 		position: 'relative',
 		width: '100%',
+		display: 'flex',
+		gap: 16,
 	},
 
 	InputContainer: {
