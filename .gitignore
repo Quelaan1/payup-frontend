@@ -12,6 +12,7 @@ node_modules/
 dist/
 web-build/
 %ProgramData%/
+android
 
 # Native
 *.orig.*
@@ -30,7 +31,7 @@ yarn-debug.*
 yarn-error.*
 
 # tests
-coverage/**/*
+coverage
 
 # macOS
 .DS_Store

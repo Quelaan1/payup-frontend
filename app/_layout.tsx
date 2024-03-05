@@ -1,4 +1,4 @@
-import { Stack, SplashScreen } from 'expo-router';
+import { Stack, SplashScreen } from "expo-router";
 import {
   IBMPlexSans_100Thin,
   IBMPlexSans_100Thin_Italic,
@@ -15,9 +15,9 @@ import {
   IBMPlexSans_700Bold,
   IBMPlexSans_700Bold_Italic,
   useFonts,
-} from '@expo-google-fonts/ibm-plex-sans';
-import { useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+} from "@expo-google-fonts/ibm-plex-sans";
+import { useCallback } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Layout() {
   let [fontsLoaded, error] = useFonts({
@@ -61,10 +61,10 @@ export default function Layout() {
     <Stack
       screenOptions={{
         autoHideHomeIndicator: true,
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         headerShadowVisible: false,
         headerBackTitleVisible: false,
-        headerTintColor: 'black',
+        headerTintColor: "black",
       }}
       /*//@ts-ignore*/
       onLayout={onLayoutRootView}
@@ -75,11 +75,11 @@ export default function Layout() {
 const styles = StyleSheet.create({
   errorContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
     fontSize: 16,
-    color: 'red',
+    color: "red",
   },
 });
