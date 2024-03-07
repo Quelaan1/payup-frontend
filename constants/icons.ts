@@ -18,9 +18,20 @@ import keypad from "../assets/icons/keypad.svg";
 import offline from "../assets/icons/offline.svg";
 import online from "../assets/icons/online.svg";
 import lock from "../assets/icons/lock.svg";
+import notification from "../assets/icons/notification.svg";
+import pay from "../assets/icons/pay.svg";
+import card from "../assets/icons/card.svg";
+import internet from "../assets/icons/internet.svg";
+import water from "../assets/icons/water.svg";
+import electricity from "../assets/icons/electricity.svg";
+import tv from "../assets/icons/tv.svg";
+import vehicle from "../assets/icons/vehicle.svg";
+import house from "../assets/icons/house.svg";
+import more from "../assets/icons/more.svg";
 
 export default {
   heart,
+  notification,
   menu,
   search,
   filter,
@@ -40,4 +51,13 @@ export default {
   offline,
   online,
   lock,
+  pay,
+  internet,
+  water,
+  electricity,
+  tv,
+  vehicle,
+  house,
+  more,
+  card,
 };

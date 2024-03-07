@@ -4,6 +4,7 @@ const COLORS = {
   tertiary: "#FF7754",
 
   DarkGray: "#64748b",
+  DarGray20: "#595F67",
   DarkGray50: "rgba(100,116,139,0.5)",
   MediumGray: "#83829A",
   LightGray: "#D9D9D9",
@@ -12,8 +13,9 @@ const COLORS = {
   LightWhite: "#FAFAFC",
 
   skinBackground: "#F9EFE5",
+  grayBackground: "#F8F8F8",
 
-  Black: "#00000",
+  Black: "#000000",
   Red: "rgba(244,67,54,0.97)",
   LightRed: "rgba(225,150,145,0.09)",
   Green: "#4CAF50",
