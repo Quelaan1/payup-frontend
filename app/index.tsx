@@ -6,7 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 SplashScreen.preventAutoHideAsync().then((r) => {});
 
 const Index = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return <View>{isLoggedIn ? <Home /> : <GetStarted />}</View>;
 };

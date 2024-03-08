@@ -9,7 +9,8 @@ import { CommonButton } from "../../components";
 import Footer from "../../components/common/footer/footer";
 import Loader from "../../components/common/loader/loader";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
-import { sendOTP } from "../../utils/firebase/auth/auth";
+import { sendOTP } from "../../utils/apis/auth/auth";
+import { AxiosResponse } from "axios";
 
 const phoneNumber = (): React.JSX.Element => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
@@ -35,9 +36,19 @@ const phoneNumber = (): React.JSX.Element => {
     } else {
       setIsSendingSMS(true);
 
-      await sendOTP(phoneNumber);
+      try {
+        await sendOTP(phoneNumber);
 
-      // router.push("/auth/otp-verification");
+        setIsSendingSMS(false);
+
+        router.push("/auth/otp-verification");
+      } catch (error) {
+        setIsSendingSMS(false);
+
+        setError(
+          "An error occurred while sending the OTP. Please try again later.",
+        );
+      }
     }
   };
 

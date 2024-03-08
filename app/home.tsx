@@ -1,18 +1,55 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ImageSourcePropType, SafeAreaView, Text, View } from "react-native";
 import { Stack } from "expo-router";
 import React from "react";
-import { COLORS } from "../constants";
+import { COLORS, IMAGES } from "../constants";
 import commonStyles from "../styles/common";
 import { HeaderLeft, HeaderRight } from "../components/home/header/header";
 import PayButton from "../components/home/buttons/payButton/payButton";
 import Menu from "../components/home/card/menu/menu";
+import CustomCarousel from "carousel-with-pagination-rn";
+import { homeStyles } from "../styles/home.style";
+import CarouselItem from "../components/home/card/carousel/carouselItem";
+import { pad } from "lodash";
+
+const cards: Card[] = [
+  {
+    id: 1,
+    discount: "50% OFF",
+    title: "Summer special deal",
+    description: "Get discount for every transaction",
+    image: IMAGES.shopping,
+  },
+  {
+    id: 2,
+    discount: "50% OFF",
+    title: "Summer special deal",
+    description: "Get discount for every transaction",
+    image: IMAGES.shopping,
+  },
+  {
+    id: 3,
+    discount: "50% OFF",
+    title: "Summer special deal",
+    description: "Get discount for every transaction",
+    image: IMAGES.shopping,
+  },
+];
+
+export type Card = {
+  id: number;
+  discount: string;
+  title: string;
+  description: string;
+  image: ImageSourcePropType;
+};
 
 const Home = () => {
   return (
-    <View
+    <SafeAreaView
       style={{
         ...commonStyles.container,
         backgroundColor: COLORS.grayBackground,
+        paddingHorizontal: 0,
       }}
     >
       <Stack.Screen
@@ -27,36 +64,27 @@ const Home = () => {
           headerRight: () => <HeaderRight />,
         }}
       />
-
-      <View style={styles.frameContainer}>
-        <View>
-          <Text style={styles.greeting}>good evening.</Text>
-          <Text style={styles.userName}>Samantha</Text>
+      <View style={{ ...homeStyles.frameContainer }}>
+        <View style={{ paddingHorizontal: 20 }}>
+          <Text style={homeStyles.greeting}>good evening.</Text>
+          <Text style={homeStyles.userName}>Samantha</Text>
         </View>
 
         <PayButton />
 
         <Menu />
+
+        <CustomCarousel
+          disablePagination={true}
+          data={cards}
+          renderItem={({ item }) => {
+            return <CarouselItem {...item} />;
+          }}
+          isEndReached={() => {}}
+        />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  frameContainer: {
-    paddingTop: 30,
-    gap: 18,
-  },
-
-  greeting: {
-    color: COLORS.MediumGray,
-    fontSize: 20,
-  },
-
-  userName: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-});
