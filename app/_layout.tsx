@@ -1,60 +1,47 @@
 import { Stack, SplashScreen } from "expo-router";
-import {
-  IBMPlexSans_100Thin,
-  IBMPlexSans_100Thin_Italic,
-  IBMPlexSans_200ExtraLight,
-  IBMPlexSans_200ExtraLight_Italic,
-  IBMPlexSans_300Light,
-  IBMPlexSans_300Light_Italic,
-  IBMPlexSans_400Regular,
-  IBMPlexSans_400Regular_Italic,
-  IBMPlexSans_500Medium,
-  IBMPlexSans_500Medium_Italic,
-  IBMPlexSans_600SemiBold,
-  IBMPlexSans_600SemiBold_Italic,
-  IBMPlexSans_700Bold,
-  IBMPlexSans_700Bold_Italic,
-  useFonts,
-} from "@expo-google-fonts/ibm-plex-sans";
-import { useCallback } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import * as IBMPlexSans from "@expo-google-fonts/ibm-plex-sans";
+import { useEffect } from "react";
+import { Text, View } from "react-native";
+import layoutStyles from "../styles/layout";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-  let [fontsLoaded, error] = useFonts({
-    Thin: IBMPlexSans_100Thin,
-    ThinItalic: IBMPlexSans_100Thin_Italic,
-    ExtraLight: IBMPlexSans_200ExtraLight,
-    ExtraLightItalic: IBMPlexSans_200ExtraLight_Italic,
-    Light: IBMPlexSans_300Light,
-    LightItalic: IBMPlexSans_300Light_Italic,
-    Regular: IBMPlexSans_400Regular,
-    RegularItalic: IBMPlexSans_400Regular_Italic,
-    Medium: IBMPlexSans_500Medium,
-    MediumItalic: IBMPlexSans_500Medium_Italic,
-    SemiBold: IBMPlexSans_600SemiBold,
-    SemiBoldItalic: IBMPlexSans_600SemiBold_Italic,
-    Bold: IBMPlexSans_700Bold,
-    BoldItalic: IBMPlexSans_700Bold_Italic,
+  let [fontsLoaded, fontError] = IBMPlexSans.useFonts({
+    Thin: IBMPlexSans.IBMPlexSans_100Thin,
+    ThinItalic: IBMPlexSans.IBMPlexSans_100Thin_Italic,
+    ExtraLight: IBMPlexSans.IBMPlexSans_200ExtraLight,
+    ExtraLightItalic: IBMPlexSans.IBMPlexSans_200ExtraLight_Italic,
+    Light: IBMPlexSans.IBMPlexSans_300Light,
+    LightItalic: IBMPlexSans.IBMPlexSans_300Light_Italic,
+    Regular: IBMPlexSans.IBMPlexSans_400Regular,
+    RegularItalic: IBMPlexSans.IBMPlexSans_400Regular_Italic,
+    Medium: IBMPlexSans.IBMPlexSans_500Medium,
+    MediumItalic: IBMPlexSans.IBMPlexSans_500Medium_Italic,
+    SemiBold: IBMPlexSans.IBMPlexSans_600SemiBold,
+    SemiBoldItalic: IBMPlexSans.IBMPlexSans_600SemiBold_Italic,
+    Bold: IBMPlexSans.IBMPlexSans_700Bold,
+    BoldItalic: IBMPlexSans.IBMPlexSans_700Bold_Italic,
   });
 
-  if (error) {
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
+  if (fontError) {
     return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>
-          Error loading fonts: {error.message}
+      <View style={layoutStyles.errorContainer}>
+        <Text style={layoutStyles.errorText}>
+          Error loading fonts: {fontError.message}
         </Text>
       </View>
     );
-  }
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
   }
 
   return (
@@ -66,20 +53,6 @@ export default function Layout() {
         headerBackTitleVisible: false,
         headerTintColor: "black",
       }}
-      /*//@ts-ignore*/
-      onLayout={onLayoutRootView}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  errorText: {
-    fontSize: 16,
-    color: "red",
-  },
-});

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../../../constants";
 
-const InfoBoxStyles = StyleSheet.create({
+const infoBoxStyles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
@@ -16,4 +16,4 @@ const InfoBoxStyles = StyleSheet.create({
   },
 });
 
-export default InfoBoxStyles;
+export default infoBoxStyles;

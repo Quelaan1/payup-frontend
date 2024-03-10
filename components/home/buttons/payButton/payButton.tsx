@@ -1,5 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { COLORS, ICONS } from "../../../../constants";
+import { Text, TouchableOpacity } from "react-native";
+import { ICONS } from "../../../../constants";
+import styles from "./payButton.style";
 
 const PayButton = () => {
   return (
@@ -12,24 +13,3 @@ const PayButton = () => {
 };
 
 export default PayButton;
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-    backgroundColor: COLORS.Black,
-    borderRadius: 4,
-    paddingTop: 13,
-    paddingBottom: 13,
-    marginHorizontal: 20,
-  },
-
-  text: {
-    color: COLORS.White,
-    lineHeight: 14,
-  },
-});

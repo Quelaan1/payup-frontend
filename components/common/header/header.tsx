@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import Styles from "./header.style";
+import styles from "./header.style";
 import React from "react";
 
 interface Props {
@@ -9,9 +9,9 @@ interface Props {
 
 const Header = ({ title, description }: Props): React.JSX.Element => {
   return (
-    <View style={Styles.container}>
-      <Text style={Styles.title}>{title}</Text>
-      <Text style={Styles.description}>{description}</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{description}</Text>
     </View>
   );
 };

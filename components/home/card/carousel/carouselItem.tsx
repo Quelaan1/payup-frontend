@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Text, View } from "react-native";
-import { homeStyles } from "../../../../styles/home.style";
 import { Card } from "../../../../app/home";
+import styles from "./carouselItem.style";
 
 const CarouselItem = ({
   id,
@@ -11,12 +11,12 @@ const CarouselItem = ({
   image,
 }: Card): React.JSX.Element => {
   return (
-    <View style={homeStyles.cardContainerMain}>
-      <View key={id} style={homeStyles.cardContainer}>
-        <View style={homeStyles.cardLeftContainer}>
-          <Text style={homeStyles.cardDiscount}>{discount}</Text>
-          <Text style={homeStyles.cardTitle}>{title}</Text>
-          <Text style={homeStyles.cardDescription}>{description}</Text>
+    <View style={styles.cardContainerMain}>
+      <View key={id} style={styles.cardContainer}>
+        <View style={styles.cardLeftContainer}>
+          <Text style={styles.cardDiscount}>{discount}</Text>
+          <Text style={styles.cardTitle}>{title}</Text>
+          <Text style={styles.cardDescription}>{description}</Text>
         </View>
 
         <Image source={image} style={{ width: 190, height: 110 }} />

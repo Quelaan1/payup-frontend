@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLORS, ICONS, IMAGES } from "../../../constants";
+import { ICONS, IMAGES } from "../../../constants";
 import React from "react";
 
 export const HeaderLeft = () => {

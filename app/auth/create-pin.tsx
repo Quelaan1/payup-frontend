@@ -1,13 +1,10 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import commonStyles from "../../styles/common";
 import { router, Stack } from "expo-router";
-import { Header, CommonButton } from "../../components";
-import React, { useRef, useState } from "react";
+import { Header, CommonButton, Loader, OTPInput } from "../../components";
+import React, { useState } from "react";
 import { COLORS, ICONS } from "../../constants";
-import Loader from "../../components/common/loader/loader";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
-import OTPInput from "../../components/common/otpInput/otpInput";
-import axios from "axios";
 
 const createPin = (): React.JSX.Element => {
   const [pin, setPin] = useState("");

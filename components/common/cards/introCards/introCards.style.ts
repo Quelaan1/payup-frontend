@@ -1,9 +1,10 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { COLORS } from "../../../../constants";
+import InfoCardStyles from "../infoCard/infoCard.style";
 
 const { width } = Dimensions.get("screen");
 
-const styles = StyleSheet.create({
+const infoCardStyles = StyleSheet.create({
   container: {
     width,
     justifyContent: "center",
@@ -25,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default infoCardStyles;

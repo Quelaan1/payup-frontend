@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const Styles = StyleSheet.create({
+const footerStyles = StyleSheet.create({
   container: {
     lineHeight: 10,
     position: "absolute",
@@ -19,4 +19,4 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default Styles;
+export default footerStyles;

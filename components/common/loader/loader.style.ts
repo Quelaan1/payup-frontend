@@ -1,7 +1,7 @@
 import { StyleSheet, Platform } from "react-native";
 import { COLORS } from "../../../constants";
 
-const styles = StyleSheet.create({
+const loaderStyles = StyleSheet.create({
   loader: {
     position: "absolute",
     left: 0,
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default loaderStyles;

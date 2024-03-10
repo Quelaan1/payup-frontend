@@ -1,16 +1,18 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { router, Stack } from "expo-router";
 import React from "react";
-import { Header, ScreenHeaderProgress } from "../../components";
+import {
+  Header,
+  ScreenHeaderProgress,
+  Footer,
+  Loader,
+  CommonButton,
+  InputBox,
+} from "../../components";
 import commonStyles from "../../styles/common";
-import InputBox from "../../components/common/inputBox/inputBox";
 import { COLORS, ICONS } from "../../constants";
-import { CommonButton } from "../../components";
-import Footer from "../../components/common/footer/footer";
-import Loader from "../../components/common/loader/loader";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
 import { sendOTP } from "../../utils/apis/auth/auth";
-import { AxiosResponse } from "axios";
 
 const phoneNumber = (): React.JSX.Element => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
@@ -41,7 +43,7 @@ const phoneNumber = (): React.JSX.Element => {
 
         setIsSendingSMS(false);
 
-        router.push("/auth/otp-verification");
+        router.push("/auth/otp-verification?phoneNumber=" + phoneNumber);
       } catch (error) {
         setIsSendingSMS(false);
 
