@@ -1,6 +1,6 @@
 import { Stack, SplashScreen } from "expo-router";
 import * as IBMPlexSans from "@expo-google-fonts/ibm-plex-sans";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import layoutStyles from "../styles/layout";
 
@@ -24,11 +24,28 @@ export default function Layout() {
     BoldItalic: IBMPlexSans.IBMPlexSans_700Bold_Italic,
   });
 
+  const [appIsReady, setAppIsReady] = useState(true);
+  //
+  // useEffect(() => {
+  //   async function prepare() {
+  //     try {
+  //       setAppIsReady(true);
+  //     } catch (e) {
+  //       console.warn(e);
+  //     } finally {
+  //       // Tell the application to render
+  //       setAppIsReady(true);
+  //     }
+  //   }
+  //
+  //   prepare();
+  // }, []);
+
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if (appIsReady && fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [appIsReady, fontsLoaded]);
 
   if (!fontsLoaded && !fontError) {
     return null;

@@ -1,19 +1,41 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../constants";
+import { StyleSheet } from 'react-native'
+import { COLORS } from '../constants'
 
 export const homeStyles = StyleSheet.create({
-  frameContainer: {
-    paddingTop: 30,
-    gap: 18,
-  },
+	frameContainer: {
+		paddingTop: 30,
+		gap: 18,
+	},
 
-  greeting: {
-    color: COLORS.MediumGray,
-    fontSize: 20,
-  },
+	greeting: {
+		color: COLORS.MediumGray,
+		fontSize: 20,
+	},
 
-  userName: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-});
+	userName: {
+		fontSize: 24,
+		fontWeight: 'bold',
+	},
+
+	recentTransactionsContainer: {
+		paddingHorizontal: 20,
+		gap: 20,
+	},
+
+	recentTransactions: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+
+	recentTransactionsText: {
+		fontSize: 24,
+		fontWeight: '700',
+	},
+
+	recentTransactionsButton: {
+		fontSize: 16,
+		fontWeight: '500',
+	},
+})
