@@ -4,7 +4,7 @@ import GetStarted from './get-started';
 import Home from './home';
 
 const Index = () => {
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	return <View>{isLoggedIn ? <Home /> : <GetStarted />}</View>;
 };

@@ -1,6 +1,6 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import commonStyles from "../../styles/common";
-import { router, Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import {
   Header,
   CommonButton,
@@ -12,15 +12,19 @@ import {
 import React, { useState } from "react";
 import { COLORS, ICONS } from "../../constants";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
-import { verifyOTP } from "../../utils/apis/auth/auth";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  loginOtpVerify,
+  loginOtpVerifySetError,
+} from "../../redux/slices/otpSlice";
 
 const otpVerification = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
   const { phoneNumber } = useLocalSearchParams();
-
   const [otp, setOtp] = useState("");
-
-  const [error, setError] = React.useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
+  const { isVerifying, loginOtpVerifyError } = useAppSelector(
+    (state) => state.loginOtp,
+  );
 
   const handleSend = async () => {
     if (phoneNumber) {
@@ -29,29 +33,15 @@ const otpVerification = (): React.JSX.Element => {
         .join("");
 
       if (OTP.length !== 6) {
-        setError("Please enter a valid OTP");
+        dispatch(loginOtpVerifySetError("Please enter a valid OTP"));
       } else {
-        setIsVerifying(true);
-        try {
-          await verifyOTP(phoneNumber as unknown as string, OTP);
-
-          setIsVerifying(false);
-
-          router.push("/onboard/tax");
-        } catch (error) {
-          setIsVerifying(false);
-
-          setError(
-            "An error occurred while verifying the OTP. Please try again later.",
-          );
-        }
+        dispatch(
+          loginOtpVerify({
+            phoneNumber: phoneNumber as unknown as string,
+            otp: OTP,
+          }),
+        );
       }
-    } else {
-      setError("An error occurred. Going back.");
-
-      setTimeout(() => {
-        router.push("/auth/phone-number");
-      }, 500);
     }
   };
 
@@ -71,7 +61,12 @@ const otpVerification = (): React.JSX.Element => {
             description={"Enter the OTP you received"}
           />
 
-          <OTPInput error={error} value={otp} digits={6} setValue={setOtp} />
+          <OTPInput
+            error={loginOtpVerifyError}
+            value={otp}
+            digits={6}
+            setValue={setOtp}
+          />
         </View>
 
         <View>

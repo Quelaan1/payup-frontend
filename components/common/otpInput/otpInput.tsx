@@ -15,7 +15,7 @@ type Props = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   digits: number;
-  error: string;
+  error: string | null;
 };
 
 const OTPInput = ({

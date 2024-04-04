@@ -8,7 +8,7 @@ interface Props extends TextInputProps {
   value?: string;
   onChangeText?: (text: string) => void;
   ImagePath?: React.FC<SvgProps>;
-  error: string;
+  error: string | null;
 }
 
 const InputBox = memo(function ({

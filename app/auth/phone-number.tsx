@@ -1,5 +1,5 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
-import { router, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
 import {
   Header,
@@ -12,45 +12,37 @@ import {
 import commonStyles from "../../styles/common";
 import { COLORS, ICONS } from "../../constants";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
-import { sendOTP } from "../../utils/apis/auth/auth";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  loginOtpRequest,
+  loginOtpRequestSetError,
+} from "../../redux/slices/otpSlice";
 
 const phoneNumber = (): React.JSX.Element => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [isSendingSMS, setIsSendingSMS] = React.useState(false);
-  const [error, setError] = React.useState("");
+  const { isSendingSMS, loginOtpRequestError } = useAppSelector(
+    (state) => state.loginOtp,
+  );
+  const dispatch = useAppDispatch();
 
   const onChange = (value: string) => {
     if (value.length !== 10) {
-      setError("Please enter a valid phone number");
+      dispatch(loginOtpRequestSetError("Please enter a valid phone number"));
     }
 
     if (value.length === 10) {
-      setError("");
+      dispatch(loginOtpRequestSetError(""));
       Keyboard.dismiss();
     }
 
     setPhoneNumber(value);
   };
 
-  const handleSend = async () => {
+  const handleSend = () => {
     if (phoneNumber.length !== 10) {
-      setError("Please enter a valid phone number");
+      loginOtpRequestSetError("Please enter a valid phone number");
     } else {
-      setIsSendingSMS(true);
-
-      try {
-        await sendOTP(phoneNumber);
-
-        setIsSendingSMS(false);
-
-        router.push("/auth/otp-verification?phoneNumber=" + phoneNumber);
-      } catch (error) {
-        setIsSendingSMS(false);
-
-        setError(
-          "An error occurred while sending the OTP. Please try again later.",
-        );
-      }
+      dispatch(loginOtpRequest({ phoneNumber }));
     }
   };
 
@@ -78,7 +70,7 @@ const phoneNumber = (): React.JSX.Element => {
               ImagePath={ICONS.phone}
               onChangeText={onChange}
               value={phoneNumber}
-              error={error}
+              error={loginOtpRequestError}
               keyboardType={"number-pad"}
               autoFocus
             />

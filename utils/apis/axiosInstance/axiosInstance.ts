@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: "https://api.payup.turtlebyte.in/",
+  // baseURL: "https://api.payup.turtlebyte.in/",
+  baseURL: "http://192.168.1.6:8000/",
 });
 
 // Request interceptor
