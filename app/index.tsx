@@ -1,12 +1,12 @@
-import { View } from 'react-native'
-import React, { useState } from 'react'
-import GetStarted from './get-started'
-import Home from './home'
+import { View } from 'react-native';
+import React, { useState } from 'react';
+import GetStarted from './get-started';
+import Home from './home';
 
 const Index = () => {
-	const [isLoggedIn, setIsLoggedIn] = useState(true)
+	const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-	return <View>{isLoggedIn ? <Home /> : <GetStarted />}</View>
-}
+	return <View>{isLoggedIn ? <Home /> : <GetStarted />}</View>;
+};
 
-export default Index
+export default Index;

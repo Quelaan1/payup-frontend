@@ -1,9 +1,8 @@
-import { StyleSheet } from 'react-native'
-import { COLORS } from '../constants'
+import { StyleSheet } from 'react-native';
+import { COLORS } from '../constants';
 
 export const homeStyles = StyleSheet.create({
 	frameContainer: {
-		paddingTop: 30,
 		gap: 18,
 	},
 
@@ -38,4 +37,4 @@ export const homeStyles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '500',
 	},
-})
+});

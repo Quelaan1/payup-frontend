@@ -4,10 +4,10 @@ import {
 	Text,
 	TouchableOpacity,
 	View,
-} from 'react-native'
-import React from 'react'
-import styles from './menu.style'
-import { MenuItem, menuData } from '../../../../constants/home/menu'
+} from 'react-native';
+import React from 'react';
+import styles from './menu.style';
+import { MenuItem, menuData } from '../../../../constants/home/menu';
 
 const ItemComponent = ({ item, index }: ListRenderItemInfo<MenuItem>) => {
 	return (
@@ -15,8 +15,8 @@ const ItemComponent = ({ item, index }: ListRenderItemInfo<MenuItem>) => {
 			{<item.icon width={26} height={26} />}
 			<Text style={styles.buttonText}>{item.text}</Text>
 		</TouchableOpacity>
-	)
-}
+	);
+};
 
 const Menu = () => {
 	return (
@@ -36,7 +36,7 @@ const Menu = () => {
 				}}
 			/>
 		</View>
-	)
-}
+	);
+};
 
-export default Menu
+export default Menu;

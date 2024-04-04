@@ -1,89 +1,82 @@
-import {
-	Animated,
-	SafeAreaView,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native'
-import { Stack } from 'expo-router'
-import React, { useState } from 'react'
-import { COLORS } from '../constants'
-import commonStyles from '../styles/common'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Stack, useRouter } from 'expo-router';
+import React, { useEffect } from 'react';
+import { COLORS, ICONS } from '../constants';
+import commonStyles from '../styles/common';
 import {
 	HeaderLeft,
 	HeaderRight,
 	PayButton,
 	Menu,
 	CarouselItem,
-} from '../components'
-import { homeStyles } from '../styles/home.style'
-import CustomCarousel from 'carousel-with-pagination-rn'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { promotionalCards } from '../constants/home/menu'
-import { TransactionsList } from '../components/transactions/transactionsList'
+} from '../components';
+import { homeStyles } from '../styles/home.style';
+import CustomCarousel from 'carousel-with-pagination-rn';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { promotionalCards } from '../constants/home/menu';
+import {
+	SafeAreaView,
+	useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const transactions = [
 	{
 		id: '1',
 		name: 'Raj K',
-		amount: 240,
-		date: 'February 24, 2022',
+		amount: 280,
+		date: 'February 28, 2022',
 	},
 	{
 		id: '2',
 		name: 'Raj K',
-		amount: 240,
-		date: 'February 24, 2022',
+		amount: 280,
+		date: 'February 28, 2022',
 	},
 	{
 		id: '3',
 		name: 'Raj K',
-		amount: 240,
-		date: 'February 24, 2022',
+		amount: 280,
+		date: 'February 28, 2022',
 	},
 	{
 		id: '4',
 		name: 'Raj K',
-		amount: 240,
-		date: 'February 24, 2022',
+		amount: 280,
+		date: 'February 28, 2022',
 	},
 	{
 		id: '5',
 		name: 'Raj K',
-		amount: 240,
-		date: 'February 24, 2022',
+		amount: 280,
+		date: 'February 28, 2022',
 	},
 	{
 		id: '6',
 		name: 'Raj K',
-		amount: 240,
-		date: 'February 24, 2022',
+		amount: 280,
+		date: 'February 28, 2022',
 	},
 	{
 		id: '7',
 		name: 'Raj K',
-		amount: 240,
-		date: 'February 24, 2022',
+		amount: 280,
+		date: 'February 28, 2022',
 	},
-]
+];
 
 const Home = () => {
-	const [recentTransactionsExpanded, setRecentTransactionsExpanded] =
-		useState(false)
-	const [heightAnim] = useState(new Animated.Value(0)) // Initial height of the peek view
+	const insets = useSafeAreaInsets();
+	const router = useRouter();
 
-	const toggleTransactionsList = () => {
-		console.log('calling')
+	const authenticate = async () => {
+		const result = await LocalAuthentication.authenticateAsync();
+		console.log(result);
+	};
 
-		setRecentTransactionsExpanded(!recentTransactionsExpanded)
-
-		// Animate the height change
-		Animated.timing(heightAnim, {
-			toValue: recentTransactionsExpanded ? 0 : 500, // Adjust these values as needed
-			duration: 300, // Duration of the animation
-			useNativeDriver: false, // This should be false as we are animating height
-		}).start()
-	}
+	useEffect(() => {
+		// authenticate();
+	}, []);
 
 	return (
 		<SafeAreaView
@@ -105,7 +98,7 @@ const Home = () => {
 				}}
 			/>
 
-			<View style={{ ...homeStyles.frameContainer }}>
+			<View style={homeStyles.frameContainer}>
 				<View style={{ paddingHorizontal: 20 }}>
 					<Text style={homeStyles.greeting}>good evening.</Text>
 					<Text style={homeStyles.userName}>Samantha</Text>
@@ -120,46 +113,53 @@ const Home = () => {
 						disablePagination={true}
 						data={promotionalCards}
 						renderItem={({ item }) => {
-							return <CarouselItem {...item} />
+							return <CarouselItem {...item} />;
 						}}
-						isEndReached={() => {}}
 					/>
 				</GestureHandlerRootView>
-
-				<View style={homeStyles.recentTransactionsContainer}>
-					<View style={homeStyles.recentTransactions}>
-						<Text style={homeStyles.recentTransactionsText}>
-							Recent Transaction
-						</Text>
-
-						<TouchableOpacity onPress={toggleTransactionsList}>
-							<Text style={homeStyles.recentTransactionsButton}>See All</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
 			</View>
 
-			<Animated.View
+			<View
 				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					paddingVertical: 10,
+					paddingHorizontal: 30,
+					width: '100%',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					backgroundColor: COLORS.White,
 					position: 'absolute',
-					bottom: 0,
-					left: 0,
-					right: 0,
-					height: heightAnim,
-					backgroundColor: COLORS.grayBackground,
-					paddingHorizontal: 20,
-					paddingTop: 20,
-					borderRadius: 20,
+					bottom: insets.bottom,
 				}}>
-				<TransactionsList
-					transactions={transactions}
-					recentTransactionsExpanded={recentTransactionsExpanded}
-					setRecentTransactionsExpanded={setRecentTransactionsExpanded}
-					toggleTransactionsList={toggleTransactionsList}
-				/>
-			</Animated.View>
-		</SafeAreaView>
-	)
-}
+				<TouchableOpacity
+					onPress={() => {
+						router.push('/onboard/pre-aadhaar');
+					}}>
+					<ICONS.houseOutline width={28} height={28} />
+				</TouchableOpacity>
 
-export default Home
+				<TouchableOpacity
+					onPress={() => {
+						router.push('/auth/phone-number');
+					}}>
+					<ICONS.transaction width={28} height={28} />
+				</TouchableOpacity>
+
+				<TouchableOpacity>
+					<ICONS.payCircle width={54} height={54} />
+				</TouchableOpacity>
+
+				<TouchableOpacity>
+					<ICONS.cardBlack width={36} height={36} />
+				</TouchableOpacity>
+
+				<TouchableOpacity>
+					<ICONS.profile width={28} height={28} />
+				</TouchableOpacity>
+			</View>
+		</SafeAreaView>
+	);
+};
+
+export default Home;

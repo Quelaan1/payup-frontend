@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const commonStyles = StyleSheet.create({
 	container: {
@@ -9,6 +9,6 @@ const commonStyles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingHorizontal: 20,
 	},
-})
+});
 
-export default commonStyles
+export default commonStyles;
