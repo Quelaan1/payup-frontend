@@ -3,9 +3,7 @@ import { COLORS } from "../../../constants";
 
 const inputBoxStyles = StyleSheet.create({
   container: {
-    position: "relative",
     width: "100%",
-    display: "flex",
     gap: 16,
   },
 
@@ -20,12 +18,13 @@ const inputBoxStyles = StyleSheet.create({
     width: "100%",
     padding: 14,
     borderRadius: 4,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.White,
     shadowColor: "rgba(0, 0, 0, 0.6)",
     shadowOffset: {
       width: 0,
       height: 1,
     },
+    color: COLORS.Black,
     shadowOpacity: 0.3,
     borderStyle: "solid",
     borderColor: "#d0d3d8",
@@ -33,8 +32,7 @@ const inputBoxStyles = StyleSheet.create({
   },
 
   image: {
-    position: "absolute",
-    right: 10,
+    right: 40,
   },
 
   inputError: {
@@ -48,10 +46,12 @@ const inputBoxStyles = StyleSheet.create({
   },
 
   error: {
+    position: "absolute",
     paddingTop: 4,
     paddingLeft: 4,
     color: COLORS.Red,
     fontSize: 14,
+    bottom: -35,
   },
 });
 

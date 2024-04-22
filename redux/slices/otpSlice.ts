@@ -24,6 +24,7 @@ export const loginOtpSlice = createSlice({
     },
     loginOtpRequestSuccess: (state) => {
       state.isSendingSMS = false;
+      state.loginOtpRequestError = null;
     },
     loginOtpRequestFailure: (state, action: PayloadAction<string>) => {
       state.isSendingSMS = false;
@@ -32,19 +33,21 @@ export const loginOtpSlice = createSlice({
     loginOtpRequestSetError: (state, action: PayloadAction<string>) => {
       state.loginOtpRequestError = action.payload;
     },
+
     loginOtpVerify: (state, action: PayloadAction<VerifyOTPRequest>) => {
       state.isVerifying = true;
-      state.loginOtpRequestError = null;
+      state.loginOtpVerifyError = null;
     },
     loginOtpVerifySuccess: (state) => {
       state.isVerifying = false;
+      state.loginOtpVerifyError = null;
     },
     loginOtpVerifyFailure: (state, action: PayloadAction<string>) => {
       state.isVerifying = false;
-      state.loginOtpRequestError = action.payload; // payload should be the error message
+      state.loginOtpVerifyError = action.payload; // payload should be the error message
     },
     loginOtpVerifySetError: (state, action: PayloadAction<string>) => {
-      state.loginOtpRequestError = action.payload;
+      state.loginOtpVerifyError = action.payload;
     },
   },
 });

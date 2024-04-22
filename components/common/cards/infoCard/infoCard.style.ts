@@ -4,7 +4,6 @@ import { COLORS } from "../../../../constants";
 const infoCardStyles = StyleSheet.create({
   container: {
     position: "absolute",
-    zIndex: 10,
     left: 0,
     right: 0,
     bottom: 0,

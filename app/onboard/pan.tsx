@@ -20,28 +20,20 @@ import { COLORS, ICONS } from "../../constants";
 import Styles from "../../components/common/inputBox/inputBox.style";
 import { points } from "../../constants/onboard/GstInfo";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
+import { useAppSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
+import { PanVerifyRequest, SetPanError } from "../../redux/slices/panSlice";
 
-const Tax = (): React.JSX.Element => {
+const Pan = (): React.JSX.Element => {
+  const dispatch = useDispatch();
   const [pan, setPan] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [error, setError] = React.useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
   const [showInfoCard, setShowInfoCard] = useState(false);
+  const { error, isVerifying, entity_type } = useAppSelector(
+    (state) => state.pan,
+  );
 
   const onChangePan = (value: string) => {
     setPan(value);
-  };
-
-  const onChangeName = (value: string) => {
-    setName(value);
-  };
-
-  const handleSend = () => {
-    // setIsVerifying(true);
-
-    const userName = "Pushpa";
-
-    router.push("/onboard/user-details?userName=" + userName);
   };
 
   const handleInfoPress = () => {
@@ -62,6 +54,15 @@ const Tax = (): React.JSX.Element => {
     }
   };
 
+  const handleNext = () => {
+    if (pan.length === 0) {
+      dispatch(SetPanError("Please enter your GSTIN or PAN"));
+      return;
+    }
+
+    dispatch(PanVerifyRequest({ entity_id: pan, entity_type }));
+  };
+
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
       <View style={commonStyles.container}>
@@ -78,17 +79,7 @@ const Tax = (): React.JSX.Element => {
             description={"We require your GSTIN or PAN to open your account"}
           />
 
-          <View style={Styles.container}>
-            <View style={{ marginTop: 34 }}>
-              <InputBox
-                value={name}
-                placeholder={"Name"}
-                error={error}
-                autoFocus={true}
-                onChangeText={onChangeName}
-              />
-            </View>
-
+          <View style={{ ...Styles.container, marginTop: 34 }}>
             <View style={Styles.InputContainer}>
               <InputBox
                 value={pan}
@@ -102,14 +93,12 @@ const Tax = (): React.JSX.Element => {
                 <ICONS.info width={26} height={26} />
               </TouchableOpacity>
             </View>
-
-            {error && <Text style={Styles.error}>{error}</Text>}
           </View>
         </View>
 
         <View>
           <View style={ButtonStyles.buttonParent}>
-            <CommonButton text={"Next"} onPress={handleSend} />
+            <CommonButton text={"Next"} onPress={handleNext} />
           </View>
 
           {isVerifying && (
@@ -129,4 +118,4 @@ const Tax = (): React.JSX.Element => {
   );
 };
 
-export default Tax;
+export default Pan;

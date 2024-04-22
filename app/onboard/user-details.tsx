@@ -11,15 +11,16 @@ import React from "react";
 import { COLORS } from "../../constants";
 import Styles from "../../components/common/inputBox/inputBox.style";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
+import { validateEmail } from "../../utils/validators/validators";
 
 const UserDetails = (): React.JSX.Element => {
-  const [value, setValue] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [error, setError] = React.useState("");
 
   const { userName } = useLocalSearchParams();
 
   const onChange = (value: string) => {
-    setValue(value);
+    setEmail(value);
   };
 
   const handleWrongData = () => {
@@ -27,6 +28,11 @@ const UserDetails = (): React.JSX.Element => {
   };
 
   const handleSend = () => {
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
     router.push("/onboard/aadhaar");
   };
 
@@ -58,17 +64,16 @@ const UserDetails = (): React.JSX.Element => {
             <View style={{ ...Styles.container, display: "flex", gap: 16 }}>
               <View style={{ marginTop: 34 }}>
                 <InputBox
-                  value={value}
+                  value={userName as unknown as string}
                   selectTextOnFocus={false}
                   editable={false}
-                  placeholder={"Name"}
                   error={error}
                 />
               </View>
 
               <View style={Styles.InputContainer}>
                 <InputBox
-                  value={value}
+                  value={email}
                   placeholder={"Email address"}
                   keyboardType={"default"}
                   autoFocus

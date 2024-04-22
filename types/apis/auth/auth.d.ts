@@ -12,5 +12,7 @@ interface VerifyOTPRequest {
 }
 
 interface VerifyOTPResponse {
-  message: "string";
+  message?: string;
+  refresh_token: string;
+  access_token: string;
 }

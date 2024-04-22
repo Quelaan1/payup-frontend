@@ -1,4 +1,7 @@
 import axios from "axios";
+import { getValueFromSecureStoreAsync } from "../../expo-store/expo-store";
+
+// const access_token = getValueFromSecureStore("access_token");
 
 // Create an Axios instance
 const axiosInstance = axios.create({
@@ -8,8 +11,18 @@ const axiosInstance = axios.create({
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
-  (config) => {
-    // config.headers["Authorization"] = `Bearer ${bearer}`;
+  async (config) => {
+    const access_token = await getValueFromSecureStoreAsync("access_token");
+
+    const url = config.url || "";
+
+    if (
+      !url.includes("/api/auth/otp") ||
+      !url.includes("/api/auth/verify/otp")
+    ) {
+      config.headers["Authorization"] = `Bearer ${access_token}`;
+    }
+
     return config;
   },
   (error) => {
