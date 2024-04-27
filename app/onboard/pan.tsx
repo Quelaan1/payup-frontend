@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import commonStyles from "../../styles/common";
-import { router, Stack } from "expo-router";
+import {  Stack } from "expo-router";
 import {
   Header,
   CommonButton,
@@ -15,14 +15,14 @@ import {
   Loader,
   InfoCard,
 } from "../../components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { COLORS, ICONS } from "../../constants";
 import Styles from "../../components/common/inputBox/inputBox.style";
 import { points } from "../../constants/onboard/GstInfo";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
-import { PanVerifyRequest, SetPanError } from "../../redux/slices/panSlice";
+import { PanVerifyRequest, setIsVerifying, setPanError } from "../../redux/slices/panSlice";
 
 const Pan = (): React.JSX.Element => {
   const dispatch = useDispatch();
@@ -56,12 +56,20 @@ const Pan = (): React.JSX.Element => {
 
   const handleNext = () => {
     if (pan.length === 0) {
-      dispatch(SetPanError("Please enter your GSTIN or PAN"));
+      dispatch(setPanError("Please enter your GSTIN or PAN"));
       return;
     }
 
     dispatch(PanVerifyRequest({ entity_id: pan, entity_type }));
   };
+
+  useEffect(() => {
+    return () => {
+      setPan("")
+      dispatch(setIsVerifying(""));
+      dispatch(setPanError(""));
+    }
+  }, [])
 
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>

@@ -7,16 +7,20 @@ import {
   ScreenHeaderProgress,
   InputBox,
 } from "../../components";
-import React from "react";
+import React, { useEffect } from "react";
 import { COLORS } from "../../constants";
 import Styles from "../../components/common/inputBox/inputBox.style";
 import ButtonStyles from "../../components/common/buttons/commonButton/commonButton.style";
 import { validateEmail } from "../../utils/validators/validators";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setUserDetailsError } from "../../redux/slices/userDetailsSlice";
+import { UserDetailsConfirmRequest } from "../../redux/slices/profileSlice";
 
 const UserDetails = (): React.JSX.Element => {
-  const [email, setEmail] = React.useState("");
-  const [error, setError] = React.useState("");
+  const dispatch = useAppDispatch();
 
+  const [email, setEmail] = React.useState("");
+  const {loading, error} = useAppSelector((state) => state.userDetails);
   const { userName } = useLocalSearchParams();
 
   const onChange = (value: string) => {
@@ -24,16 +28,18 @@ const UserDetails = (): React.JSX.Element => {
   };
 
   const handleWrongData = () => {
+    setEmail('')
+    dispatch(setUserDetailsError(""));
     router.push("/onboard/tax");
   };
 
   const handleSend = () => {
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address");
+      dispatch(setUserDetailsError("Please enter a valid email address"));
       return;
     }
 
-    router.push("/onboard/aadhaar");
+    dispatch(UserDetailsConfirmRequest({ email, first_name: userName }))
   };
 
   const handleOutsidePress = () => {
@@ -41,6 +47,16 @@ const UserDetails = (): React.JSX.Element => {
       Keyboard.dismiss;
     }
   };
+
+
+  useEffect(() => {
+    return () => {
+      setEmail("")
+      dispatch(setUserDetailsError(""));
+    }
+  }, [])
+  
+
 
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
@@ -73,6 +89,7 @@ const UserDetails = (): React.JSX.Element => {
 
               <View style={Styles.InputContainer}>
                 <InputBox
+                  onChangeText={onChange}
                   value={email}
                   placeholder={"Email address"}
                   keyboardType={"default"}

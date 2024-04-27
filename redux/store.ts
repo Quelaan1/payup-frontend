@@ -1,20 +1,22 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "./sagas/rootSaga";
-import { profileSlice } from "./slices/profileSlice";
-import { loginOtpSlice } from "./slices/otpSlice";
-import { panSlice } from "./slices/panSlice";
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas/rootSaga';
+import { profileSlice } from './slices/profileSlice';
+import { loginOtpSlice } from './slices/otpSlice';
+import { panSlice } from './slices/panSlice';
+import { userDetailsSlice } from './slices/userDetailsSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
-  reducer: {
-    profile: profileSlice.reducer,
-    loginOtp: loginOtpSlice.reducer,
-    pan: panSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sagaMiddleware),
+	reducer: {
+		profile: profileSlice.reducer,
+		loginOtp: loginOtpSlice.reducer,
+		pan: panSlice.reducer,
+		userDetails: userDetailsSlice.reducer,
+	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);

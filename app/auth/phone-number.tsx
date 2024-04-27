@@ -1,6 +1,6 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { Stack } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Header,
   ScreenHeaderProgress,
@@ -15,6 +15,7 @@ import ButtonStyles from "../../components/common/buttons/commonButton/commonBut
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   loginOtpRequest,
+  loginOtpRequestFailure,
   loginOtpRequestSetError,
 } from "../../redux/slices/otpSlice";
 
@@ -45,6 +46,14 @@ const phoneNumber = (): React.JSX.Element => {
       dispatch(loginOtpRequest({ phoneNumber }));
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setPhoneNumber("")
+      dispatch(loginOtpRequestFailure(""));
+    }
+  }, [])
+  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
