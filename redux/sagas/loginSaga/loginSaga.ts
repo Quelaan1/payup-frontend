@@ -20,7 +20,7 @@ import {
 } from '../../slices/otpSlice';
 import { router } from 'expo-router';
 import { getProfile } from '../../../utils/apis/profile/profile';
-import { setProfile } from '../../slices/profileSlice';
+import { setIsLoggedIn, setProfile } from '../../slices/profileSlice';
 import { saveValueToSecureStore } from '../../../utils/expo-store/expo-store';
 
 function* handleOtpRequest(
@@ -50,8 +50,6 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 		// Handle success state
 		yield put(loginOtpVerifySuccess());
 
-		console.log('Access Token: ', authData.access_token);
-
 		// Handle saving token
 		yield call(saveValueToSecureStore, 'access_token', authData.access_token);
 		yield call(saveValueToSecureStore, 'refresh_token', authData.refresh_token);
@@ -61,6 +59,13 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 
 		// Set profile data
 		yield put(setProfile(profileData));
+		yield put(setIsLoggedIn(true));
+
+		if (profileData.kyc_complete) {
+			router.push('/');
+		} else if (profileData.kyc_pan) {
+			router.push('/onboard/aadhaar');
+		}
 
 		// Redirect to next screen
 		router.push('/onboard/pan');

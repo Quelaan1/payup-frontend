@@ -11,37 +11,50 @@ import { COLORS, ICONS } from '../../constants';
 import commonStyles from '../../styles/common';
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
 import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+	AadhaarOtpRequest,
+	setAadhaarError,
+	setOtpError,
+} from '../../redux/slices/aadhaarSlice';
 
 const Aadhaar = (): React.JSX.Element => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 
-	const [step, setStep] = React.useState(1);
 	const [aadhaar, setAadhaar] = React.useState('');
 	const [otp, setOtp] = React.useState('');
-	const [aadhaarError, setAadhaarError] = React.useState('');
-	const [otpError, setOtpError] = React.useState('');
 	const [inputDisable, setInputDisable] = React.useState(false);
-	const [isSendingOTP, setIsSendingOTP] = React.useState(false);
-	const [isVerifying, setIsVerifying] = React.useState(false);
+
+	const {
+		aadhaarError,
+		error,
+		otpError,
+		isSendingOtp,
+		isVerifying,
+		entity_type,
+		step,
+	} = useAppSelector((state) => state.aadhaar);
 
 	const handleContinue = () => {
 		if (step === 1) {
 			if (aadhaar.length !== 12) {
-				setAadhaarError('Aadhaar number should be 12 digits');
+				dispatch(setAadhaarError('Aadhaar number should be 12 digits'));
 				return;
 			}
 
-			setIsSendingOTP(true);
-
-			setStep(2);
 			setInputDisable(true);
+			dispatch(
+				AadhaarOtpRequest({
+					entity_id: aadhaar,
+					entity_type,
+				})
+			);
 		} else if (step === 2) {
 			if (aadhaar.length !== 6) {
-				setOtpError('OTP should be 6 digits');
+				dispatch(setOtpError('OTP should be 6 digits'));
 				return;
 			}
-
-			setIsVerifying(true);
 
 			router.push('/auth/secure-app');
 		}
@@ -112,7 +125,7 @@ const Aadhaar = (): React.JSX.Element => {
 						<CommonButton text={'Next'} onPress={handleContinue} />
 					</View>
 
-					{isSendingOTP && (
+					{isSendingOtp && (
 						<Loader ImagePath={ICONS.phone} Message={'Sending SMS'} />
 					)}
 

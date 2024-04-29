@@ -1,14 +1,27 @@
 import { View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import GetStarted from './get-started';
 import Home from './home';
-import { getValueFromSecureStore } from '../utils/expo-store/expo-store';
 import { useAppSelector } from '../redux/hooks';
 
 const Index = () => {
-	const {isLoggedIn} = useAppSelector((state) => state.profile);
+	const { isLoggedIn, kyc_complete } = useAppSelector((state) => state.profile);
 
-	return <View>{isLoggedIn ? <Home /> : <GetStarted />}</View>;
+	if (!kyc_complete) {
+		return (
+			<View>
+				<GetStarted />
+			</View>
+		);
+	}
+
+	if (isLoggedIn && kyc_complete) {
+		return (
+			<View>
+				<Home />
+			</View>
+		);
+	}
 };
 
 export default Index;

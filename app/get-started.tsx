@@ -1,64 +1,64 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
-import { Stack, useRouter } from "expo-router";
-import { IntroCards, CommonButton, ScreenHeaderTitle } from "../components";
-import { COLORS, IMAGES } from "../constants";
-import commonStyles from "../styles/common";
-import ButtonStyles from "../components/common/buttons/commonButton/commonButton.style";
-import CustomCarousel from "carousel-with-pagination-rn";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { startupCards } from "../constants/get-started/get-started";
+import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { Stack, useRouter } from 'expo-router';
+import { IntroCards, CommonButton, ScreenHeaderTitle } from '../components';
+import { COLORS, IMAGES } from '../constants';
+import commonStyles from '../styles/common';
+import ButtonStyles from '../components/common/buttons/commonButton/commonButton.style';
+import CustomCarousel from 'carousel-with-pagination-rn';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { startupCards } from '../constants/get-started/get-started';
 
 const GetStarted = (): React.JSX.Element => {
-  const router = useRouter();
+	const router = useRouter();
 
-  const handleNext = () => {
-    router.push("/auth/phone-number");
-  };
+	const handleNext = () => {
+		router.push('/auth/phone-number');
+	};
 
-  return (
-    <View style={{ ...commonStyles.container, paddingHorizontal: 0 }}>
-      <View>
-        <Stack.Screen
-          options={{
-            navigationBarColor: COLORS.White,
-            headerTitle: () => <ScreenHeaderTitle />,
-            headerStyle: { backgroundColor: COLORS.skinBackground },
-          }}
-        />
+	return (
+		<View style={{ ...commonStyles.container, paddingHorizontal: 0 }}>
+			<View>
+				<Stack.Screen
+					options={{
+						navigationBarColor: COLORS.White,
+						headerTitle: () => <ScreenHeaderTitle />,
+						headerStyle: { backgroundColor: COLORS.skinBackground },
+					}}
+				/>
 
-        <View style={styles.frameContainer}>
-          <IMAGES.frame width={"100%"} />
-        </View>
+				<View style={styles.frameContainer}>
+					<IMAGES.frame width={'100%'} />
+				</View>
 
-        <GestureHandlerRootView>
-          <CustomCarousel
-            data={startupCards}
-            indicatorWidth={[12, 18, 12]}
-            indicatorHeight={[8, 12, 8]}
-            inidicatorBorderRadius={4}
-            indicatorHorizontalPadding={5}
-            paginationContainerStyle={{ paddingTop: 15 }}
-            renderItem={({ item }) => {
-              return <IntroCards {...item} />;
-            }}
-          />
-        </GestureHandlerRootView>
-      </View>
+				<GestureHandlerRootView>
+					<CustomCarousel
+						data={startupCards}
+						indicatorWidth={[12, 18, 12]}
+						indicatorHeight={[8, 12, 8]}
+						inidicatorBorderRadius={4}
+						indicatorHorizontalPadding={5}
+						paginationContainerStyle={{ paddingTop: 15 }}
+						renderItem={({ item }) => {
+							return <IntroCards {...item} />;
+						}}
+					/>
+				</GestureHandlerRootView>
+			</View>
 
-      <View style={{ ...ButtonStyles.buttonParent, paddingHorizontal: 20 }}>
-        <CommonButton text={"Next"} onPress={handleNext} />
-      </View>
-    </View>
-  );
+			<View style={{ ...ButtonStyles.buttonParent, paddingHorizontal: 20 }}>
+				<CommonButton text={'Next'} onPress={handleNext} />
+			</View>
+		</View>
+	);
 };
 
 export default GetStarted;
 
 const styles = StyleSheet.create({
-  frameContainer: {
-    backgroundColor: COLORS.skinBackground,
-    paddingTop: 50,
-    paddingBottom: 100,
-  },
+	frameContainer: {
+		backgroundColor: COLORS.skinBackground,
+		paddingTop: 50,
+		paddingBottom: 100,
+	},
 });

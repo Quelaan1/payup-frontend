@@ -1,18 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface PanState extends VerifyPanRequest, VerifyPanResponse {
-	error: string;
+	panError: string;
 	isVerifying: boolean;
+	error: string;
+	nameError: string;
+	dobError: string;
 }
 
-const initialState: PanState = {
+const initialState: Partial<PanState> = {
 	entity_id: '',
 	entity_type: 1,
 	message: '',
 	entity_name: '',
 	internal_id: '',
-	error: '',
+	panError: '',
 	isVerifying: false,
+	error: '',
+	nameError: '',
+	dobError: '',
 };
 
 export const panSlice = createSlice({
@@ -23,7 +29,10 @@ export const panSlice = createSlice({
 			state.entity_id = '';
 			state.entity_name = '';
 			state.internal_id = '';
+			state.panError = '';
+			state.dobError = '';
 			state.error = '';
+			state.nameError = '';
 			state.message = '';
 			state.isVerifying = false;
 		},
@@ -42,10 +51,19 @@ export const panSlice = createSlice({
 			state.entity_name = '';
 			state.internal_id = '';
 			state.message = '';
+			state.panError = action.payload;
 			state.error = action.payload;
+			state.nameError = action.payload;
+			state.dobError = action.payload;
 			state.isVerifying = false;
 		},
 		setPanError: (state, action) => {
+			state.panError = action.payload;
+		},
+		setNameError: (state, action) => {
+			state.nameError = action.payload;
+		},
+		setError: (state, action) => {
 			state.error = action.payload;
 		},
 		setIsVerifying: (state, action) => {
@@ -61,6 +79,8 @@ export const {
 	PanVerifyFailure,
 	setPanError,
 	setIsVerifying,
+	setError,
+	setNameError,
 } = panSlice.actions;
 
 export default panSlice.reducer;

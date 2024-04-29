@@ -5,6 +5,7 @@ import { profileSlice } from './slices/profileSlice';
 import { loginOtpSlice } from './slices/otpSlice';
 import { panSlice } from './slices/panSlice';
 import { userDetailsSlice } from './slices/userDetailsSlice';
+import { aadhaarSlice } from './slices/aadhaarSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,6 +15,7 @@ export const store = configureStore({
 		loginOtp: loginOtpSlice.reducer,
 		pan: panSlice.reducer,
 		userDetails: userDetailsSlice.reducer,
+		aadhaar: aadhaarSlice.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(sagaMiddleware),

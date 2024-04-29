@@ -6,7 +6,7 @@ import { getValueFromSecureStoreAsync } from '../../expo-store/expo-store';
 // Create an Axios instance
 const axiosInstance = axios.create({
 	// baseURL: 'https://api.payup.turtlebyte.in/',
-	baseURL: 'http://192.168.1.8:8000/',
+	baseURL: 'http://192.168.1.14:8000/',
 });
 
 // Request interceptor
