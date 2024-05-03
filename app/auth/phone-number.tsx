@@ -17,9 +17,11 @@ import {
 	loginOtpRequest,
 	loginOtpRequestSetError,
 } from '../../redux/slices/otpSlice';
+import ErrorAlert from '../../components/common/alerts/errorAlerts';
 
 const phoneNumber = (): React.JSX.Element => {
 	const [phoneNumber, setPhoneNumber] = React.useState('');
+	const [phoneNumberError, setPhoneNumberError] = React.useState('');
 	const { isSendingSMS, loginOtpRequestError } = useAppSelector(
 		(state) => state.loginOtp
 	);
@@ -27,11 +29,11 @@ const phoneNumber = (): React.JSX.Element => {
 
 	const onChange = (value: string) => {
 		if (value.length !== 10) {
-			dispatch(loginOtpRequestSetError('Please enter a valid phone number'));
+			setPhoneNumberError('Please enter a valid phone number');
 		}
 
 		if (value.length === 10) {
-			dispatch(loginOtpRequestSetError(''));
+			setPhoneNumberError('');
 			Keyboard.dismiss();
 		}
 
@@ -40,10 +42,15 @@ const phoneNumber = (): React.JSX.Element => {
 
 	const handleSend = () => {
 		if (phoneNumber.length !== 10) {
-			loginOtpRequestSetError('Please enter a valid phone number');
+			setPhoneNumberError('Please enter a valid phone number');
 		} else {
+			setPhoneNumberError('');
 			dispatch(loginOtpRequest({ phoneNumber }));
 		}
+	};
+
+	const handleClearError = () => {
+		dispatch(loginOtpRequestSetError(null));
 	};
 
 	return (
@@ -70,7 +77,7 @@ const phoneNumber = (): React.JSX.Element => {
 							ImagePath={ICONS.phone}
 							onChangeText={onChange}
 							value={phoneNumber}
-							error={loginOtpRequestError}
+							error={phoneNumberError}
 							keyboardType={'number-pad'}
 							autoFocus
 						/>
@@ -95,6 +102,11 @@ const phoneNumber = (): React.JSX.Element => {
 						/>
 					)}
 				</View>
+
+				<ErrorAlert
+					errorMessage={loginOtpRequestError}
+					setErrorMessage={handleClearError}
+				/>
 			</View>
 		</TouchableWithoutFeedback>
 	);

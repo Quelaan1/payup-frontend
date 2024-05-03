@@ -17,11 +17,13 @@ import {
 	loginOtpVerify,
 	loginOtpVerifySetError,
 } from '../../redux/slices/otpSlice';
+import ErrorAlert from '../../components/common/alerts/errorAlerts';
 
 const otpVerification = (): React.JSX.Element => {
 	const dispatch = useAppDispatch();
 	const { phoneNumber } = useLocalSearchParams();
 	const [otp, setOtp] = useState('');
+	const [otpError, setOtpError] = useState('');
 	const { isVerifying, loginOtpVerifyError } = useAppSelector(
 		(state) => state.loginOtp
 	);
@@ -33,7 +35,7 @@ const otpVerification = (): React.JSX.Element => {
 				.join('');
 
 			if (OTP.length !== 6) {
-				dispatch(loginOtpVerifySetError('Please enter a valid OTP'));
+				setOtpError('Please enter a valid OTP');
 			} else {
 				dispatch(
 					loginOtpVerify({
@@ -43,6 +45,10 @@ const otpVerification = (): React.JSX.Element => {
 				);
 			}
 		}
+	};
+
+	const handleClearError = () => {
+		dispatch(loginOtpVerifySetError(null));
 	};
 
 	return (
@@ -62,7 +68,7 @@ const otpVerification = (): React.JSX.Element => {
 					/>
 
 					<OTPInput
-						error={loginOtpVerifyError}
+						error={otpError}
 						value={otp}
 						digits={6}
 						setValue={setOtp}
@@ -86,6 +92,11 @@ const otpVerification = (): React.JSX.Element => {
 						/>
 					)}
 				</View>
+
+				<ErrorAlert
+					errorMessage={loginOtpVerifyError}
+					setErrorMessage={handleClearError}
+				/>
 			</View>
 		</TouchableWithoutFeedback>
 	);

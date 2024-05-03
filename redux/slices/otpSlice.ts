@@ -30,7 +30,7 @@ export const loginOtpSlice = createSlice({
 			state.isSendingSMS = false;
 			state.loginOtpRequestError = action.payload;
 		},
-		loginOtpRequestSetError: (state, action: PayloadAction<string>) => {
+		loginOtpRequestSetError: (state, action) => {
 			state.loginOtpRequestError = action.payload;
 		},
 
@@ -46,7 +46,7 @@ export const loginOtpSlice = createSlice({
 			state.isVerifying = false;
 			state.loginOtpVerifyError = action.payload;
 		},
-		loginOtpVerifySetError: (state, action: PayloadAction<string>) => {
+		loginOtpVerifySetError: (state, action) => {
 			state.loginOtpVerifyError = action.payload;
 		},
 	},

@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import * as Haptics from 'expo-haptics';
 
 interface Props {
-	errorMessage: string | undefined;
+	errorMessage: string | undefined | null;
 	setErrorMessage: (message: string | undefined) => void;
 }
 
