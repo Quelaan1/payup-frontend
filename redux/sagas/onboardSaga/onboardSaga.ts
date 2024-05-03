@@ -10,9 +10,13 @@ import {
 	SendAadhaarOtpRequestAction,
 	VerifyAadhaarOtpRequestAction,
 } from './onboardSagaTypes';
-import { PanVerifyFailure, PanVerifySuccess } from '../../slices/panSlice';
+import {
+	PanVerifyFailure,
+	PanVerifySuccess,
+	setError,
+} from '../../slices/panSlice';
 import { router } from 'expo-router';
-import { setProfile } from '../../slices/profileSlice';
+import { setIsLoggedIn, setProfile } from '../../slices/profileSlice';
 import { updateProfile } from '../../../utils/apis/profile/profile';
 import { AxiosError, AxiosResponse } from 'axios';
 import {
@@ -25,6 +29,7 @@ import {
 	AadhaarVerifyFailure,
 	AadhaarVerifySuccess,
 } from '../../slices/aadhaarSlice';
+import { setUserDetailsLoading } from '../../slices/userDetailsSlice';
 
 function* handlePanVerify(action: PanVerifyRequestAction) {
 	try {
@@ -35,26 +40,28 @@ function* handlePanVerify(action: PanVerifyRequestAction) {
 
 		if (response) {
 			if (response.status === 200) {
-				if (response.name_as_per_pan_match === false) {
-					yield put(
-						PanVerifyFailure({
-							nameEror: 'Name does not match with PAN',
-						})
-					);
-					return;
-				}
+				if (!response.name_as_per_pan_match || !response.date_of_birth_match) {
+					if (response.name_as_per_pan_match === false) {
+						yield put(
+							PanVerifyFailure({
+								nameError: 'Name does not match with PAN',
+							})
+						);
+					}
 
-				if (response.date_of_birth_match === false) {
-					yield put(
-						PanVerifyFailure({
-							dobError: 'Date of birth does not match with PAN',
-						})
-					);
+					if (response.date_of_birth_match === false) {
+						yield put(
+							PanVerifyFailure({
+								dobError: 'Date of birth does not match with PAN',
+							})
+						);
+					}
+
 					return;
 				}
 
 				yield put(PanVerifySuccess(response));
-				router.push('/onboard/user-details?userName=' + response.entity_name);
+				router.push('/onboard/pre-aadhaar');
 			}
 		}
 	} catch (error) {
@@ -67,7 +74,7 @@ function* handlePanVerify(action: PanVerifyRequestAction) {
 		} else {
 			yield put(
 				PanVerifyFailure({
-					error: 'Error while verifying PAN, please try again later',
+					error: 'Error while verifying PAN,\n please try again later',
 				})
 			);
 		}
@@ -76,26 +83,26 @@ function* handlePanVerify(action: PanVerifyRequestAction) {
 
 function* handleUserDetailsConfirm(action: PanVerifySuccessAction) {
 	try {
-		const { entity_id, entity_type, entity_name, internal_id } = yield select(
-			(state) => state.pan
-		);
+		yield put(setUserDetailsLoading(true));
 
-		const createPanResponse: GetProfileResponse = yield call(createPan, {
-			entity_id,
-			entity_type,
-			entity_name,
-			internal_id,
-		});
-		yield put(setProfile(createPanResponse));
+		const { id } = yield select((state) => state.profile);
 
 		const profileResponse: UpdateProfileResponse = yield call(updateProfile, {
 			...action.payload,
-			id: createPanResponse.id,
+			id,
 		});
+
 		yield put(setProfile(profileResponse));
 
-		router.push('/onboard/pre-aadhaar');
+		yield put(setIsLoggedIn(true));
+
+		yield put(setUserDetailsLoading(false));
+
+		// router.push('/auth/secure-app');
+		router.push('/');
 	} catch (error) {
+		yield put(setUserDetailsLoading(false));
+		yield put(setError('Something went wrong, please try again later'));
 		console.error(error);
 	}
 }
@@ -153,7 +160,7 @@ function* handleAadhaarOtpVerify(action: VerifyAadhaarOtpRequestAction) {
 			yield put(setProfile(response));
 			yield put(AadhaarVerifySuccess());
 
-			router.push('/auth/secure-app');
+			router.push('/onboard/user-details?userName=' + response.name);
 		}
 	} catch (error) {
 		const err = error as AxiosError;

@@ -79,10 +79,10 @@ const Home = () => {
 	}, []);
 
 	return (
-		<SafeAreaView
+		<View
 			style={{
 				...commonStyles.container,
-				backgroundColor: COLORS.grayBackground,
+				backgroundColor: COLORS.White,
 				paddingHorizontal: 0,
 			}}>
 			<Stack.Screen
@@ -95,6 +95,7 @@ const Home = () => {
 					headerTitle: '',
 					headerLeft: () => <HeaderLeft />,
 					headerRight: () => <HeaderRight />,
+					gestureEnabled: false,
 				}}
 			/>
 
@@ -130,35 +131,50 @@ const Home = () => {
 					alignItems: 'center',
 					backgroundColor: COLORS.White,
 					position: 'absolute',
-					bottom: insets.bottom,
+					bottom: 0,
 				}}>
 				<TouchableOpacity
 					onPress={() => {
 						router.push('/onboard/pre-aadhaar');
 					}}>
-					<ICONS.houseOutline width={28} height={28} />
+					<ICONS.houseOutline
+						width={28}
+						height={28}
+					/>
 				</TouchableOpacity>
 
 				<TouchableOpacity
 					onPress={() => {
 						router.push('/auth/phone-number');
 					}}>
-					<ICONS.transaction width={28} height={28} />
+					<ICONS.transaction
+						width={28}
+						height={28}
+					/>
 				</TouchableOpacity>
 
 				<TouchableOpacity>
-					<ICONS.payCircle width={54} height={54} />
+					<ICONS.payCircle
+						width={54}
+						height={54}
+					/>
 				</TouchableOpacity>
 
 				<TouchableOpacity>
-					<ICONS.cardBlack width={36} height={36} />
+					<ICONS.cardBlack
+						width={36}
+						height={36}
+					/>
 				</TouchableOpacity>
 
 				<TouchableOpacity>
-					<ICONS.profile width={28} height={28} />
+					<ICONS.profile
+						width={28}
+						height={28}
+					/>
 				</TouchableOpacity>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 

@@ -3,7 +3,7 @@ interface VerifyPanRequest {
 	entity_type: 1;
 	name: string;
 	dob: string;
-	consent: boolean;
+	consent: 'y' | 'n';
 }
 
 interface VerifyPanResponse extends VerifyPanRequest {
@@ -31,3 +31,5 @@ interface VerifyAadhaarOtpRequest {
 	otp: string;
 	ref_id: string;
 }
+
+interface VerifyAadhaarOtpResponse extends GetProfileResponse {}

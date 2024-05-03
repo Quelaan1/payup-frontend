@@ -47,9 +47,6 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 		// Verify OTP
 		const authData: VerifyOTPResponse = yield call(verifyOTP, action.payload);
 
-		// Handle success state
-		yield put(loginOtpVerifySuccess());
-
 		// Handle saving token
 		yield call(saveValueToSecureStore, 'access_token', authData.access_token);
 		yield call(saveValueToSecureStore, 'refresh_token', authData.refresh_token);
@@ -59,12 +56,17 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 
 		// Set profile data
 		yield put(setProfile(profileData));
-		yield put(setIsLoggedIn(true));
+
+		// Handle success state
+		yield put(loginOtpVerifySuccess());
 
 		if (profileData.kyc_complete) {
+			yield put(setIsLoggedIn(true));
 			router.push('/');
+			return;
 		} else if (profileData.kyc_pan) {
 			router.push('/onboard/aadhaar');
+			return;
 		}
 
 		// Redirect to next screen

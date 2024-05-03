@@ -4,6 +4,9 @@ import { COLORS } from '../constants';
 export const homeStyles = StyleSheet.create({
 	frameContainer: {
 		gap: 18,
+		backgroundColor: COLORS.grayBackground,
+		paddingTop: 30,
+		height: '100%',
 	},
 
 	greeting: {

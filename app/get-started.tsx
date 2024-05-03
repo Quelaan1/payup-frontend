@@ -47,7 +47,10 @@ const GetStarted = (): React.JSX.Element => {
 			</View>
 
 			<View style={{ ...ButtonStyles.buttonParent, paddingHorizontal: 20 }}>
-				<CommonButton text={'Next'} onPress={handleNext} />
+				<CommonButton
+					text={'Next'}
+					onPress={handleNext}
+				/>
 			</View>
 		</View>
 	);

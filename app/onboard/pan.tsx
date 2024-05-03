@@ -24,6 +24,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 import {
 	PanVerifyRequest,
+	setError,
 	setIsVerifying,
 	setPanError,
 } from '../../redux/slices/panSlice';
@@ -33,6 +34,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import footerStyles from '../../components/common/footer/footer.style';
 import { formatDate } from '../../utils/formatters/dateFormatter';
 import infoBoxStyles from '../../components/common/infoBox/infoBox.style';
+import ErrorAlert from '../../components/common/alerts/errorAlerts';
 
 const Pan = (): React.JSX.Element => {
 	const dispatch = useDispatch();
@@ -47,11 +49,11 @@ const Pan = (): React.JSX.Element => {
 		useAppSelector((state) => state.pan);
 
 	const onChangePan = (value: string) => {
-		setPan(value.toUpperCase());
+		setPan(value);
 	};
 
 	const onChangeName = (value: string) => {
-		setName(value.toUpperCase());
+		setName(value);
 	};
 
 	const handleInfoPress = () => {
@@ -73,6 +75,10 @@ const Pan = (): React.JSX.Element => {
 	};
 
 	const handleNext = () => {
+		if (!consent) {
+			return;
+		}
+
 		if (pan.length === 0) {
 			dispatch(setPanError('Please enter your GSTIN or PAN'));
 			return;
@@ -84,7 +90,7 @@ const Pan = (): React.JSX.Element => {
 				entity_type,
 				name,
 				dob: date,
-				consent,
+				consent: consent ? 'y' : 'n',
 			})
 		);
 	};
@@ -121,6 +127,9 @@ const Pan = (): React.JSX.Element => {
 					options={{
 						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderProgress progress={'two'} />,
+						headerStyle: {
+							backgroundColor: error ? 'rgba(0, 0, 0, 0.2)' : 'white',
+						},
 					}}
 				/>
 
@@ -130,7 +139,7 @@ const Pan = (): React.JSX.Element => {
 						description={'We require your GSTIN or PAN to open your account'}
 					/>
 
-					<View style={{ ...Styles.container, marginTop: 34 }}>
+					<View style={{ gap: 20, marginTop: 34 }}>
 						<View style={Styles.InputContainer}>
 							<InputBox
 								value={pan}
@@ -138,10 +147,17 @@ const Pan = (): React.JSX.Element => {
 								keyboardType={'default'}
 								error={panError}
 								onChangeText={onChangePan}
+								autoCapitalize='characters'
+								autoFocus
 							/>
 
-							<TouchableOpacity style={Styles.image} onPress={handleInfoPress}>
-								<ICONS.info width={26} height={26} />
+							<TouchableOpacity
+								style={Styles.image}
+								onPress={handleInfoPress}>
+								<ICONS.info
+									width={26}
+									height={26}
+								/>
 							</TouchableOpacity>
 						</View>
 
@@ -149,11 +165,12 @@ const Pan = (): React.JSX.Element => {
 							value={name}
 							placeholder={'Name as per PAN'}
 							keyboardType={'default'}
+							autoCapitalize='characters'
 							error={nameError}
 							onChangeText={onChangeName}
 						/>
 
-						<View style={infoBoxStyles.container}>
+						<View style={inputBoxStyles.container}>
 							<TouchableOpacity
 								style={inputBoxStyles.input}
 								onPress={showDatePicker}>
@@ -185,7 +202,12 @@ const Pan = (): React.JSX.Element => {
 						fillColor='black'
 						unFillColor='#FFFFFF'
 						text='I consent to the use of my PAN for identity verification as required by law.'
-						textStyle={{ ...footerStyles.text, fontSize: 12, lineHeight: 14 }}
+						textStyle={{
+							...footerStyles.text,
+							fontSize: 12,
+							lineHeight: 14,
+							textDecorationLine: 'none',
+						}}
 						iconStyle={{ borderColor: 'red' }}
 						innerIconStyle={{ borderWidth: 2, borderRadius: 4 }}
 						onPress={(isChecked: boolean) => {
@@ -203,14 +225,17 @@ const Pan = (): React.JSX.Element => {
 
 					<View style={ButtonStyles.buttonParent}>
 						<CommonButton
-							disabled={consent}
+							disabled={!consent}
 							text={'Next'}
 							onPress={handleNext}
 						/>
 					</View>
 
 					{isVerifying && (
-						<Loader ImagePath={ICONS.mobile} Message={'Verifying GST/PAN'} />
+						<Loader
+							ImagePath={ICONS.mobile}
+							Message={'Verifying GST/PAN'}
+						/>
 					)}
 				</View>
 
@@ -219,6 +244,15 @@ const Pan = (): React.JSX.Element => {
 						ImagePath={ICONS.infoFilled}
 						Title='Why GST/PAN is required?'
 						Points={points}
+					/>
+				)}
+
+				{error && (
+					<ErrorAlert
+						errorMessage={error}
+						setErrorMessage={() => {
+							dispatch(setError(''));
+						}}
 					/>
 				)}
 			</View>

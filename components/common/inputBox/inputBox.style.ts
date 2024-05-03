@@ -4,12 +4,10 @@ import { COLORS } from '../../../constants';
 const inputBoxStyles = StyleSheet.create({
 	container: {
 		width: '100%',
-		gap: 20,
+		gap: 10,
 	},
 
 	InputContainer: {
-		display: 'flex',
-		flexDirection: 'row',
 		alignItems: 'center',
 		width: '100%',
 	},
@@ -32,7 +30,9 @@ const inputBoxStyles = StyleSheet.create({
 	},
 
 	image: {
-		right: 40,
+		position: 'absolute',
+		right: 10,
+		top: 10,
 	},
 
 	inputError: {
@@ -46,12 +46,9 @@ const inputBoxStyles = StyleSheet.create({
 	},
 
 	error: {
-		position: 'absolute',
-		paddingTop: 4,
 		paddingLeft: 4,
 		color: COLORS.Red,
 		fontSize: 14,
-		bottom: -35,
 	},
 });
 

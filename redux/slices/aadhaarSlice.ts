@@ -41,20 +41,26 @@ export const aadhaarSlice = createSlice({
 		},
 		AadhaarOtpSuccess: (state, action) => {
 			state.entity_id = action.payload.entity_id;
+			state.ref_id = action.payload.ref_id;
 			state.isSendingOtp = false;
 		},
 		AadhaarOtpFailure: (state, action) => {
 			state.entity_id = '';
+			state.ref_id = '';
 			state.error = action.payload;
 			state.aadhaarError = action.payload;
 			state.isSendingOtp = false;
 			state.step = 1;
+		},
+		AadhaarVerifyRequest: (state, action) => {
+			state.isVerifying = true;
 		},
 		AadhaarVerifySuccess: (state) => {
 			state.isVerifying = false;
 		},
 		AadhaarVerifyFailure: (state, action) => {
 			state.entity_id = '';
+			state.ref_id = '';
 			state.error = action.payload;
 			state.otpError = action.payload;
 			state.isVerifying = false;
@@ -81,6 +87,7 @@ export const {
 	setAadhaarError,
 	setOtpError,
 	setIsVerifying,
+	AadhaarVerifyRequest,
 } = aadhaarSlice.actions;
 
 export default aadhaarSlice.reducer;

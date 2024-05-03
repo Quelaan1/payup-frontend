@@ -31,7 +31,13 @@ const InputBox = memo(function ({
 					{...textInputProps}
 				/>
 
-				{ImagePath && <ImagePath width={26} height={26} style={styles.image} />}
+				{ImagePath && (
+					<ImagePath
+						width={26}
+						height={26}
+						style={styles.image}
+					/>
+				)}
 			</View>
 
 			{error && <Text style={styles.error}>{error}</Text>}

@@ -1,6 +1,8 @@
 import axiosInstance from '../axiosInstance/axiosInstance';
 
-export async function sendAadhaarOtp(data: SendAadhaarOtpRequest) {
+export async function sendAadhaarOtp(
+	data: SendAadhaarOtpRequest
+): Promise<SendAadhaarOtpResponse> {
 	try {
 		const response = await axiosInstance.post('/api/kyc/aadhaar/otp', data);
 
@@ -10,7 +12,9 @@ export async function sendAadhaarOtp(data: SendAadhaarOtpRequest) {
 	}
 }
 
-export async function verifyAadhaarOtp(data: SendAadhaarOtpRequest) {
+export async function verifyAadhaarOtp(
+	data: VerifyAadhaarOtpRequest
+): Promise<VerifyAadhaarOtpResponse> {
 	try {
 		const response = await axiosInstance.post('/api/kyc/aadhaar/verify', data);
 

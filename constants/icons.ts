@@ -36,6 +36,7 @@ import profile from '../assets/icons/profile.svg';
 import payCircle from '../assets/icons/pay-circle.svg';
 import aadhaar from '../assets/icons/aadhaar.svg';
 import otp from '../assets/icons/otp.svg';
+import error from '../assets/icons/error.svg';
 
 export default {
 	heart,
@@ -76,4 +77,5 @@ export default {
 	payCircle,
 	aadhaar,
 	otp,
+	error,
 };

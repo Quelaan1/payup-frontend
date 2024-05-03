@@ -7,8 +7,7 @@ interface ProfileState extends GetProfileResponse {
 const initialState: ProfileState = {
 	id: '',
 	email: '',
-	first_name: '',
-	last_name: '',
+	name: '',
 	onboarded: false,
 	kyc_complete: false,
 	kyc_pan: false,
@@ -23,8 +22,7 @@ export const profileSlice = createSlice({
 		setProfile: (state, action) => {
 			state.id = action.payload.id;
 			state.email = action.payload.email;
-			state.first_name = action.payload.first_name;
-			state.last_name = action.payload.last_name;
+			state.name = action.payload.name;
 			state.onboarded = action.payload.onboarded;
 			state.kyc_complete = action.payload.kyc_complete;
 			state.kyc_pan = action.payload.kyc_pan;
@@ -33,8 +31,7 @@ export const profileSlice = createSlice({
 		clearProfile: (state) => {
 			state.id = '';
 			state.email = '';
-			state.first_name = '';
-			state.last_name = '';
+			state.name = '';
 			state.onboarded = false;
 			state.kyc_complete = false;
 			state.kyc_pan = false;

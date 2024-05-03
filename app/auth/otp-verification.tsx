@@ -9,7 +9,7 @@ import {
 	Footer,
 	Loader,
 } from '../../components';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { COLORS, ICONS } from '../../constants';
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -17,7 +17,6 @@ import {
 	loginOtpVerify,
 	loginOtpVerifySetError,
 } from '../../redux/slices/otpSlice';
-import { setPanError } from '../../redux/slices/panSlice';
 
 const otpVerification = (): React.JSX.Element => {
 	const dispatch = useAppDispatch();
@@ -46,13 +45,6 @@ const otpVerification = (): React.JSX.Element => {
 		}
 	};
 
-	useEffect(() => {
-		return () => {
-			setOtp('');
-			dispatch(setPanError(''));
-		};
-	}, []);
-
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<View style={commonStyles.container}>
@@ -79,13 +71,19 @@ const otpVerification = (): React.JSX.Element => {
 
 				<View>
 					<View style={ButtonStyles.buttonParent}>
-						<CommonButton text={'Next'} onPress={handleSend} />
+						<CommonButton
+							text={'Next'}
+							onPress={handleSend}
+						/>
 					</View>
 
 					<Footer />
 
 					{isVerifying && (
-						<Loader ImagePath={ICONS.mobile} Message={'Verifying number'} />
+						<Loader
+							ImagePath={ICONS.mobile}
+							Message={'Verifying number'}
+						/>
 					)}
 				</View>
 			</View>

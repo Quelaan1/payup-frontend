@@ -8,22 +8,23 @@ const loaderStyles = StyleSheet.create({
 		right: 0,
 		bottom: 0,
 		width: '100%',
-		height: '250%',
 		borderTopRightRadius: 18,
 		borderTopLeftRadius: 18,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: COLORS.LightGray,
+		gap: 10,
 	},
 	text: {
 		fontFamily: 'Regular',
-		fontSize: 10,
+		fontSize: 12,
 		lineHeight: 34,
 		paddingTop: 2,
 	},
 	spinnerContainer: {
 		position: 'absolute',
-		top: Platform.OS === 'ios' ? 69.5 : 81,
+		top: -10,
+		right: -10,
 	},
 });
 

@@ -15,13 +15,13 @@ export const getProfile = async (): Promise<GetProfileResponse> => {
 export const updateProfile = async ({
 	id,
 	email,
-	first_name,
+	name,
 }: UpdateProfileRequest): Promise<UpdateProfileResponse> => {
 	try {
 		return await axiosInstance
 			.put(`api/profile/${id}`, {
 				email,
-				first_name,
+				name,
 			})
 			.then((response) => {
 				return response.data;

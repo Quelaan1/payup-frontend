@@ -14,12 +14,13 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
 	AadhaarOtpRequest,
+	AadhaarVerifyRequest,
 	setAadhaarError,
 	setOtpError,
 } from '../../redux/slices/aadhaarSlice';
+import ErrorAlert from '../../components/common/alerts/errorAlerts';
 
 const Aadhaar = (): React.JSX.Element => {
-	const router = useRouter();
 	const dispatch = useAppDispatch();
 
 	const [aadhaar, setAadhaar] = React.useState('');
@@ -34,6 +35,7 @@ const Aadhaar = (): React.JSX.Element => {
 		isVerifying,
 		entity_type,
 		step,
+		ref_id,
 	} = useAppSelector((state) => state.aadhaar);
 
 	const handleContinue = () => {
@@ -51,12 +53,14 @@ const Aadhaar = (): React.JSX.Element => {
 				})
 			);
 		} else if (step === 2) {
-			if (aadhaar.length !== 6) {
+			if (otp.length !== 6) {
 				dispatch(setOtpError('OTP should be 6 digits'));
 				return;
 			}
 
-			router.push('/auth/secure-app');
+			dispatch(
+				AadhaarVerifyRequest({ entity_id: aadhaar, otp, entity_type, ref_id })
+			);
 		}
 	};
 
@@ -104,9 +108,10 @@ const Aadhaar = (): React.JSX.Element => {
 							editable={!inputDisable}
 							keyboardType='numeric'
 							maxLength={12}
+							autoFocus
 						/>
 
-						{step === 2 && (
+						{step === 2 && !isSendingOtp && (
 							<InputBox
 								error={otpError}
 								placeholder='OTP'
@@ -115,6 +120,7 @@ const Aadhaar = (): React.JSX.Element => {
 								ImagePath={ICONS.otp}
 								keyboardType='numeric'
 								maxLength={6}
+								autoFocus
 							/>
 						)}
 					</View>
@@ -122,15 +128,31 @@ const Aadhaar = (): React.JSX.Element => {
 
 				<View>
 					<View style={ButtonStyles.buttonParent}>
-						<CommonButton text={'Next'} onPress={handleContinue} />
+						<CommonButton
+							text={'Next'}
+							onPress={handleContinue}
+						/>
 					</View>
 
 					{isSendingOtp && (
-						<Loader ImagePath={ICONS.phone} Message={'Sending SMS'} />
+						<Loader
+							ImagePath={ICONS.phone}
+							Message={'Sending SMS'}
+						/>
 					)}
 
 					{isVerifying && (
-						<Loader ImagePath={ICONS.mobile} Message={'Verifying number'} />
+						<Loader
+							ImagePath={ICONS.mobile}
+							Message={'Verifying number'}
+						/>
+					)}
+
+					{error && (
+						<ErrorAlert
+							errorMessage={error}
+							setErrorMessage={setAadhaarError}
+						/>
 					)}
 				</View>
 			</View>

@@ -51,10 +51,18 @@ export const panSlice = createSlice({
 			state.entity_name = '';
 			state.internal_id = '';
 			state.message = '';
-			state.panError = action.payload;
-			state.error = action.payload;
-			state.nameError = action.payload;
-			state.dobError = action.payload;
+			if (action.payload.panError) {
+				state.panError = action.payload.panError;
+			}
+			if (action.payload.nameError) {
+				state.nameError = action.payload.nameError;
+			}
+			if (action.payload.dobError) {
+				state.dobError = action.payload.dobError;
+			}
+			if (action.payload.error) {
+				state.error = action.payload.error;
+			}
 			state.isVerifying = false;
 		},
 		setPanError: (state, action) => {
