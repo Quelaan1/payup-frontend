@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import layoutStyles from '../styles/layout';
 import { Provider } from 'react-redux';
-import { store } from '../redux/store';
+import { persistor, store } from '../redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -65,15 +66,20 @@ export default function Layout() {
 
 	return (
 		<Provider store={store}>
-			<Stack
-				screenOptions={{
-					autoHideHomeIndicator: true,
-					headerTitleAlign: 'center',
-					headerShadowVisible: false,
-					headerBackTitleVisible: false,
-					headerTintColor: 'black',
-				}}
-			/>
+			<PersistGate
+				loading={null}
+				persistor={persistor}>
+				<Stack
+					screenOptions={{
+						autoHideHomeIndicator: true,
+						headerTitleAlign: 'center',
+						headerShadowVisible: false,
+						headerBackTitleVisible: false,
+						headerTintColor: 'black',
+						gestureEnabled: false,
+					}}
+				/>
+			</PersistGate>
 		</Provider>
 	);
 }

@@ -1,4 +1,4 @@
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { COLORS, ICONS } from '../constants';
@@ -14,11 +14,10 @@ import { homeStyles } from '../styles/home.style';
 import CustomCarousel from 'carousel-with-pagination-rn';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { promotionalCards } from '../constants/home/menu';
-import {
-	SafeAreaView,
-	useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { useAppDispatch } from '../redux/hooks';
+import { clearProfile } from '../redux/slices/profileSlice';
 
 const transactions = [
 	{
@@ -68,6 +67,7 @@ const transactions = [
 const Home = () => {
 	const insets = useSafeAreaInsets();
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 
 	const authenticate = async () => {
 		const result = await LocalAuthentication.authenticateAsync();
@@ -135,7 +135,7 @@ const Home = () => {
 				}}>
 				<TouchableOpacity
 					onPress={() => {
-						router.push('/onboard/pre-aadhaar');
+						dispatch(clearProfile());
 					}}>
 					<ICONS.houseOutline
 						width={28}
@@ -143,10 +143,7 @@ const Home = () => {
 					/>
 				</TouchableOpacity>
 
-				<TouchableOpacity
-					onPress={() => {
-						router.push('/auth/phone-number');
-					}}>
+				<TouchableOpacity onPress={() => {}}>
 					<ICONS.transaction
 						width={28}
 						height={28}

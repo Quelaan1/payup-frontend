@@ -1,4 +1,4 @@
-import { createPan, verifyPan } from '../../../utils/apis/onboard/pan';
+import { verifyPan } from '../../../utils/apis/onboard/pan';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
 	AADHAAR_OTP_REQUEST,
@@ -16,7 +16,7 @@ import {
 	setError,
 } from '../../slices/panSlice';
 import { router } from 'expo-router';
-import { setIsLoggedIn, setProfile } from '../../slices/profileSlice';
+import { setProfile } from '../../slices/profileSlice';
 import { updateProfile } from '../../../utils/apis/profile/profile';
 import { AxiosError, AxiosResponse } from 'axios';
 import {
@@ -38,32 +38,24 @@ function* handlePanVerify(action: PanVerifyRequestAction) {
 			action.payload
 		);
 
-		if (response) {
-			if (response.status === 200) {
-				if (!response.name_as_per_pan_match || !response.date_of_birth_match) {
-					if (response.name_as_per_pan_match === false) {
-						yield put(
-							PanVerifyFailure({
-								nameError: 'Name does not match with PAN',
-							})
-						);
-					}
-
-					if (response.date_of_birth_match === false) {
-						yield put(
-							PanVerifyFailure({
-								dobError: 'Date of birth does not match with PAN',
-							})
-						);
-					}
-
-					return;
-				}
-
-				yield put(PanVerifySuccess(response));
-				router.push('/onboard/pre-aadhaar');
-			}
+		const errors: any = {};
+		if (response.name_as_per_pan_match === false) {
+			errors.nameError = 'Name does not match with PAN';
 		}
+		if (response.date_of_birth_match === false) {
+			errors.dobError = 'Date of birth does not match with PAN';
+		}
+
+		// If there are any errors, dispatch failure and exit
+		if (Object.keys(errors).length > 0) {
+			yield put(PanVerifyFailure(errors));
+			return;
+		}
+
+		// If everything is fine, dispatch success and navigate
+		yield put(setProfile(response));
+		yield put(PanVerifySuccess(response));
+		router.push('/onboard/pre-aadhaar');
 	} catch (error) {
 		if ((error as AxiosError).response?.status === 422) {
 			yield put(
@@ -94,12 +86,9 @@ function* handleUserDetailsConfirm(action: PanVerifySuccessAction) {
 
 		yield put(setProfile(profileResponse));
 
-		yield put(setIsLoggedIn(true));
-
 		yield put(setUserDetailsLoading(false));
 
-		// router.push('/auth/secure-app');
-		router.push('/');
+		router.push('/auth/secure-app');
 	} catch (error) {
 		yield put(setUserDetailsLoading(false));
 		yield put(setError('Something went wrong, please try again later'));
@@ -136,7 +125,8 @@ function* handleAadhaarOtpRequest(action: SendAadhaarOtpRequestAction) {
 		) {
 			yield put(
 				AadhaarOtpFailure({
-					error: (err.response?.data as any)?.message || 'Something went wrong',
+					aadhaarError:
+						(err.response?.data as any)?.message || 'Something went wrong',
 				})
 			);
 		} else {

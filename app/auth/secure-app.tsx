@@ -1,6 +1,6 @@
 import { Stack, useNavigation, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
-import { Header, CommonButton } from '../../components';
+import { CommonButton } from '../../components';
 import { COLORS, IMAGES } from '../../constants';
 import commonStyles from '../../styles/common';
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
@@ -9,7 +9,9 @@ import React, { useEffect } from 'react';
 const SecureApp = (): React.JSX.Element => {
 	const router = useRouter();
 
-	const handleContinue = () => {};
+	const handleContinue = () => {
+		router.push('/home');
+	};
 
 	const navigation = useNavigation();
 
@@ -24,7 +26,7 @@ const SecureApp = (): React.JSX.Element => {
 			<Stack.Screen
 				options={{
 					headerShown: false,
-				}}
+			}}
 			/>
 
 			<View>
@@ -38,7 +40,10 @@ const SecureApp = (): React.JSX.Element => {
 						marginTop: 90,
 						marginBottom: 50,
 					}}>
-					<IMAGES.securityImage width={160} height={160} />
+					<IMAGES.securityImage
+						width={160}
+						height={160}
+					/>
 				</View>
 
 				<View>
@@ -49,7 +54,10 @@ const SecureApp = (): React.JSX.Element => {
 			</View>
 
 			<View style={ButtonStyles.buttonParent}>
-				<CommonButton text={'Continue'} onPress={handleContinue} />
+				<CommonButton
+					text={'Continue'}
+					onPress={handleContinue}
+				/>
 			</View>
 		</View>
 	);

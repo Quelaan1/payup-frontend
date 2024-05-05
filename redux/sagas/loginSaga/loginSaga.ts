@@ -60,11 +60,12 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 		// Handle success state
 		yield put(loginOtpVerifySuccess());
 
+		yield put(setIsLoggedIn(true));
+
 		if (profileData.kyc_complete) {
-			yield put(setIsLoggedIn(true));
-			router.push('/');
+			router.push('/auth/secure-app');
 			return;
-		} else if (profileData.kyc_pan) {
+		} else if (!profileData.kyc_complete && profileData.kyc_pan) {
 			router.push('/onboard/aadhaar');
 			return;
 		}

@@ -1,4 +1,9 @@
-import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
+import {
+	Keyboard,
+	StyleSheet,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native';
 import commonStyles from '../../styles/common';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import {
@@ -30,17 +35,13 @@ const otpVerification = (): React.JSX.Element => {
 
 	const handleSend = async () => {
 		if (phoneNumber) {
-			const OTP = Object.values(otp)
-				.map((value) => value)
-				.join('');
-
-			if (OTP.length !== 6) {
+			if (otp.length !== 6) {
 				setOtpError('Please enter a valid OTP');
 			} else {
 				dispatch(
 					loginOtpVerify({
 						phoneNumber: phoneNumber as unknown as string,
-						otp: OTP,
+						otp,
 					})
 				);
 			}
@@ -58,21 +59,51 @@ const otpVerification = (): React.JSX.Element => {
 					options={{
 						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderProgress progress={'one'} />,
+						headerStyle: {
+							backgroundColor: loginOtpVerifyError
+								? 'rgba(0, 0, 0, 0.2)'
+								: 'white',
+						},
 					}}
 				/>
 
-				<View>
+				<View
+					style={{
+						gap: 30,
+					}}>
 					<Header
 						title={'Verify your phone number'}
 						description={'Enter the OTP you received'}
 					/>
 
-					<OTPInput
-						error={otpError}
-						value={otp}
-						digits={6}
-						setValue={setOtp}
-					/>
+					<View style={{ gap: 10 }}>
+						<OTPInput
+							value={otp}
+							setValue={setOtp}
+							digits={6}
+							error={otpError}
+						/>
+
+						{/* <View style={styles.container}>
+							<Text style={{ ...styles.buttonText, marginLeft: 8 }}>
+								{isButtonDisabled && `Time Remaining ${formatTime(timer)}`}
+							</Text>
+
+							<TouchableOpacity
+								onPress={handleResendClick}
+								disabled={isButtonDisabled}
+								style={styles.button}>
+								<Text
+									style={{
+										...styles.buttonText,
+										marginRight: 10,
+										color: isButtonDisabled ? COLORS.LightGray : '#31363F',
+									}}>
+									Resend OTP
+								</Text>
+							</TouchableOpacity>
+						</View> */}
+					</View>
 				</View>
 
 				<View>
@@ -93,13 +124,33 @@ const otpVerification = (): React.JSX.Element => {
 					)}
 				</View>
 
-				<ErrorAlert
-					errorMessage={loginOtpVerifyError}
-					setErrorMessage={handleClearError}
-				/>
+				{loginOtpVerifyError && (
+					<ErrorAlert
+						errorMessage={loginOtpVerifyError}
+						setErrorMessage={handleClearError}
+					/>
+				)}
 			</View>
 		</TouchableWithoutFeedback>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		display: 'flex',
+		flexDirection: 'row',
+		width: '100%',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	button: {
+		padding: 10,
+		borderRadius: 5,
+	},
+	buttonText: {
+		color: '#31363F',
+		fontSize: 15,
+	},
+});
 
 export default otpVerification;

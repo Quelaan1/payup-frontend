@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface ProfileState extends GetProfileResponse {
+export interface ProfileState extends GetProfileResponse {
 	isLoggedIn: boolean;
+	appLocked: boolean;
 }
 
 const initialState: ProfileState = {
@@ -13,6 +14,7 @@ const initialState: ProfileState = {
 	kyc_pan: false,
 	kyc_uidai: false,
 	isLoggedIn: false,
+	appLocked: false,
 };
 
 export const profileSlice = createSlice({
@@ -34,12 +36,17 @@ export const profileSlice = createSlice({
 			state.name = '';
 			state.onboarded = false;
 			state.kyc_complete = false;
+			state.isLoggedIn = false;
+			state.appLocked = false;
 			state.kyc_pan = false;
 			state.kyc_uidai = false;
 		},
 		UserDetailsConfirmRequest: (state, action) => {},
 		setIsLoggedIn: (state, action) => {
 			state.isLoggedIn = action.payload;
+		},
+		setAppLocked: (state, action) => {
+			state.appLocked = action.payload;
 		},
 	},
 });
@@ -49,6 +56,7 @@ export const {
 	clearProfile,
 	UserDetailsConfirmRequest,
 	setIsLoggedIn,
+	setAppLocked,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

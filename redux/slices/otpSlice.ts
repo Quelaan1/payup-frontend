@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface OtpState {
+export interface OtpState {
 	isSendingSMS: boolean;
 	isVerifying: boolean;
 	loginOtpRequestError: string | null;

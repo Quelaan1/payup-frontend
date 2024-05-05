@@ -1,6 +1,6 @@
 import { Keyboard, TouchableWithoutFeedback, View, Text } from 'react-native';
 import commonStyles from '../../styles/common';
-import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import {
 	Header,
 	CommonButton,
@@ -32,12 +32,10 @@ const UserDetails = (): React.JSX.Element => {
 	};
 
 	const handleSend = () => {
-		if (!validateEmail(email)) {
-			setEmailError('Please enter a valid email address');
+		if (emailError) {
 			return;
 		}
 
-		setEmailError('');
 		dispatch(UserDetailsConfirmRequest({ email, first_name: userName }));
 	};
 
@@ -91,6 +89,8 @@ const UserDetails = (): React.JSX.Element => {
 									keyboardType={'default'}
 									autoFocus
 									error={emailError}
+									setError={setEmailError}
+									validator={validateEmail}
 								/>
 							</View>
 						</View>

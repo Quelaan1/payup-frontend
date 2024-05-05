@@ -6,10 +6,8 @@ interface VerifyPanRequest {
 	consent: 'y' | 'n';
 }
 
-interface VerifyPanResponse extends VerifyPanRequest {
+interface VerifyPanResponse extends GetProfileResponse {
 	message?: string;
-	entity_name: string;
-	internal_id: string;
 	name_as_per_pan_match: boolean;
 	date_of_birth_match: boolean;
 }

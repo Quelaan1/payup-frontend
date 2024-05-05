@@ -1,4 +1,4 @@
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import {
 	Header,
@@ -19,6 +19,10 @@ import {
 	setOtpError,
 } from '../../redux/slices/aadhaarSlice';
 import ErrorAlert from '../../components/common/alerts/errorAlerts';
+import {
+	validateAadhaar,
+	validateAadhaarOtp,
+} from '../../utils/validators/validators';
 
 const Aadhaar = (): React.JSX.Element => {
 	const dispatch = useAppDispatch();
@@ -40,8 +44,7 @@ const Aadhaar = (): React.JSX.Element => {
 
 	const handleContinue = () => {
 		if (step === 1) {
-			if (aadhaar.length !== 12) {
-				dispatch(setAadhaarError('Aadhaar number should be 12 digits'));
+			if (aadhaarError) {
 				return;
 			}
 
@@ -53,8 +56,7 @@ const Aadhaar = (): React.JSX.Element => {
 				})
 			);
 		} else if (step === 2) {
-			if (otp.length !== 6) {
-				dispatch(setOtpError('OTP should be 6 digits'));
+			if (otpError) {
 				return;
 			}
 
@@ -70,6 +72,18 @@ const Aadhaar = (): React.JSX.Element => {
 		} else if (step === 2) {
 			setOtp(text);
 		}
+	};
+
+	const handleSetAadhaarError = (error: string | null) => {
+		dispatch(setAadhaarError(error));
+	};
+
+	const handleSetAadhaarOtpError = (error: string | null) => {
+		dispatch(setOtpError(error));
+	};
+
+	const onValidation = () => {
+		Keyboard.dismiss();
 	};
 
 	return (
@@ -101,12 +115,15 @@ const Aadhaar = (): React.JSX.Element => {
 						}}>
 						<InputBox
 							error={aadhaarError}
+							setError={handleSetAadhaarError}
 							placeholder='Aadhaar number'
 							value={aadhaar}
 							onChangeText={handleChange}
 							ImagePath={ICONS.aadhaar}
 							editable={!inputDisable}
 							keyboardType='numeric'
+							validator={validateAadhaar}
+							onValidation={onValidation}
 							maxLength={12}
 							autoFocus
 						/>
@@ -114,11 +131,14 @@ const Aadhaar = (): React.JSX.Element => {
 						{step === 2 && !isSendingOtp && (
 							<InputBox
 								error={otpError}
+								setError={handleSetAadhaarOtpError}
 								placeholder='OTP'
 								value={otp}
 								onChangeText={handleChange}
 								ImagePath={ICONS.otp}
 								keyboardType='numeric'
+								validator={validateAadhaarOtp}
+								onValidation={onValidation}
 								maxLength={6}
 								autoFocus
 							/>

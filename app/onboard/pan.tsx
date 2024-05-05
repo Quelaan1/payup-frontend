@@ -15,7 +15,7 @@ import {
 	Loader,
 	InfoCard,
 } from '../../components';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { COLORS, ICONS } from '../../constants';
 import Styles from '../../components/common/inputBox/inputBox.style';
 import { points } from '../../constants/onboard/GstInfo';
@@ -25,7 +25,6 @@ import { useDispatch } from 'react-redux';
 import {
 	PanVerifyRequest,
 	setError,
-	setIsVerifying,
 	setPanError,
 } from '../../redux/slices/panSlice';
 import inputBoxStyles from '../../components/common/inputBox/inputBox.style';
@@ -33,14 +32,17 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import footerStyles from '../../components/common/footer/footer.style';
 import { formatDate } from '../../utils/formatters/dateFormatter';
-import infoBoxStyles from '../../components/common/infoBox/infoBox.style';
 import ErrorAlert from '../../components/common/alerts/errorAlerts';
+import { validatePAN } from '../../utils/validators/validators';
 
 const Pan = (): React.JSX.Element => {
 	const dispatch = useDispatch();
 	const [pan, setPan] = React.useState('');
 	const [name, setName] = React.useState('');
 	const [date, setDate] = React.useState<String | null>(null);
+	const [unFormattedDate, setUnFormattedDate] = React.useState<
+		Date | undefined
+	>(undefined);
 	const [consent, setConsent] = React.useState(false);
 
 	const [showInfoCard, setShowInfoCard] = useState(false);
@@ -48,12 +50,8 @@ const Pan = (): React.JSX.Element => {
 	const { panError, nameError, dobError, error, isVerifying, entity_type } =
 		useAppSelector((state) => state.pan);
 
-	const onChangePan = (value: string) => {
-		setPan(value);
-	};
-
-	const onChangeName = (value: string) => {
-		setName(value);
+	const handlePanError = (error: string | null) => {
+		dispatch(setPanError(error));
 	};
 
 	const handleInfoPress = () => {
@@ -106,19 +104,13 @@ const Pan = (): React.JSX.Element => {
 
 	const handleConfirm = (date: Date) => {
 		setDate(formatDate(date));
+		setUnFormattedDate(date);
 		hideDatePicker();
 	};
 
-	useEffect(() => {
-		return () => {
-			setPan('');
-			setName('');
-			setDate(null);
-			setConsent(false);
-			dispatch(setIsVerifying(''));
-			dispatch(setPanError(''));
-		};
-	}, []);
+	const handleNoConsent = () => {
+		dispatch(setError('You need to consent to continue'));
+	};
 
 	return (
 		<TouchableWithoutFeedback onPress={handleOutsidePress}>
@@ -146,8 +138,10 @@ const Pan = (): React.JSX.Element => {
 								placeholder={'GSTIN or PAN'}
 								keyboardType={'default'}
 								error={panError}
-								onChangeText={onChangePan}
+								setError={handlePanError}
+								onChangeText={setPan}
 								autoCapitalize='characters'
+								validator={validatePAN}
 								autoFocus
 							/>
 
@@ -167,7 +161,7 @@ const Pan = (): React.JSX.Element => {
 							keyboardType={'default'}
 							autoCapitalize='characters'
 							error={nameError}
-							onChangeText={onChangeName}
+							onChangeText={setName}
 						/>
 
 						<View style={inputBoxStyles.container}>
@@ -185,6 +179,7 @@ const Pan = (): React.JSX.Element => {
 						<DateTimePickerModal
 							isVisible={isDatePickerVisible}
 							mode='date'
+							date={unFormattedDate}
 							themeVariant='light'
 							display='inline'
 							onConfirm={handleConfirm}
@@ -225,9 +220,8 @@ const Pan = (): React.JSX.Element => {
 
 					<View style={ButtonStyles.buttonParent}>
 						<CommonButton
-							disabled={!consent}
 							text={'Next'}
-							onPress={handleNext}
+							onPress={consent ? handleNext : handleNoConsent}
 						/>
 					</View>
 

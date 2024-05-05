@@ -1,13 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { Stack, useRouter } from 'expo-router';
-import { IntroCards, CommonButton, ScreenHeaderTitle } from '../components';
-import { COLORS, IMAGES } from '../constants';
-import commonStyles from '../styles/common';
-import ButtonStyles from '../components/common/buttons/commonButton/commonButton.style';
+import { IntroCards, CommonButton, ScreenHeaderTitle } from '../../components';
+import { COLORS, IMAGES } from '../../constants';
+import commonStyles from '../../styles/common';
+import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
 import CustomCarousel from 'carousel-with-pagination-rn';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { startupCards } from '../constants/get-started/get-started';
+import { startupCards } from '../../constants/get-started/get-started';
 
 const GetStarted = (): React.JSX.Element => {
 	const router = useRouter();

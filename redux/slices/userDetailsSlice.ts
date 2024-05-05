@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface UserDetailsState {
+export interface UserDetailsState {
 	loading: boolean;
 	error: string | null;
 }

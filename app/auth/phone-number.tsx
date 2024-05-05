@@ -1,6 +1,6 @@
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { Stack } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Header,
 	ScreenHeaderProgress,
@@ -18,26 +18,22 @@ import {
 	loginOtpRequestSetError,
 } from '../../redux/slices/otpSlice';
 import ErrorAlert from '../../components/common/alerts/errorAlerts';
+import { validatePhoneNumber } from '../../utils/validators/validators';
 
 const phoneNumber = (): React.JSX.Element => {
 	const [phoneNumber, setPhoneNumber] = React.useState('');
-	const [phoneNumberError, setPhoneNumberError] = React.useState('');
+	const [phoneNumberError, setPhoneNumberError] = React.useState<string | null>(
+		null
+	);
 	const { isSendingSMS, loginOtpRequestError } = useAppSelector(
 		(state) => state.loginOtp
 	);
 	const dispatch = useAppDispatch();
 
 	const onChange = (value: string) => {
-		if (value.length !== 10) {
-			setPhoneNumberError('Please enter a valid phone number');
+		if (typeof value === 'string' && !isNaN(Number(value))) {
+			setPhoneNumber(value);
 		}
-
-		if (value.length === 10) {
-			setPhoneNumberError('');
-			Keyboard.dismiss();
-		}
-
-		setPhoneNumber(value);
 	};
 
 	const handleSend = () => {
@@ -53,6 +49,10 @@ const phoneNumber = (): React.JSX.Element => {
 		dispatch(loginOtpRequestSetError(null));
 	};
 
+	const handleOnValidation = () => {
+		Keyboard.dismiss();
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<View style={commonStyles.container}>
@@ -60,6 +60,11 @@ const phoneNumber = (): React.JSX.Element => {
 					options={{
 						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderProgress progress={'zero'} />,
+						headerStyle: {
+							backgroundColor: loginOtpRequestError
+								? 'rgba(0, 0, 0, 0.2)'
+								: 'white',
+						},
 					}}
 				/>
 
@@ -78,7 +83,22 @@ const phoneNumber = (): React.JSX.Element => {
 							onChangeText={onChange}
 							value={phoneNumber}
 							error={phoneNumberError}
+							setError={setPhoneNumberError}
 							keyboardType={'number-pad'}
+							maxLength={10}
+							autoComplete='tel'
+							onKeyPress={(e) => {
+								const sanitizedValue = e.nativeEvent.key.replace(/[- ]/g, '');
+
+								if (
+									!isNaN(Number(sanitizedValue)) &&
+									sanitizedValue.length === 10
+								) {
+									setPhoneNumber(sanitizedValue);
+								}
+							}}
+							validator={validatePhoneNumber}
+							onValidation={handleOnValidation}
 							autoFocus
 						/>
 					</View>
@@ -103,10 +123,12 @@ const phoneNumber = (): React.JSX.Element => {
 					)}
 				</View>
 
-				<ErrorAlert
-					errorMessage={loginOtpRequestError}
-					setErrorMessage={handleClearError}
-				/>
+				{loginOtpRequestError && (
+					<ErrorAlert
+						errorMessage={loginOtpRequestError}
+						setErrorMessage={handleClearError}
+					/>
+				)}
 			</View>
 		</TouchableWithoutFeedback>
 	);

@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface AadhaarState extends SendAadhaarOtpRequest, SendAadhaarOtpResponse {
+export interface AadhaarState
+	extends SendAadhaarOtpRequest,
+		SendAadhaarOtpResponse {
 	isVerifying: boolean;
 	isSendingOtp: boolean;
 	error: string;
-	aadhaarError: string;
-	otpError: string;
+	aadhaarError: string | null;
+	otpError: string | null;
 	step: 1 | 2;
 }
 
@@ -37,18 +39,22 @@ export const aadhaarSlice = createSlice({
 		AadhaarOtpRequest: (state, action) => {
 			state.entity_id = action.payload.entity_id;
 			state.isSendingOtp = true;
-			state.step = 2;
 		},
 		AadhaarOtpSuccess: (state, action) => {
 			state.entity_id = action.payload.entity_id;
 			state.ref_id = action.payload.ref_id;
 			state.isSendingOtp = false;
+			state.step = 2;
 		},
 		AadhaarOtpFailure: (state, action) => {
 			state.entity_id = '';
 			state.ref_id = '';
-			state.error = action.payload;
-			state.aadhaarError = action.payload;
+			if (action.payload.error) {
+				state.error = action.payload.error;
+			}
+			if (action.payload.aadhaarError) {
+				state.aadhaarError = action.payload.aadhaarError;
+			}
 			state.isSendingOtp = false;
 			state.step = 1;
 		},
@@ -61,8 +67,12 @@ export const aadhaarSlice = createSlice({
 		AadhaarVerifyFailure: (state, action) => {
 			state.entity_id = '';
 			state.ref_id = '';
-			state.error = action.payload;
-			state.otpError = action.payload;
+			if (action.payload.error) {
+				state.error = action.payload.error;
+			}
+			if (action.payload.otpError) {
+				state.otpError = action.payload.otpError;
+			}
 			state.isVerifying = false;
 		},
 		setAadhaarError: (state, action) => {
