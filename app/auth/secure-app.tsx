@@ -5,12 +5,39 @@ import { COLORS, IMAGES } from '../../constants';
 import commonStyles from '../../styles/common';
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
 import React, { useEffect } from 'react';
+import * as LocalAuthentication from 'expo-local-authentication';
+import ErrorAlert from '../../components/common/alerts/errorAlerts';
+import { useAppDispatch } from '../../redux/hooks';
+import { setAppLocked } from '../../redux/slices/profileSlice';
 
 const SecureApp = (): React.JSX.Element => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 
-	const handleContinue = () => {
-		router.push('/home');
+	const [error, setError] = React.useState<string | undefined>(undefined);
+
+	const handleContinue = async () => {
+		const securityLevel = await LocalAuthentication.getEnrolledLevelAsync();
+
+		if (securityLevel === 0) {
+			setError(
+				'Your device has no screen-lock, Please use screen-lock to continue using the app.'
+			);
+			return;
+		}
+
+		const result = await LocalAuthentication.authenticateAsync({
+			promptMessage: 'Login with Biometrics',
+		});
+
+		if (result.success) {
+			dispatch(setAppLocked(true));
+			router.push('/home');
+		} else {
+			setError(
+				"Authentication failed, To protect your data you can only access the app when it's unlocked"
+			);
+		}
 	};
 
 	const navigation = useNavigation();
@@ -26,7 +53,7 @@ const SecureApp = (): React.JSX.Element => {
 			<Stack.Screen
 				options={{
 					headerShown: false,
-			}}
+				}}
 			/>
 
 			<View>
@@ -59,6 +86,13 @@ const SecureApp = (): React.JSX.Element => {
 					onPress={handleContinue}
 				/>
 			</View>
+
+			{error && (
+				<ErrorAlert
+					errorMessage={error}
+					setErrorMessage={setError}
+				/>
+			)}
 		</View>
 	);
 };

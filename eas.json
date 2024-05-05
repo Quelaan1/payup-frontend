@@ -5,7 +5,12 @@
 				"buildType": "apk"
 			}
 		},
-		"production": {},
+		"production": {
+			"env": {
+				"EXPO_BASE_URL": "https://api.payup.turtlebyte.in/",
+				"EXPO_PUBLIC_MOCK_AXIOS": "false"
+			}
+		},
 		"development-simulator": {
 			"developmentClient": true,
 			"distribution": "internal",

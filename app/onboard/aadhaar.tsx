@@ -16,7 +16,9 @@ import {
 	AadhaarOtpRequest,
 	AadhaarVerifyRequest,
 	setAadhaarError,
+	setError,
 	setOtpError,
+	setStep,
 } from '../../redux/slices/aadhaarSlice';
 import ErrorAlert from '../../components/common/alerts/errorAlerts';
 import {
@@ -66,12 +68,15 @@ const Aadhaar = (): React.JSX.Element => {
 		}
 	};
 
-	const handleChange = (text: string) => {
-		if (step === 1) {
-			setAadhaar(text);
-		} else if (step === 2) {
-			setOtp(text);
+	const handleChangeAadhaar = (text: string) => {
+		if (step === 2) {
+			dispatch(setStep(1));
 		}
+		setAadhaar(text);
+	};
+
+	const handleChangeOtp = (text: string) => {
+		setOtp(text);
 	};
 
 	const handleSetAadhaarError = (error: string | null) => {
@@ -80,6 +85,10 @@ const Aadhaar = (): React.JSX.Element => {
 
 	const handleSetAadhaarOtpError = (error: string | null) => {
 		dispatch(setOtpError(error));
+	};
+
+	const handleSetError = (error: string | undefined) => {
+		dispatch(setError(error));
 	};
 
 	const onValidation = () => {
@@ -118,7 +127,7 @@ const Aadhaar = (): React.JSX.Element => {
 							setError={handleSetAadhaarError}
 							placeholder='Aadhaar number'
 							value={aadhaar}
-							onChangeText={handleChange}
+							onChangeText={handleChangeAadhaar}
 							ImagePath={ICONS.aadhaar}
 							editable={!inputDisable}
 							keyboardType='numeric'
@@ -134,7 +143,7 @@ const Aadhaar = (): React.JSX.Element => {
 								setError={handleSetAadhaarOtpError}
 								placeholder='OTP'
 								value={otp}
-								onChangeText={handleChange}
+								onChangeText={handleChangeOtp}
 								ImagePath={ICONS.otp}
 								keyboardType='numeric'
 								validator={validateAadhaarOtp}
@@ -171,7 +180,7 @@ const Aadhaar = (): React.JSX.Element => {
 					{error && (
 						<ErrorAlert
 							errorMessage={error}
-							setErrorMessage={setAadhaarError}
+							setErrorMessage={handleSetError}
 						/>
 					)}
 				</View>

@@ -15,7 +15,6 @@ import CustomCarousel from 'carousel-with-pagination-rn';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { promotionalCards } from '../constants/home/menu';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import * as LocalAuthentication from 'expo-local-authentication';
 import { useAppDispatch } from '../redux/hooks';
 import { clearProfile } from '../redux/slices/profileSlice';
 
@@ -68,15 +67,6 @@ const Home = () => {
 	const insets = useSafeAreaInsets();
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-
-	const authenticate = async () => {
-		const result = await LocalAuthentication.authenticateAsync();
-		console.log(result);
-	};
-
-	useEffect(() => {
-		// authenticate();
-	}, []);
 
 	return (
 		<View

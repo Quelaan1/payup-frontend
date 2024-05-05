@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { set } from 'lodash';
 
 export interface AadhaarState
 	extends SendAadhaarOtpRequest,
@@ -65,8 +66,6 @@ export const aadhaarSlice = createSlice({
 			state.isVerifying = false;
 		},
 		AadhaarVerifyFailure: (state, action) => {
-			state.entity_id = '';
-			state.ref_id = '';
 			if (action.payload.error) {
 				state.error = action.payload.error;
 			}
@@ -81,8 +80,14 @@ export const aadhaarSlice = createSlice({
 		setOtpError: (state, action) => {
 			state.otpError = action.payload;
 		},
+		setError: (state, action) => {
+			state.error = action.payload;
+		},
 		setIsVerifying: (state, action) => {
 			state.isVerifying = action.payload;
+		},
+		setStep: (state, action) => {
+			state.step = action.payload;
 		},
 	},
 });
@@ -98,6 +103,8 @@ export const {
 	setOtpError,
 	setIsVerifying,
 	AadhaarVerifyRequest,
+	setStep,
+	setError,
 } = aadhaarSlice.actions;
 
 export default aadhaarSlice.reducer;

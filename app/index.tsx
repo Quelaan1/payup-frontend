@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import GetStarted from './onboard/get-started';
 import Home from './home';
-import { useAppSelector } from '../redux/hooks';
-import { useRouter } from 'expo-router';
-import { View } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { Stack, useRouter } from 'expo-router';
+import { Image, View } from 'react-native';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { setUnlocked } from '../redux/slices/profileSlice';
 
 const Index = () => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 
 	const {
 		isLoggedIn,
@@ -16,21 +18,32 @@ const Index = () => {
 		kyc_uidai,
 		email,
 		name,
+		unlocked,
 	} = useAppSelector((state) => state.profile);
 
+	const handleAuthenticate = async () => {
+		const securityLevel = await LocalAuthentication.getEnrolledLevelAsync();
+
+		if (securityLevel === 0) {
+			router.replace('/auth/login-failed?securityLevel=0');
+			return;
+		}
+
+		const result = await LocalAuthentication.authenticateAsync({
+			promptMessage: 'Login with Biometrics',
+		});
+
+		if (result.success) {
+			dispatch(setUnlocked(true));
+		} else {
+			router.replace('/auth/login-failed');
+		}
+	};
+
 	useEffect(() => {
-		console.log(
-			'isLoggedIn',
-			isLoggedIn,
-			'appLocked',
-			appLocked,
-			'kyc_complete',
-			kyc_complete,
-			'kyc_pan',
-			kyc_pan,
-			'kyc_uidai',
-			kyc_uidai
-		);
+		if (isLoggedIn && appLocked && !unlocked) {
+			handleAuthenticate();
+		}
 
 		if (kyc_complete && !email) {
 			setTimeout(() => {
@@ -67,7 +80,7 @@ const Index = () => {
 	}, []);
 
 	if (isLoggedIn) {
-		if (kyc_complete && appLocked) {
+		if (kyc_complete && appLocked && unlocked) {
 			return (
 				<View>
 					<Home />
@@ -75,6 +88,25 @@ const Index = () => {
 			);
 		}
 	}
+
+	return (
+		<View>
+			<Stack.Screen
+				options={{
+					headerStyle: {
+						backgroundColor: '#F9EFE5',
+					},
+					headerTitle: '',
+					gestureEnabled: false,
+				}}
+			/>
+
+			<Image
+				source={require('../assets/splash.png')}
+				style={{ width: '100%', height: '100%' }}
+			/>
+		</View>
+	);
 };
 
 export default Index;
