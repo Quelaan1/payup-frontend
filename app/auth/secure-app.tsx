@@ -1,88 +1,137 @@
-import { Stack, useNavigation, useRouter } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { Stack, useRouter } from 'expo-router';
+import { Text, View } from 'react-native';
 import { CommonButton } from '../../components';
-import { COLORS, IMAGES } from '../../constants';
 import commonStyles from '../../styles/common';
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
 import React, { useEffect } from 'react';
-import * as LocalAuthentication from 'expo-local-authentication';
 import ErrorAlert from '../../components/common/alerts/errorAlerts';
 import { useAppDispatch } from '../../redux/hooks';
 import { setAppLocked } from '../../redux/slices/profileSlice';
+import { handleBiometricAuthentication } from '../../utils/auth/auth';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { IMAGES } from '../../constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { setUnlocked } from '../../redux/slices/auth';
+
+const AuthenticationTypes = {
+	[LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION]: {
+		Image: (
+			<IMAGES.faceId
+				width={94}
+				height={94}
+			/>
+		),
+		Text: 'Face ID',
+	},
+
+	[LocalAuthentication.AuthenticationType.FINGERPRINT]: {
+		Image: (
+			<IMAGES.fingerprint
+				width={94}
+				height={94}
+			/>
+		),
+		Text: 'Fingerprint',
+	},
+
+	[LocalAuthentication.AuthenticationType.IRIS]: {
+		Image: (
+			<IMAGES.iris
+				width={94}
+				height={94}
+			/>
+		),
+		Text: 'IRIS',
+	},
+};
 
 const SecureApp = (): React.JSX.Element => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 
+	const [authenticationType, setAuthenticationType] = React.useState<
+		LocalAuthentication.AuthenticationType[] | null
+	>(null);
 	const [error, setError] = React.useState<string | undefined>(undefined);
 
 	const handleContinue = async () => {
-		const securityLevel = await LocalAuthentication.getEnrolledLevelAsync();
-
-		if (securityLevel === 0) {
-			setError(
-				'Your device has no screen-lock, Please use screen-lock to continue using the app.'
-			);
-			return;
-		}
-
-		const result = await LocalAuthentication.authenticateAsync({
-			promptMessage: 'Login with Biometrics',
+		await handleBiometricAuthentication({
+			dispatch,
+			setAppLocked: (locked: boolean) => dispatch(setAppLocked(locked)),
+			setUnlocked: (locked: boolean) => dispatch(setUnlocked(locked)),
+			setError,
+			router,
+			successRoute: '/',
+			failureRoute: {
+				securityLevelZero: '/auth/login-failed?securityLevel=0',
+				default: '/auth/login-failed',
+			},
+			errorMessages: {
+				noSecurity:
+					'Your device has no screen-lock, Please use screen-lock to continue using the app.',
+				authenticationFailed:
+					"Authentication failed, To protect your data you can only access the app when it's unlocked",
+			},
 		});
-
-		if (result.success) {
-			dispatch(setAppLocked(true));
-			router.push('/home');
-		} else {
-			setError(
-				"Authentication failed, To protect your data you can only access the app when it's unlocked"
-			);
-		}
 	};
 
-	const navigation = useNavigation();
+	const detectSupportedAuthenticationType = async () => {
+		const supportedTypes =
+			await LocalAuthentication.supportedAuthenticationTypesAsync();
+
+		setAuthenticationType(supportedTypes);
+	};
 
 	useEffect(() => {
-		navigation.addListener('beforeRemove', (e) => {
-			e.preventDefault();
-		});
+		detectSupportedAuthenticationType();
 	}, []);
 
 	return (
-		<View style={{ ...commonStyles.container, paddingTop: 50 }}>
+		<SafeAreaView style={{ ...commonStyles.container }}>
 			<Stack.Screen
 				options={{
 					headerShown: false,
 				}}
 			/>
 
-			<View>
-				<View
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignContent: 'center',
-						width: '100%',
-						marginTop: 90,
-						marginBottom: 50,
-					}}>
-					<IMAGES.securityImage
-						width={160}
-						height={160}
-					/>
-				</View>
-
-				<View>
-					<Text style={{ fontSize: 38, fontWeight: '700' }}>
-						{'Protect your\nprivacy'}
-					</Text>
-				</View>
+			<View style={{ paddingTop: 50, paddingLeft: 20 }}>
+				<Text style={{ fontSize: 38, fontWeight: '500' }}>
+					{'Protect your account privacy'}
+				</Text>
 			</View>
 
-			<View style={ButtonStyles.buttonParent}>
+			<View
+				style={{
+					gap: 14,
+					alignItems: 'center',
+				}}>
+				<View
+					style={{
+						alignItems: 'center',
+						gap: 16,
+					}}>
+					{authenticationType &&
+						AuthenticationTypes[authenticationType[0]].Image}
+
+					<Text style={{ fontSize: 23, fontWeight: '500', letterSpacing: 0.5 }}>
+						Login with{' '}
+						{authenticationType &&
+							AuthenticationTypes[authenticationType[0]].Text}
+					</Text>
+				</View>
+
+				<Text
+					style={{ fontSize: 16, fontWeight: '300', paddingHorizontal: 30 }}>
+					We've enabled login via{' '}
+					{authenticationType &&
+						AuthenticationTypes[authenticationType[0]].Text}{' '}
+					for you to access PayUp app the same way you unlock your phone
+				</Text>
+			</View>
+
+			<View style={{ ...ButtonStyles.buttonParent }}>
 				<CommonButton
-					text={'Continue'}
+					text={'Okay'}
 					onPress={handleContinue}
 				/>
 			</View>
@@ -93,27 +142,8 @@ const SecureApp = (): React.JSX.Element => {
 					setErrorMessage={setError}
 				/>
 			)}
-		</View>
+		</SafeAreaView>
 	);
 };
 
 export default SecureApp;
-
-const SecureAppStyles = StyleSheet.create({
-	radio: {
-		display: 'flex',
-		flexDirection: 'row',
-		borderWidth: 1,
-		borderRadius: 4,
-		padding: 12,
-		justifyContent: 'space-between',
-	},
-
-	radioBlackBorder: {
-		borderColor: COLORS.Black,
-	},
-
-	radioGreyBorder: {
-		borderColor: COLORS.LightGray,
-	},
-});

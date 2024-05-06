@@ -58,7 +58,6 @@ const UserDetails = (): React.JSX.Element => {
 				<View>
 					<Stack.Screen
 						options={{
-							navigationBarColor: COLORS.White,
 							headerTitle: () => <ScreenHeaderProgress progress={'two'} />,
 						}}
 					/>
@@ -86,7 +85,8 @@ const UserDetails = (): React.JSX.Element => {
 									onChangeText={onChange}
 									value={email}
 									placeholder={'Email address'}
-									keyboardType={'default'}
+									keyboardType={'email-address'}
+									autoComplete='email'
 									autoFocus
 									error={emailError}
 									setError={setEmailError}

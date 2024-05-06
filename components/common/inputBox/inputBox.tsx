@@ -14,6 +14,7 @@ interface Props extends TextInputProps {
 	) => void | SetStateAction<string | null> | null;
 	validator?: (text: string) => boolean | string;
 	onValidation?: () => void;
+	debounce?: boolean;
 }
 
 const InputBox = memo(function ({
@@ -25,6 +26,7 @@ const InputBox = memo(function ({
 	setError,
 	validator,
 	onValidation,
+	debounce = false,
 	...textInputProps
 }: Props): React.JSX.Element {
 	function useDebounce(value: string, delay: number) {
@@ -62,10 +64,14 @@ const InputBox = memo(function ({
 		}
 	};
 
-	const debouncedSearchTerm = useDebounce(value as unknown as string, 1);
+	let debouncedSearchTerm: string | undefined;
+
+	if (debounce) {
+		debouncedSearchTerm = useDebounce(value as unknown as string, 0);
+	}
 
 	useEffect(() => {
-		if (debouncedSearchTerm) {
+		if (debouncedSearchTerm && debounce) {
 			value && handleTextChange(value);
 		}
 	}, [debouncedSearchTerm]);

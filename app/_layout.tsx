@@ -6,6 +6,7 @@ import layoutStyles from '../styles/layout';
 import { Provider } from 'react-redux';
 import { persistor, store } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { COLORS } from '../constants';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -54,6 +55,7 @@ export default function Layout() {
 				persistor={persistor}>
 				<Stack
 					screenOptions={{
+						navigationBarColor: COLORS.White,
 						autoHideHomeIndicator: true,
 						headerTitleAlign: 'center',
 						headerShadowVisible: false,

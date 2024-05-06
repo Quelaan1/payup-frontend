@@ -21,7 +21,6 @@ const GetStarted = (): React.JSX.Element => {
 			<View>
 				<Stack.Screen
 					options={{
-						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderTitle />,
 						headerStyle: { backgroundColor: COLORS.skinBackground },
 					}}

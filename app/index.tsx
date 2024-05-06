@@ -1,12 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Home from './home';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { Stack, useRouter } from 'expo-router';
-import { Image, View } from 'react-native';
-import * as LocalAuthentication from 'expo-local-authentication';
-import { setUnlocked } from '../redux/slices/profileSlice';
+import { AppState, Image, View } from 'react-native';
+import { handleBiometricAuthentication } from '../utils/auth/auth';
+import { setUnlocked } from '../redux/slices/auth';
 
 const Index = () => {
+	const [appState, setAppState] = useState(AppState.currentState);
+
+	useEffect(() => {
+		console.log('App state: ', appState);
+
+		const subscription = AppState.addEventListener('change', (nextAppState) => {
+			if (appState.match(/inactive|background/) && nextAppState === 'active') {
+				console.log('App has come to the foreground!');
+				handleAuthenticate();
+			} else if (nextAppState === 'background') {
+				dispatch(setUnlocked(false));
+				console.log('App has gone to the background!');
+			}
+			setAppState(nextAppState);
+		});
+
+		return () => {
+			subscription.remove();
+		};
+	}, [appState]);
+
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 
@@ -18,26 +39,27 @@ const Index = () => {
 		kyc_uidai,
 		email,
 		name,
-		unlocked,
 	} = useAppSelector((state) => state.profile);
 
+	const unlocked = useAppSelector((state) => state.auth.unlocked);
+
 	const handleAuthenticate = async () => {
-		const securityLevel = await LocalAuthentication.getEnrolledLevelAsync();
-
-		if (securityLevel === 0) {
-			router.replace('/auth/login-failed?securityLevel=0');
-			return;
-		}
-
-		const result = await LocalAuthentication.authenticateAsync({
-			promptMessage: 'Login with Biometrics',
+		await handleBiometricAuthentication({
+			dispatch,
+			setUnlocked: (unlocked: boolean) => dispatch(setUnlocked(unlocked)),
+			router,
+			checkSecurityLevel: false,
+			successRoute: '/',
+			failureRoute: {
+				securityLevelZero: '/auth/login-failed?securityLevel=0',
+				default: '/auth/login-failed',
+			},
+			errorMessages: {
+				noSecurity:
+					'Your device has no screen-lock, Please use screen-lock to continue using the app.',
+				authenticationFailed: 'Authentication failed. Please try again.',
+			},
 		});
-
-		if (result.success) {
-			dispatch(setUnlocked(true));
-		} else {
-			router.replace('/auth/login-failed');
-		}
 	};
 
 	useEffect(() => {
@@ -97,7 +119,6 @@ const Index = () => {
 						backgroundColor: '#F9EFE5',
 					},
 					headerTitle: '',
-					gestureEnabled: false,
 				}}
 			/>
 

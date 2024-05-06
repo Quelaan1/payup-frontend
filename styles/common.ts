@@ -4,7 +4,6 @@ const commonStyles = StyleSheet.create({
 	container: {
 		backgroundColor: '#fff',
 		display: 'flex',
-		flexDirection: 'column',
 		height: '100%',
 		justifyContent: 'space-between',
 		paddingHorizontal: 20,

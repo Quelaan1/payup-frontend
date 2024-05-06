@@ -1,57 +1,56 @@
 {
-	"expo": {
-		"name": "PayUp",
-		"scheme": "payup",
-		"slug": "PayUp",
-		"version": "1.0.0",
-		"orientation": "portrait",
-		"icon": "./assets/icon.png",
-		"userInterfaceStyle": "light",
-		"backgroundColor": "#FFFFFF",
-		"expo": {
-			"userInterfaceStyle": "automatic"
-		},
-		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "cover",
-			"backgroundColor": "#F9EFE5"
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true,
-			"bundleIdentifier": "com.TurtleByte.PayUp",
-			"config": {
-				"usesNonExemptEncryption": false
-			}
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#FFFFFF"
-			},
-			"package": "com.TurtleByte.PayUp"
-		},
-		"web": {
-			"favicon": "./assets/favicon.png"
-		},
-		"plugins": [
-			"expo-router",
-			[
-				"expo-local-authentication",
-				{
-					"faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID.",
-					"NSFaceIDUsageDescription": "Your privacy and security are important to us. This app uses Face ID to provide secure and quick access to your account, ensuring that only you can access your personal information and features within the app. Face ID data is never stored on our servers and is only used locally on your device to authenticate your identity."
-				}
-			],
-			"expo-secure-store"
-		],
-		"extra": {
-			"router": {
-				"origin": false
-			},
-			"eas": {
-				"projectId": "1aa31e39-ad86-4107-8178-75e0a9b96e64"
-			}
-		}
-	}
+  "expo": {
+    "name": "PayUp",
+    "scheme": "payup",
+    "slug": "PayUp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FFFFFF",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#F9EFE5"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.TurtleByte.PayUp",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.TurtleByte.PayUp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID.",
+          "NSFaceIDUsageDescription": "Your privacy and security are important to us. This app uses Face ID to provide secure and quick access to your account, ensuring that only you can access your personal information and features within the app. Face ID data is never stored on our servers and is only used locally on your device to authenticate your identity."
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1aa31e39-ad86-4107-8178-75e0a9b96e64"
+      }
+    }
+  }
 }

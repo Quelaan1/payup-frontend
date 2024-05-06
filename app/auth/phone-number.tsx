@@ -19,6 +19,7 @@ import {
 } from '../../redux/slices/otpSlice';
 import ErrorAlert from '../../components/common/alerts/errorAlerts';
 import { validatePhoneNumber } from '../../utils/validators/validators';
+import { extractPhoneNumber } from '../../utils/formatters/phoneFormatter';
 
 const phoneNumber = (): React.JSX.Element => {
 	const [phoneNumber, setPhoneNumber] = React.useState('');
@@ -31,8 +32,12 @@ const phoneNumber = (): React.JSX.Element => {
 	const dispatch = useAppDispatch();
 
 	const onChange = (value: string) => {
-		if (typeof value === 'string' && !isNaN(Number(value))) {
-			setPhoneNumber(value);
+		let temp = value;
+
+		if (/\D/.test(value)) temp = extractPhoneNumber(value);
+
+		if (temp.length <= 10) {
+			setPhoneNumber(temp);
 		}
 	};
 
@@ -58,7 +63,6 @@ const phoneNumber = (): React.JSX.Element => {
 			<View style={commonStyles.container}>
 				<Stack.Screen
 					options={{
-						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderProgress progress={'zero'} />,
 						headerStyle: {
 							backgroundColor: loginOtpRequestError
@@ -85,10 +89,10 @@ const phoneNumber = (): React.JSX.Element => {
 							error={phoneNumberError}
 							setError={setPhoneNumberError}
 							keyboardType={'number-pad'}
-							maxLength={10}
 							autoComplete='tel'
+							importantForAutofill='yes'
 							onKeyPress={(e) => {
-								const sanitizedValue = e.nativeEvent.key.replace(/[- ]/g, '');
+								const sanitizedValue = extractPhoneNumber(e.nativeEvent.key);
 
 								if (
 									!isNaN(Number(sanitizedValue)) &&

@@ -17,17 +17,19 @@ import {
 	REGISTER,
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authSlice } from './slices/auth';
 
 const persistConfig = {
 	key: 'root',
 	storage: AsyncStorage,
-	whitelist: ['profile'], // List of reducers you want to persist
+	whitelist: ['profile'],
 };
 
 const sagaMiddleware = createSagaMiddleware();
 
 // Combine reducers as usual
 const rootReducer = combineReducers({
+	auth: authSlice.reducer,
 	profile: profileSlice.reducer,
 	loginOtp: loginOtpSlice.reducer,
 	pan: panSlice.reducer,

@@ -77,7 +77,6 @@ const Home = () => {
 			}}>
 			<Stack.Screen
 				options={{
-					navigationBarColor: COLORS.White,
 					headerTintColor: COLORS.Black,
 					headerStyle: {
 						backgroundColor: COLORS.grayBackground,
@@ -85,7 +84,6 @@ const Home = () => {
 					headerTitle: '',
 					headerLeft: () => <HeaderLeft />,
 					headerRight: () => <HeaderRight />,
-					gestureEnabled: false,
 				}}
 			/>
 

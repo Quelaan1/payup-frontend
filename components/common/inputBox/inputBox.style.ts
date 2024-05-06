@@ -8,6 +8,7 @@ const inputBoxStyles = StyleSheet.create({
 	},
 
 	InputContainer: {
+		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%',
 	},
@@ -32,7 +33,6 @@ const inputBoxStyles = StyleSheet.create({
 	image: {
 		position: 'absolute',
 		right: 10,
-		top: 10,
 	},
 
 	inputError: {

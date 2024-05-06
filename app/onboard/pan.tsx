@@ -4,6 +4,7 @@ import {
 	View,
 	TouchableOpacity,
 	Text,
+	Platform,
 } from 'react-native';
 import commonStyles from '../../styles/common';
 import { Stack } from 'expo-router';
@@ -36,6 +37,11 @@ import ErrorAlert from '../../components/common/alerts/errorAlerts';
 import { validatePAN } from '../../utils/validators/validators';
 
 const Pan = (): React.JSX.Element => {
+	const textColor = Platform.select({
+		ios: '#C7C7CD', // typical placeholder color for iOS
+		android: '#757575', // typical placeholder color for Android
+	});
+
 	const dispatch = useDispatch();
 	const [pan, setPan] = React.useState('');
 	const [name, setName] = React.useState('');
@@ -117,7 +123,6 @@ const Pan = (): React.JSX.Element => {
 			<View style={commonStyles.container}>
 				<Stack.Screen
 					options={{
-						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderProgress progress={'two'} />,
 						headerStyle: {
 							backgroundColor: error ? 'rgba(0, 0, 0, 0.2)' : 'white',
@@ -168,7 +173,7 @@ const Pan = (): React.JSX.Element => {
 							<TouchableOpacity
 								style={inputBoxStyles.input}
 								onPress={showDatePicker}>
-								<Text style={{ color: !date ? '#C7C7CD' : COLORS.Black }}>
+								<Text style={{ color: !date ? textColor : COLORS.Black }}>
 									{date ? date : 'Date of birth'}
 								</Text>
 							</TouchableOpacity>

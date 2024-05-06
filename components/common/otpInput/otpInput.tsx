@@ -16,17 +16,11 @@ const OTPInput = ({
 	digits,
 	error,
 }: Props): React.JSX.Element => {
-	const inputref = useRef(null);
-
 	useEffect(() => {
 		if (value.length === digits) {
 			Keyboard.dismiss();
 		}
 	}, [value]);
-
-	useEffect(() => {
-		console.log('inputref: ', inputref.current);
-	}, [inputref]);
 
 	return (
 		<View style={{ gap: 10 }}>
@@ -42,7 +36,6 @@ const OTPInput = ({
 				textInputStyle={{
 					borderBottomWidth: 2,
 				}}
-				ref={inputref}
 				autoFocus
 			/>
 

@@ -100,7 +100,6 @@ const Aadhaar = (): React.JSX.Element => {
 			<View style={commonStyles.container}>
 				<Stack.Screen
 					options={{
-						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderProgress progress={'two'} />,
 					}}
 				/>

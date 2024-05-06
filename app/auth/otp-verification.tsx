@@ -57,7 +57,6 @@ const otpVerification = (): React.JSX.Element => {
 			<View style={commonStyles.container}>
 				<Stack.Screen
 					options={{
-						navigationBarColor: COLORS.White,
 						headerTitle: () => <ScreenHeaderProgress progress={'one'} />,
 						headerStyle: {
 							backgroundColor: loginOtpVerifyError

@@ -22,7 +22,6 @@ const PreAadhaar = (): React.JSX.Element => {
 		<View style={commonStyles.container}>
 			<Stack.Screen
 				options={{
-					navigationBarColor: COLORS.White,
 					headerTitle: () => <ScreenHeaderProgress progress={'two'} />,
 				}}
 			/>
@@ -57,7 +56,10 @@ const PreAadhaar = (): React.JSX.Element => {
 			</View>
 
 			<View style={ButtonStyles.buttonParent}>
-				<CommonButton text={'Next'} onPress={handleContinue} />
+				<CommonButton
+					text={'Next'}
+					onPress={handleContinue}
+				/>
 			</View>
 		</View>
 	);

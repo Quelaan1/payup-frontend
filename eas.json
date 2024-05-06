@@ -3,9 +3,16 @@
 		"preview": {
 			"android": {
 				"buildType": "apk"
+			},
+			"env": {
+				"EXPO_BASE_URL": "https://api.payup.turtlebyte.in/",
+				"EXPO_PUBLIC_MOCK_AXIOS": "false"
 			}
 		},
 		"production": {
+			"android": {
+				"buildType": "apk"
+			},
 			"env": {
 				"EXPO_BASE_URL": "https://api.payup.turtlebyte.in/",
 				"EXPO_PUBLIC_MOCK_AXIOS": "false"
