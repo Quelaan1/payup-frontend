@@ -55,7 +55,7 @@ function* handlePanVerify(action: PanVerifyRequestAction) {
 		// If everything is fine, dispatch success and navigate
 		yield put(setProfile(response));
 		yield put(PanVerifySuccess(response));
-		router.push('/onboard/pre-aadhaar');
+		router.replace('/onboard/pre-aadhaar');
 	} catch (error) {
 		if ((error as AxiosError).response?.status === 422) {
 			yield put(
@@ -88,7 +88,7 @@ function* handleUserDetailsConfirm(action: PanVerifySuccessAction) {
 
 		yield put(setUserDetailsLoading(false));
 
-		router.push('/auth/secure-app');
+		router.replace('/auth/secure-app');
 	} catch (error) {
 		yield put(setUserDetailsLoading(false));
 		yield put(setError('Something went wrong, please try again later'));
@@ -150,7 +150,7 @@ function* handleAadhaarOtpVerify(action: VerifyAadhaarOtpRequestAction) {
 			yield put(setProfile(response));
 			yield put(AadhaarVerifySuccess());
 
-			router.push('/onboard/user-details?userName=' + response.name);
+			router.replace('/onboard/user-details?userName=' + response.name);
 		}
 	} catch (error) {
 		const err = error as AxiosError;

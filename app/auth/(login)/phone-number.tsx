@@ -8,18 +8,18 @@ import {
 	Loader,
 	CommonButton,
 	InputBox,
-} from '../../components';
-import commonStyles from '../../styles/common';
-import { COLORS, ICONS } from '../../constants';
-import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+} from '../../../components';
+import commonStyles from '../../../styles/common';
+import { COLORS, ICONS } from '../../../constants';
+import ButtonStyles from '../../../components/common/buttons/commonButton/commonButton.style';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import {
 	loginOtpRequest,
 	loginOtpRequestSetError,
-} from '../../redux/slices/otpSlice';
-import ErrorAlert from '../../components/common/alerts/errorAlerts';
-import { validatePhoneNumber } from '../../utils/validators/validators';
-import { extractPhoneNumber } from '../../utils/formatters/phoneFormatter';
+} from '../../../redux/slices/otpSlice';
+import ErrorAlert from '../../../components/common/alerts/errorAlerts';
+import { validatePhoneNumber } from '../../../utils/validators/validators';
+import { extractPhoneNumber } from '../../../utils/formatters/phoneFormatter';
 
 const phoneNumber = (): React.JSX.Element => {
 	const [phoneNumber, setPhoneNumber] = React.useState('');
@@ -103,6 +103,7 @@ const phoneNumber = (): React.JSX.Element => {
 							}}
 							validator={validatePhoneNumber}
 							onValidation={handleOnValidation}
+							debounce
 							autoFocus
 						/>
 					</View>

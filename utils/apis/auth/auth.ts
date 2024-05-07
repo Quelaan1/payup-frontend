@@ -24,7 +24,7 @@ export const verifyOTP = async ({
 	try {
 		return await axiosInstance
 			.post(
-				`api/auth/verify/otp`,
+				`api/auth/verify/otp/`,
 				{
 					phone_number: phoneNumber,
 					pin: otp,

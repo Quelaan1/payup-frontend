@@ -1,36 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Home from './home';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { Stack, useRouter } from 'expo-router';
-import { AppState, Image, View } from 'react-native';
+import { AppState, AppStateStatus, Image, View } from 'react-native';
 import { handleBiometricAuthentication } from '../utils/auth/auth';
 import { setUnlocked } from '../redux/slices/auth';
 
 const Index = () => {
 	const [appState, setAppState] = useState(AppState.currentState);
 
-	useEffect(() => {
-		console.log('App state: ', appState);
-
-		const subscription = AppState.addEventListener('change', (nextAppState) => {
-			if (appState.match(/inactive|background/) && nextAppState === 'active') {
-				console.log('App has come to the foreground!');
-				handleAuthenticate();
-			} else if (nextAppState === 'background') {
-				dispatch(setUnlocked(false));
-				console.log('App has gone to the background!');
-			}
-			setAppState(nextAppState);
-		});
-
-		return () => {
-			subscription.remove();
-		};
-	}, [appState]);
-
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-
 	const {
 		isLoggedIn,
 		appLocked,
@@ -49,7 +29,6 @@ const Index = () => {
 			setUnlocked: (unlocked: boolean) => dispatch(setUnlocked(unlocked)),
 			router,
 			checkSecurityLevel: false,
-			successRoute: '/',
 			failureRoute: {
 				securityLevelZero: '/auth/login-failed?securityLevel=0',
 				default: '/auth/login-failed',
@@ -61,6 +40,36 @@ const Index = () => {
 			},
 		});
 	};
+
+	const handleAppStateChange = useCallback(
+		(nextAppState: AppStateStatus) => {
+			if (
+				appState.match(/inactive|background/) &&
+				nextAppState === 'active' &&
+				!unlocked
+			) {
+				handleAuthenticate();
+			} else if (
+				appState === 'active' &&
+				nextAppState.match(/inactive|background/)
+			) {
+				dispatch(setUnlocked(false));
+			}
+			setAppState(nextAppState);
+		},
+		[appState, unlocked, dispatch]
+	);
+
+	useEffect(() => {
+		const subscription = AppState.addEventListener(
+			'change',
+			handleAppStateChange
+		);
+
+		return () => {
+			subscription.remove();
+		};
+	}, [handleAppStateChange]);
 
 	useEffect(() => {
 		if (isLoggedIn && appLocked && !unlocked) {
@@ -119,6 +128,7 @@ const Index = () => {
 						backgroundColor: '#F9EFE5',
 					},
 					headerTitle: '',
+					headerShown: false,
 				}}
 			/>
 

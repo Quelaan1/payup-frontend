@@ -5,10 +5,10 @@ import {
 	CommonButton,
 	ScreenHeaderProgress,
 	InfoBox,
-} from '../../components';
-import { COLORS, IMAGES } from '../../constants';
-import commonStyles from '../../styles/common';
-import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
+} from '../../../components';
+import { IMAGES } from '../../../constants';
+import commonStyles from '../../../styles/common';
+import ButtonStyles from '../../../components/common/buttons/commonButton/commonButton.style';
 import React from 'react';
 
 const PreAadhaar = (): React.JSX.Element => {
@@ -23,6 +23,7 @@ const PreAadhaar = (): React.JSX.Element => {
 			<Stack.Screen
 				options={{
 					headerTitle: () => <ScreenHeaderProgress progress={'two'} />,
+					headerBackVisible: false,
 				}}
 			/>
 

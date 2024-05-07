@@ -37,7 +37,7 @@ export async function handleBiometricAuthentication(
 		if (setAppLocked) {
 			dispatch(setAppLocked(true));
 		}
-		router.replace(successRoute);
+		successRoute && router.replace(successRoute);
 		return true;
 	} else {
 		if (setError) {

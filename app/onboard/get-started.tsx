@@ -14,6 +14,7 @@ const GetStarted = (): React.JSX.Element => {
 
 	const handleNext = () => {
 		router.push('/auth/phone-number');
+		// router.replace('/onboard/pan');
 	};
 
 	return (

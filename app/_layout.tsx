@@ -1,4 +1,4 @@
-import { Stack, SplashScreen } from 'expo-router';
+import { Stack, SplashScreen, useRouter, usePathname } from 'expo-router';
 import * as IBMPlexSans from '@expo-google-fonts/ibm-plex-sans';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
@@ -7,10 +7,17 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { COLORS } from '../constants';
+import ReactNativeInactivity from 'react-native-inactivity';
+import { handleBiometricAuthentication } from '../utils/auth/auth';
+import { setUnlocked } from '../redux/slices/auth';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
+	const dispatch = store.dispatch;
+	const router = useRouter();
+	const pathname = usePathname();
+
 	let [fontsLoaded, fontError] = IBMPlexSans.useFonts({
 		Thin: IBMPlexSans.IBMPlexSans_100Thin,
 		ThinItalic: IBMPlexSans.IBMPlexSans_100Thin_Italic,
@@ -34,6 +41,24 @@ export default function Layout() {
 		}
 	}, [fontsLoaded]);
 
+	const handleAuthenticate = async () => {
+		await handleBiometricAuthentication({
+			dispatch,
+			setUnlocked: (unlocked: boolean) => dispatch(setUnlocked(unlocked)),
+			router,
+			checkSecurityLevel: false,
+			failureRoute: {
+				securityLevelZero: '/auth/login-failed?securityLevel=0',
+				default: '/auth/login-failed',
+			},
+			errorMessages: {
+				noSecurity:
+					'Your device has no screen-lock, Please use screen-lock to continue using the app.',
+				authenticationFailed: 'Authentication failed. Please try again.',
+			},
+		});
+	};
+
 	if (!fontsLoaded && !fontError) {
 		return null;
 	}
@@ -53,17 +78,32 @@ export default function Layout() {
 			<PersistGate
 				loading={null}
 				persistor={persistor}>
-				<Stack
-					screenOptions={{
-						navigationBarColor: COLORS.White,
-						autoHideHomeIndicator: true,
-						headerTitleAlign: 'center',
-						headerShadowVisible: false,
-						headerBackTitleVisible: false,
-						headerTintColor: 'black',
-						gestureEnabled: false,
+				<ReactNativeInactivity
+					onInactive={() => {
+						if (
+							!store.getState().auth.unlocked &&
+							!pathname.includes('/auth') &&
+							!pathname.includes('/onboard')
+						) {
+							dispatch(setUnlocked(false));
+							handleAuthenticate();
+						}
 					}}
-				/>
+					timeForInactivity={30000}
+					restartTimerOnActivityAfterExpiration={true}
+					loop={false}>
+					<Stack
+						screenOptions={{
+							navigationBarColor: COLORS.White,
+							autoHideHomeIndicator: true,
+							headerTitleAlign: 'center',
+							headerShadowVisible: false,
+							headerBackTitleVisible: false,
+							headerTintColor: 'black',
+							gestureEnabled: false,
+						}}
+					/>
+				</ReactNativeInactivity>
 			</PersistGate>
 		</Provider>
 	);

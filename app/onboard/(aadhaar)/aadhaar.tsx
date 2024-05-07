@@ -6,12 +6,12 @@ import {
 	ScreenHeaderProgress,
 	InputBox,
 	Loader,
-} from '../../components';
-import { COLORS, ICONS } from '../../constants';
-import commonStyles from '../../styles/common';
-import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
+} from '../../../components';
+import { COLORS, ICONS } from '../../../constants';
+import commonStyles from '../../../styles/common';
+import ButtonStyles from '../../../components/common/buttons/commonButton/commonButton.style';
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import {
 	AadhaarOtpRequest,
 	AadhaarVerifyRequest,
@@ -19,19 +19,18 @@ import {
 	setError,
 	setOtpError,
 	setStep,
-} from '../../redux/slices/aadhaarSlice';
-import ErrorAlert from '../../components/common/alerts/errorAlerts';
+} from '../../../redux/slices/aadhaarSlice';
+import ErrorAlert from '../../../components/common/alerts/errorAlerts';
 import {
 	validateAadhaar,
 	validateAadhaarOtp,
-} from '../../utils/validators/validators';
+} from '../../../utils/validators/validators';
 
 const Aadhaar = (): React.JSX.Element => {
 	const dispatch = useAppDispatch();
 
 	const [aadhaar, setAadhaar] = React.useState('');
 	const [otp, setOtp] = React.useState('');
-	const [inputDisable, setInputDisable] = React.useState(false);
 
 	const {
 		aadhaarError,
@@ -50,7 +49,6 @@ const Aadhaar = (): React.JSX.Element => {
 				return;
 			}
 
-			setInputDisable(true);
 			dispatch(
 				AadhaarOtpRequest({
 					entity_id: aadhaar,
@@ -71,6 +69,10 @@ const Aadhaar = (): React.JSX.Element => {
 	const handleChangeAadhaar = (text: string) => {
 		if (step === 2) {
 			dispatch(setStep(1));
+			setOtp('');
+			dispatch(setOtpError(null));
+			dispatch(setError(undefined));
+			dispatch(setAadhaarError(null));
 		}
 		setAadhaar(text);
 	};
@@ -128,7 +130,6 @@ const Aadhaar = (): React.JSX.Element => {
 							value={aadhaar}
 							onChangeText={handleChangeAadhaar}
 							ImagePath={ICONS.aadhaar}
-							editable={!inputDisable}
 							keyboardType='numeric'
 							validator={validateAadhaar}
 							onValidation={onValidation}

@@ -27,7 +27,7 @@ interface AuthenticationOptions {
 	router: {
 		replace: (path: string) => void;
 	};
-	successRoute: string;
+	successRoute?: string;
 	failureRoute?: {
 		securityLevelZero: string;
 		default: string;

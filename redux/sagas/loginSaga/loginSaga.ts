@@ -63,15 +63,15 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 		yield put(setIsLoggedIn(true));
 
 		if (profileData.kyc_complete) {
-			router.push('/auth/secure-app');
+			router.replace('/auth/secure-app');
 			return;
 		} else if (!profileData.kyc_complete && profileData.kyc_pan) {
-			router.push('/onboard/aadhaar');
+			router.replace('/onboard/aadhaar');
 			return;
 		}
 
 		// Redirect to next screen
-		router.push('/onboard/pan');
+		router.replace('/onboard/pan');
 	} catch (error: any) {
 		yield put(loginOtpVerifyFailure(error));
 	}

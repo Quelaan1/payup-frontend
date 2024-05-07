@@ -6,7 +6,7 @@ import {
 	Text,
 	Platform,
 } from 'react-native';
-import commonStyles from '../../styles/common';
+import commonStyles from '../../../styles/common';
 import { Stack } from 'expo-router';
 import {
 	Header,
@@ -15,31 +15,31 @@ import {
 	InputBox,
 	Loader,
 	InfoCard,
-} from '../../components';
+} from '../../../components';
 import React, { useState } from 'react';
-import { COLORS, ICONS } from '../../constants';
-import Styles from '../../components/common/inputBox/inputBox.style';
-import { points } from '../../constants/onboard/GstInfo';
-import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
-import { useAppSelector } from '../../redux/hooks';
+import { COLORS, ICONS } from '../../../constants';
+import Styles from '../../../components/common/inputBox/inputBox.style';
+import { points } from '../../../constants/onboard/GstInfo';
+import ButtonStyles from '../../../components/common/buttons/commonButton/commonButton.style';
+import { useAppSelector } from '../../../redux/hooks';
 import { useDispatch } from 'react-redux';
 import {
 	PanVerifyRequest,
 	setError,
 	setPanError,
-} from '../../redux/slices/panSlice';
-import inputBoxStyles from '../../components/common/inputBox/inputBox.style';
+} from '../../../redux/slices/panSlice';
+import inputBoxStyles from '../../../components/common/inputBox/inputBox.style';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import footerStyles from '../../components/common/footer/footer.style';
-import { formatDate } from '../../utils/formatters/dateFormatter';
-import ErrorAlert from '../../components/common/alerts/errorAlerts';
-import { validatePAN } from '../../utils/validators/validators';
+import footerStyles from '../../../components/common/footer/footer.style';
+import { formatDate } from '../../../utils/formatters/dateFormatter';
+import ErrorAlert from '../../../components/common/alerts/errorAlerts';
+import { validatePAN } from '../../../utils/validators/validators';
 
 const Pan = (): React.JSX.Element => {
 	const textColor = Platform.select({
-		ios: '#C7C7CD', // typical placeholder color for iOS
-		android: '#757575', // typical placeholder color for Android
+		ios: COLORS.IosPlaceholder,
+		android: COLORS.AndroidPlaceholder,
 	});
 
 	const dispatch = useDispatch();
@@ -127,6 +127,7 @@ const Pan = (): React.JSX.Element => {
 						headerStyle: {
 							backgroundColor: error ? 'rgba(0, 0, 0, 0.2)' : 'white',
 						},
+						headerBackVisible: false,
 					}}
 				/>
 

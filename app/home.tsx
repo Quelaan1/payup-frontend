@@ -82,6 +82,7 @@ const Home = () => {
 						backgroundColor: COLORS.grayBackground,
 					},
 					headerTitle: '',
+					headerShown: true,
 					headerLeft: () => <HeaderLeft />,
 					headerRight: () => <HeaderRight />,
 				}}

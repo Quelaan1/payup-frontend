@@ -4,7 +4,7 @@ import {
 	TouchableWithoutFeedback,
 	View,
 } from 'react-native';
-import commonStyles from '../../styles/common';
+import commonStyles from '../../../styles/common';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import {
 	Header,
@@ -13,16 +13,16 @@ import {
 	OTPInput,
 	Footer,
 	Loader,
-} from '../../components';
+} from '../../../components';
 import React, { useState } from 'react';
-import { COLORS, ICONS } from '../../constants';
-import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { COLORS, ICONS } from '../../../constants';
+import ButtonStyles from '../../../components/common/buttons/commonButton/commonButton.style';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import {
 	loginOtpVerify,
 	loginOtpVerifySetError,
-} from '../../redux/slices/otpSlice';
-import ErrorAlert from '../../components/common/alerts/errorAlerts';
+} from '../../../redux/slices/otpSlice';
+import ErrorAlert from '../../../components/common/alerts/errorAlerts';
 
 const otpVerification = (): React.JSX.Element => {
 	const dispatch = useAppDispatch();
