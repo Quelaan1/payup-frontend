@@ -10,7 +10,7 @@ export const homeStyles = StyleSheet.create({
 	},
 
 	greeting: {
-		color: COLORS.MediumGray,
+		color: COLORS.DarGray20,
 		fontSize: 20,
 	},
 

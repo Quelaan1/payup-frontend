@@ -1,7 +1,7 @@
-import { Text, TouchableOpacity, View } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import React, { useEffect } from 'react';
-import { COLORS, ICONS } from '../constants';
+import { Text, View } from 'react-native';
+import { Stack } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { COLORS } from '../constants';
 import commonStyles from '../styles/common';
 import {
 	HeaderLeft,
@@ -9,64 +9,29 @@ import {
 	PayButton,
 	Menu,
 	CarouselItem,
+	BottomNavigation,
 } from '../components';
 import { homeStyles } from '../styles/home.style';
 import CustomCarousel from 'carousel-with-pagination-rn';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { promotionalCards } from '../constants/home/menu';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppDispatch } from '../redux/hooks';
-import { clearProfile } from '../redux/slices/profileSlice';
+import { useAppSelector } from '../redux/hooks';
 
-const transactions = [
-	{
-		id: '1',
-		name: 'Raj K',
-		amount: 280,
-		date: 'February 28, 2022',
-	},
-	{
-		id: '2',
-		name: 'Raj K',
-		amount: 280,
-		date: 'February 28, 2022',
-	},
-	{
-		id: '3',
-		name: 'Raj K',
-		amount: 280,
-		date: 'February 28, 2022',
-	},
-	{
-		id: '4',
-		name: 'Raj K',
-		amount: 280,
-		date: 'February 28, 2022',
-	},
-	{
-		id: '5',
-		name: 'Raj K',
-		amount: 280,
-		date: 'February 28, 2022',
-	},
-	{
-		id: '6',
-		name: 'Raj K',
-		amount: 280,
-		date: 'February 28, 2022',
-	},
-	{
-		id: '7',
-		name: 'Raj K',
-		amount: 280,
-		date: 'February 28, 2022',
-	},
-];
+const getGreeting = () => {
+	const hrs = new Date().getHours();
+	if (hrs < 12) return 'good morning';
+	if (hrs <= 17) return 'good afternoon';
+	return 'good evening';
+};
 
 const Home = () => {
-	const insets = useSafeAreaInsets();
-	const router = useRouter();
-	const dispatch = useAppDispatch();
+	const { name } = useAppSelector((state) => state.profile);
+
+	const [greet, setGreet] = useState(getGreeting());
+
+	useEffect(() => {
+		setGreet(getGreeting());
+	}, []);
 
 	return (
 		<View
@@ -89,14 +54,27 @@ const Home = () => {
 			/>
 
 			<View style={homeStyles.frameContainer}>
-				<View style={{ paddingHorizontal: 20 }}>
-					<Text style={homeStyles.greeting}>good evening.</Text>
-					<Text style={homeStyles.userName}>Samantha</Text>
+				<View style={{ paddingHorizontal: 20, gap: 4 }}>
+					<Text style={homeStyles.greeting}>{greet}.</Text>
+					<Text style={homeStyles.userName}>{name}</Text>
 				</View>
 
 				<PayButton />
 
-				<Menu />
+				<View>
+					<View
+						style={{
+							paddingVertical: 6,
+							backgroundColor: COLORS.DarGray20,
+							marginHorizontal: 20,
+							borderTopEndRadius: 4,
+							borderTopStartRadius: 4,
+							alignItems: 'center',
+						}}>
+						<Text style={{ color: COLORS.White }}>Coming soon</Text>
+					</View>
+					<Menu />
+				</View>
 
 				<GestureHandlerRootView>
 					<CustomCarousel
@@ -109,57 +87,7 @@ const Home = () => {
 				</GestureHandlerRootView>
 			</View>
 
-			<View
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					paddingVertical: 10,
-					paddingHorizontal: 30,
-					width: '100%',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					backgroundColor: COLORS.White,
-					position: 'absolute',
-					bottom: 0,
-				}}>
-				<TouchableOpacity
-					onPress={() => {
-						dispatch(clearProfile());
-					}}>
-					<ICONS.houseOutline
-						width={28}
-						height={28}
-					/>
-				</TouchableOpacity>
-
-				<TouchableOpacity onPress={() => {}}>
-					<ICONS.transaction
-						width={28}
-						height={28}
-					/>
-				</TouchableOpacity>
-
-				<TouchableOpacity>
-					<ICONS.payCircle
-						width={54}
-						height={54}
-					/>
-				</TouchableOpacity>
-
-				<TouchableOpacity>
-					<ICONS.cardBlack
-						width={36}
-						height={36}
-					/>
-				</TouchableOpacity>
-
-				<TouchableOpacity>
-					<ICONS.profile
-						width={28}
-						height={28}
-					/>
-				</TouchableOpacity>
-			</View>
+			<BottomNavigation />
 		</View>
 	);
 };
