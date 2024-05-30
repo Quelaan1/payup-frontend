@@ -42,7 +42,8 @@
           "NSFaceIDUsageDescription": "Your privacy and security are important to us. This app uses Face ID to provide secure and quick access to your account, ensuring that only you can access your personal information and features within the app. Face ID data is never stored on our servers and is only used locally on your device to authenticate your identity."
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-build-properties"
     ],
     "extra": {
       "router": {

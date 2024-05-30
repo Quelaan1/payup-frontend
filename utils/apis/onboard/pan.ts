@@ -23,25 +23,3 @@ export const verifyPan = async ({
 		throw error;
 	}
 };
-
-export const createPan = async ({
-	entity_id,
-	entity_type,
-	entity_name,
-	internal_id,
-}: CreatePanRequest) => {
-	try {
-		const data: CreatePanRequest = {
-			entity_id,
-			entity_type,
-			entity_name,
-			internal_id,
-		};
-
-		const response = await axiosInstance.post('/api/kyc/pan', data);
-
-		return response.data;
-	} catch (error) {
-		throw 'Error while creating PAN record';
-	}
-};

@@ -1,5 +1,5 @@
 interface SendOTPResponse {
-	message: string;
+	BaseResponse;
 }
 
 interface SendOTPRequest {
@@ -12,7 +12,7 @@ interface VerifyOTPRequest {
 }
 
 interface VerifyOTPResponse {
-	message?: string;
+	BaseResponse;
 	refresh_token: string;
 	access_token: string;
 }

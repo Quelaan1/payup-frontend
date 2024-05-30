@@ -12,8 +12,6 @@ interface VerifyPanResponse extends GetProfileResponse {
 	date_of_birth_match: boolean;
 }
 
-interface CreatePanRequest extends Partial<VerifyPanResponse> {}
-
 interface SendAadhaarOtpRequest {
 	entity_id: string;
 	entity_type: 2;
