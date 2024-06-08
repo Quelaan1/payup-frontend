@@ -18,11 +18,12 @@ import {
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authSlice } from './slices/auth';
+import { appSlice } from './slices/appSlice';
 
 const persistConfig = {
 	key: 'root',
 	storage: AsyncStorage,
-	whitelist: ['profile'],
+	whitelist: ['profile', 'app'],
 };
 
 const sagaMiddleware = createSagaMiddleware();
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
 	pan: panSlice.reducer,
 	userDetails: userDetailsSlice.reducer,
 	aadhaar: aadhaarSlice.reducer,
+	app: appSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

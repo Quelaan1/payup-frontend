@@ -16,7 +16,7 @@ export const updateProfile = async ({
 	id,
 	email,
 	name,
-}: UpdateProfileRequest): Promise<UpdateProfileResponse> => {
+}: Profile): Promise<UpdateProfileResponse> => {
 	try {
 		return await axiosInstance
 			.put(`api/profile/${id}`, {

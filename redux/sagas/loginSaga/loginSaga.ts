@@ -22,6 +22,7 @@ import { router } from 'expo-router';
 import { getProfile } from '../../../utils/apis/profile/profile';
 import { setIsLoggedIn, setProfile } from '../../slices/profileSlice';
 import { saveValueToSecureStore } from '../../../utils/expo-store/expo-store';
+import { handleInitialRegistration } from '../../../utils/initialRegistration/initialRegistration';
 
 function* handleOtpRequest(
 	action: OtpRequestAction
@@ -54,18 +55,34 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 		// Get profile data
 		const profileData: GetProfileResponse = yield call(getProfile);
 
+		const parsedProfileData = {
+			user_id: profileData.user_id,
+			id: profileData.profile.id,
+			email: profileData.profile.email,
+			name: profileData.profile.name,
+			onboarded: profileData.profile.onboarded,
+			kyc_complete: profileData.profile.kyc_complete,
+			kyc_pan: profileData.profile.kyc_pan,
+			kyc_uidai: profileData.profile.kyc_uidai,
+		};
+
+		yield handleInitialRegistration(profileData.user_id);
+
 		// Set profile data
-		yield put(setProfile(profileData));
+		yield put(setProfile(parsedProfileData));
 
 		// Handle success state
 		yield put(loginOtpVerifySuccess());
 
 		yield put(setIsLoggedIn(true));
 
-		if (profileData.kyc_complete) {
+		if (profileData.profile.kyc_complete) {
 			router.replace('/auth/secure-app');
 			return;
-		} else if (!profileData.kyc_complete && profileData.kyc_pan) {
+		} else if (
+			!profileData.profile.kyc_complete &&
+			profileData.profile.kyc_pan
+		) {
 			router.replace('/onboard/aadhaar');
 			return;
 		}

@@ -46,6 +46,7 @@ const Home = () => {
 
   // @ts-ignore
   // @ts-ignore
+  // @ts-ignore
   return (
     <View
       style={{
@@ -93,6 +94,7 @@ const Home = () => {
         </View>
 
         {!promotionalCards && (
+          //@ts-ignore
           <SkeletonLoading background={"#adadad"} highlight={"#ffffff"}>
             <View
               style={{

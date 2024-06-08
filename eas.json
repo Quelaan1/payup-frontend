@@ -1,11 +1,13 @@
 {
 	"build": {
 		"preview": {
+			"developmentClient": true,
+			"distribution": "internal",
 			"android": {
 				"buildType": "apk"
 			},
 			"env": {
-				"EXPO_BASE_URL": "https://api.payup.turtlebyte.in/",
+				"EXPO_BASE_URL": "http://192.168.1.4:8081/",
 				"EXPO_PUBLIC_MOCK_AXIOS": "false"
 			}
 		},
@@ -23,6 +25,10 @@
 			"distribution": "internal",
 			"ios": {
 				"simulator": true
+			},
+			"env": {
+				"EXPO_BASE_URL": "http://192.168.1.4:8081/",
+				"EXPO_PUBLIC_MOCK_AXIOS": "false"
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-interface GetProfileResponse {
+interface Profile {
 	id: string;
 	email: string;
 	name: string;
@@ -8,6 +8,11 @@ interface GetProfileResponse {
 	kyc_uidai: boolean;
 }
 
+interface GetProfileResponse {
+	user_id: string;
+	profile: Profile;
+}
+
 interface UpdateProfileResponse extends GetProfileResponse {}
 
-interface UpdateProfileRequest extends GetProfileResponse {}
+interface UpdateProfileRequest extends Profile {}

@@ -13,8 +13,7 @@ const GetStarted = (): React.JSX.Element => {
 	const router = useRouter();
 
 	const handleNext = () => {
-		// router.push('/auth/phone-number');
-		router.replace('/home');
+		router.push('/auth/phone-number');
 	};
 
 	return (

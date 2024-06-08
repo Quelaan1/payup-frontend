@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "803591674308",
+    "project_id": "payup-416703",
+    "storage_bucket": "payup-416703.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803591674308:android:56c23f6a9c3f78cb222c91",
+        "android_client_info": {
+          "package_name": "com.TurtleByte.PayUp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXxJyxCl_HVty9x_I-ZXBV2YrzTbKx42o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

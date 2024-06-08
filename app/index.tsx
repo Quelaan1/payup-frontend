@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Home from './home';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { Stack, useRouter } from 'expo-router';
 import { AppState, AppStateStatus, Image, View } from 'react-native';
 import { handleBiometricAuthentication } from '../utils/auth/auth';
 import { setUnlocked } from '../redux/slices/auth';
+import useNotification from '../utils/customHooks/useNotification';
 
 const Index = () => {
+	// Handle app state ---------------------------------------------
 	const [appState, setAppState] = useState(AppState.currentState);
-
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const {
@@ -20,9 +21,13 @@ const Index = () => {
 		email,
 		name,
 	} = useAppSelector((state) => state.profile);
-
 	const unlocked = useAppSelector((state) => state.auth.unlocked);
 
+	// Handle Notification -------------------------------------------
+	useNotification();
+	// --------------------------------------------------------------
+
+	// Handle biometric authentication ------------------------------------------
 	const handleAuthenticate = async () => {
 		await handleBiometricAuthentication({
 			dispatch,
@@ -41,14 +46,15 @@ const Index = () => {
 		});
 	};
 
+	// Handle app state change for biometric authentication ---------------------
 	const handleAppStateChange = useCallback(
-		(nextAppState: AppStateStatus) => {
+		async (nextAppState: AppStateStatus) => {
 			if (
 				appState.match(/inactive|background/) &&
 				nextAppState === 'active' &&
 				!unlocked
 			) {
-				handleAuthenticate();
+				await handleAuthenticate();
 			} else if (
 				appState === 'active' &&
 				nextAppState.match(/inactive|background/)
@@ -70,10 +76,22 @@ const Index = () => {
 			subscription.remove();
 		};
 	}, [handleAppStateChange]);
+	// ---------------------------------------------------------------------------
 
+	// Handle initial routing
 	useEffect(() => {
+		console.log(
+			isLoggedIn,
+			appLocked,
+			kyc_complete,
+			kyc_pan,
+			kyc_uidai,
+			email,
+			name
+		);
+
 		if (isLoggedIn && appLocked && !unlocked) {
-			handleAuthenticate();
+			handleAuthenticate().then((r) => {});
 		}
 
 		if (kyc_complete && !email) {
@@ -109,6 +127,7 @@ const Index = () => {
 			return;
 		}
 	}, []);
+	// ---------------------------------------------------------------------------
 
 	if (isLoggedIn) {
 		if (kyc_complete && appLocked && unlocked) {

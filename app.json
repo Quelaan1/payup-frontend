@@ -17,6 +17,7 @@
       "**/*"
     ],
     "ios": {
+      "googleServicesFile": "./firebaseServices/GoogleService-Info.plist",
       "supportsTablet": false,
       "bundleIdentifier": "com.TurtleByte.PayUp",
       "config": {
@@ -24,6 +25,7 @@
       }
     },
     "android": {
+      "googleServicesFile": "./firebaseServices/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -43,7 +45,15 @@
         }
       ],
       "expo-secure-store",
-      "expo-build-properties"
+      "expo-build-properties",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
     ],
     "extra": {
       "router": {

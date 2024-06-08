@@ -79,12 +79,23 @@ function* handleUserDetailsConfirm(action: PanVerifySuccessAction) {
 
 		const { id } = yield select((state) => state.profile);
 
-		const profileResponse: UpdateProfileResponse = yield call(updateProfile, {
+		const profileData: UpdateProfileResponse = yield call(updateProfile, {
 			...action.payload,
 			id,
 		});
 
-		yield put(setProfile(profileResponse));
+		const parsedProfileData = {
+			user_id: profileData.user_id,
+			id: profileData.profile.id,
+			email: profileData.profile.email,
+			name: profileData.profile.name,
+			onboarded: profileData.profile.onboarded,
+			kyc_complete: profileData.profile.kyc_complete,
+			kyc_pan: profileData.profile.kyc_pan,
+			kyc_uidai: profileData.profile.kyc_uidai,
+		};
+
+		yield put(setProfile(parsedProfileData));
 
 		yield put(setUserDetailsLoading(false));
 
@@ -141,19 +152,34 @@ function* handleAadhaarOtpRequest(action: SendAadhaarOtpRequestAction) {
 
 function* handleAadhaarOtpVerify(action: VerifyAadhaarOtpRequestAction) {
 	try {
-		const response: GetProfileResponse & AxiosResponse = yield call(
+		const profileData: GetProfileResponse & AxiosResponse = yield call(
 			verifyAadhaarOtp,
 			action.payload
 		);
 
-		if (response?.status === 200) {
-			yield put(setProfile(response));
+		if (profileData?.status === 200) {
+			const parsedProfileData = {
+				user_id: profileData.user_id,
+				id: profileData.profile.id,
+				email: profileData.profile.email,
+				name: profileData.profile.name,
+				onboarded: profileData.profile.onboarded,
+				kyc_complete: profileData.profile.kyc_complete,
+				kyc_pan: profileData.profile.kyc_pan,
+				kyc_uidai: profileData.profile.kyc_uidai,
+			};
+
+			yield put(setProfile(parsedProfileData));
 			yield put(AadhaarVerifySuccess());
 
-			router.replace('/onboard/user-details?userName=' + response.name);
+			router.replace(
+				'/onboard/user-details?userName=' + parsedProfileData.name
+			);
 		}
 	} catch (error) {
 		const err = error as AxiosError;
+
+		console.log(error);
 
 		if ((err.response?.data as any)?.message) {
 			yield put(

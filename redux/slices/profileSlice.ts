@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface ProfileState extends GetProfileResponse {
+export interface ProfileState extends Profile {
 	isLoggedIn: boolean;
 	appLocked: boolean;
+	user_id: string;
 }
 
 const initialState: ProfileState = {
 	id: '',
+	user_id: '',
 	email: '',
 	name: '',
 	onboarded: false,
@@ -23,6 +25,7 @@ export const profileSlice = createSlice({
 	reducers: {
 		setProfile: (state, action) => {
 			state.id = action.payload.id;
+			state.user_id = action.payload.user_id;
 			state.email = action.payload.email;
 			state.name = action.payload.name;
 			state.onboarded = action.payload.onboarded;
@@ -32,6 +35,7 @@ export const profileSlice = createSlice({
 		},
 		clearProfile: (state) => {
 			state.id = '';
+			state.user_id = '';
 			state.email = '';
 			state.name = '';
 			state.onboarded = false;

@@ -4,7 +4,8 @@ import MockAdapter from 'axios-mock-adapter';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-	baseURL: process.env.EXPO_PUBLIC_BASE_URL,
+	// baseURL: process.env.EXPO_PUBLIC_BASE_URL,
+	baseURL: 'http://192.168.1.8:8000/',
 	// baseURL: 'https://api.payup.turtlebyte.in/',
 });
 
