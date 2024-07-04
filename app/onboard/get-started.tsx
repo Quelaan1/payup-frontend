@@ -5,9 +5,12 @@ import { IntroCards, CommonButton, ScreenHeaderTitle } from '../../components';
 import { COLORS, IMAGES } from '../../constants';
 import commonStyles from '../../styles/common';
 import ButtonStyles from '../../components/common/buttons/commonButton/commonButton.style';
-import CustomCarousel from 'carousel-with-pagination-rn';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { startupCards } from '../../constants/get-started/get-started';
+import {
+	StartupCards,
+	startupCards,
+} from '../../constants/get-started/get-started';
+import CustomCarousel from '../../components/common/carousel/carousel';
 
 const GetStarted = (): React.JSX.Element => {
 	const router = useRouter();
@@ -29,21 +32,21 @@ const GetStarted = (): React.JSX.Element => {
 				<View style={styles.frameContainer}>
 					<IMAGES.frame width={'100%'} />
 				</View>
-
-				<GestureHandlerRootView>
-					<CustomCarousel
-						data={startupCards}
-						indicatorWidth={[12, 18, 12]}
-						indicatorHeight={[8, 12, 8]}
-						inidicatorBorderRadius={4}
-						indicatorHorizontalPadding={5}
-						paginationContainerStyle={{ paddingTop: 15 }}
-						renderItem={({ item }) => {
-							return <IntroCards {...item} />;
-						}}
-					/>
-				</GestureHandlerRootView>
 			</View>
+
+			<GestureHandlerRootView>
+				<CustomCarousel
+					data={startupCards as StartupCards[]}
+					indicatorWidth={[12, 18, 12]}
+					indicatorHeight={[8, 12, 8]}
+					inidicatorBorderRadius={4}
+					indicatorHorizontalPadding={5}
+					paginationContainerStyle={{ paddingTop: 15 }}
+					renderItem={({ item }) => {
+						return <IntroCards {...item} />;
+					}}
+				/>
+			</GestureHandlerRootView>
 
 			<View style={{ ...ButtonStyles.buttonParent, paddingHorizontal: 20 }}>
 				<CommonButton

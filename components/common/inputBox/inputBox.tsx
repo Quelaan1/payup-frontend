@@ -1,4 +1,10 @@
-import { TextInput, View, Text, TextInputProps } from 'react-native';
+import {
+	TextInput,
+	View,
+	Text,
+	TextInputProps,
+	TouchableOpacity,
+} from 'react-native';
 import styles from './inputBox.style';
 import React, { SetStateAction, memo, useEffect, useState } from 'react';
 import { SvgProps } from 'react-native-svg';
@@ -8,6 +14,7 @@ interface Props extends TextInputProps {
 	value?: string;
 	onChangeText?: (text: string) => void;
 	ImagePath?: React.FC<SvgProps>;
+	ImagePress?: () => void;
 	error: string | null | undefined;
 	setError?: (
 		text: string | null
@@ -20,6 +27,7 @@ interface Props extends TextInputProps {
 const InputBox = memo(function ({
 	placeholder,
 	ImagePath,
+	ImagePress,
 	onChangeText,
 	value,
 	error,
@@ -89,11 +97,14 @@ const InputBox = memo(function ({
 				/>
 
 				{ImagePath && (
-					<ImagePath
-						width={26}
-						height={26}
-						style={styles.image}
-					/>
+					<TouchableOpacity
+						onPress={ImagePress}
+						style={styles.image}>
+						<ImagePath
+							width={26}
+							height={26}
+						/>
+					</TouchableOpacity>
 				)}
 			</View>
 

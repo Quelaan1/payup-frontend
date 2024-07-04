@@ -12,12 +12,12 @@ import {
   BottomNavigation,
 } from "../components";
 import { homeStyles } from "../styles/home.style";
-import CustomCarousel from "carousel-with-pagination-rn";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useAppSelector } from "../redux/hooks";
 import { getPromotions } from "../utils/apis/promotions/promotions";
 import { Promotion } from "../types/components/promotions/promotions";
 import SkeletonLoading from "expo-skeleton-loading";
+import CustomCarousel from "../components/common/carousel/carousel";
 
 const getGreeting = () => {
   const hrs = new Date().getHours();
@@ -44,9 +44,6 @@ const Home = () => {
     fetchPromotionalCards();
   }, []);
 
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   return (
     <View
       style={{
@@ -57,14 +54,13 @@ const Home = () => {
     >
       <Stack.Screen
         options={{
-          headerTintColor: COLORS.Black,
           headerStyle: {
             backgroundColor: COLORS.grayBackground,
           },
           headerTitle: "",
           headerShown: true,
           headerLeft: () => <HeaderLeft />,
-          headerRight: () => <HeaderRight />,
+          // headerRight: () => <HeaderRight />,
         }}
       />
 
@@ -80,7 +76,7 @@ const Home = () => {
           <View
             style={{
               paddingVertical: 6,
-              backgroundColor: COLORS.DarGray20,
+              backgroundColor: COLORS.DarkGray20,
               marginHorizontal: 20,
               borderTopEndRadius: 4,
               borderTopStartRadius: 4,
@@ -147,7 +143,7 @@ const Home = () => {
           </SkeletonLoading>
         )}
 
-        {promotionalCards && (
+        {promotionalCards?.length !== 0 && promotionalCards && (
           <GestureHandlerRootView>
             <CustomCarousel
               disablePagination={true}

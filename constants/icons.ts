@@ -9,6 +9,7 @@ import location from '../assets/icons/location.png';
 import chevronLeft from '../assets/icons/chevron-left.png';
 import chevronRight from '../assets/icons/chevron-right.png';
 import phone from '../assets/icons/phone.svg';
+import iphone from '../assets/icons/iphone.svg';
 import mobile from '../assets/icons/mobile.svg';
 import spinner from '../assets/icons/spinner.svg';
 import info from '../assets/icons/info.svg';
@@ -78,4 +79,5 @@ export default {
 	aadhaar,
 	otp,
 	error,
+	iphone,
 };

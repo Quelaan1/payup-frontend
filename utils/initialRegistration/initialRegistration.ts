@@ -5,7 +5,9 @@ import { saveValueToSecureStore } from '../expo-store/expo-store';
 import { createDeviceToken } from '../apis/deviceToken/deviceToken';
 import DeviceInfo from 'react-native-device-info';
 
-export const handleInitialRegistration = async (user_id: string) => {
+export const handleInitialRegistration = async (
+	user_id: string
+): Promise<boolean> => {
 	const device_id = await DeviceInfo.getUniqueId();
 
 	const deviceData = {
@@ -16,7 +18,11 @@ export const handleInitialRegistration = async (user_id: string) => {
 
 	try {
 		await registerDevice(deviceData);
-	} catch (error) {}
+	} catch (error) {
+		if (error === 'User already has 2 devices registered') {
+			return false;
+		}
+	}
 
 	await registerForPushNotificationsAsync().then(async (token) => {
 		await saveValueToSecureStore('expoPushToken', token ?? '');
@@ -33,4 +39,6 @@ export const handleInitialRegistration = async (user_id: string) => {
 			} catch (error) {}
 		}
 	});
+
+	return true;
 };

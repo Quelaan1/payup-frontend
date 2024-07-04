@@ -66,8 +66,6 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 			kyc_uidai: profileData.profile.kyc_uidai,
 		};
 
-		yield handleInitialRegistration(profileData.user_id);
-
 		// Set profile data
 		yield put(setProfile(parsedProfileData));
 
@@ -75,6 +73,18 @@ function* handleOtpVerification(action: OtpVerifyAction) {
 		yield put(loginOtpVerifySuccess());
 
 		yield put(setIsLoggedIn(true));
+
+		const multiDeviceCheck: boolean = yield call(
+			handleInitialRegistration,
+			profileData.user_id
+		);
+
+		console.log('MultiDeviceCheck inside saga: ', multiDeviceCheck);
+
+		if (!multiDeviceCheck) {
+			router.replace('/auth/multi-device');
+			return;
+		}
 
 		if (profileData.profile.kyc_complete) {
 			router.replace('/auth/secure-app');

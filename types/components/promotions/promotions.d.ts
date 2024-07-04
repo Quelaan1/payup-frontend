@@ -5,5 +5,5 @@ interface Promotion {
 	discount: string;
 	title: string;
 	description: string;
-	image: ImageSourcePropType;
+	image_url: ImageSourcePropType;
 }

@@ -148,17 +148,10 @@ const Pan = (): React.JSX.Element => {
 								onChangeText={setPan}
 								autoCapitalize='characters'
 								validator={validatePAN}
+								ImagePath={ICONS.info}
+								ImagePress={handleInfoPress}
 								autoFocus
 							/>
-
-							<TouchableOpacity
-								style={Styles.image}
-								onPress={handleInfoPress}>
-								<ICONS.info
-									width={26}
-									height={26}
-								/>
-							</TouchableOpacity>
 						</View>
 
 						<InputBox

@@ -10,6 +10,7 @@ import shopping from '../assets/images/shopping.png';
 import faceId from '../assets/images/face_id.svg';
 import fingerprint from '../assets/images/fingerprint.svg';
 import iris from '../assets/images/iris.svg';
+import DeviceLimit from '../assets/images/device_limit.svg';
 
 export default {
 	frame,
@@ -23,4 +24,5 @@ export default {
 	faceId,
 	fingerprint,
 	iris,
+	DeviceLimit,
 };
