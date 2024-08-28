@@ -1,5 +1,10 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,6 +22,7 @@ type Props = {
   backShown?: boolean;
   backColor?: string;
   headerTitleStyles?: StyleProp<TextStyle>;
+  handleOutsidePress?: () => void;
 };
 
 const CustomHeaderLayout = ({
@@ -26,48 +32,59 @@ const CustomHeaderLayout = ({
   statusBarStyle = "light",
   backShown = true,
   backColor = "white",
-  headerTitleStyles,
+  headerTitleStyles = {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  handleOutsidePress,
 }: Props) => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
+    <TouchableWithoutFeedback onPress={handleOutsidePress}>
+      <View style={styles.container}>
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+        />
 
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        style={statusBarStyle}
-      />
+        <StatusBar
+          translucent
+          backgroundColor="transparent"
+          style={statusBarStyle}
+        />
 
-      <View
-        style={{
-          backgroundColor: backgroundColor,
-          paddingBottom: 18,
-        }}
-      >
-        {backShown && (
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={{
-              ...styles.backButton,
-              paddingTop: insets.top,
-            }}
-          >
-            <Ionicons name="chevron-back" size={24} color={backColor} />
-          </TouchableOpacity>
-        )}
+        <View
+          style={{
+            backgroundColor: backgroundColor,
+            paddingBottom: 18,
+            flexDirection: "row",
+            paddingTop: insets.top,
+            alignItems: "center",
+            gap: 10,
+            width: "100%",
+          }}
+        >
+          {backShown && (
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={{
+                ...styles.backButton,
+              }}
+            >
+              <Ionicons name="chevron-back" size={24} color={backColor} />
+            </TouchableOpacity>
+          )}
 
-        {title && <Text style={headerTitleStyles}>{title}</Text>}
+          {title && <Text style={headerTitleStyles}>{title}</Text>}
+        </View>
+
+        <View style={styles.body}>{children}</View>
       </View>
-
-      <View style={styles.body}>{children}</View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

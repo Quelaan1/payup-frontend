@@ -38,6 +38,9 @@ import payCircle from '../assets/icons/pay-circle.svg';
 import aadhaar from '../assets/icons/aadhaar.svg';
 import otp from '../assets/icons/otp.svg';
 import error from '../assets/icons/error.svg';
+import id from '../assets/icons/id.svg';
+import visa from '../assets/icons/visa.svg';
+import mastercard from '../assets/icons/mastercard.svg';
 
 export default {
 	heart,
@@ -80,4 +83,7 @@ export default {
 	otp,
 	error,
 	iphone,
+	id,
+	visa,
+	mastercard,
 };
