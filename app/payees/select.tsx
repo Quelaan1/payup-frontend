@@ -1,118 +1,108 @@
-import { Text, TouchableWithoutFeedback, View } from "react-native";
-import CustomHeaderLayout from "../../components/common/customHeaderLayout/customHeaderLayout";
-import { COLORS } from "../../constants";
-import React, { useRef, useState } from "react";
-import Section from "../../components/common/section/Section";
-import { Userpic } from "react-native-userpic";
-import ActionButton from "../../components/common/buttons/actionButton/actionButton";
-import { useRouter } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
-import AddPayee from "../../components/payee/addPayee/addPayee";
-
-const Payees = [
-  {
-    id: 1,
-    name: "Ankur Kumar",
-    lastPaid: "Last paid ₹120 on 12th Aug",
-  },
-  {
-    id: 2,
-    name: "Rahul Kashyap",
-    lastPaid: "Last paid ₹252 on 15th Aug",
-  },
-];
+import { Text, TouchableWithoutFeedback, View } from 'react-native';
+import CustomHeaderLayout from '../../components/common/customHeaderLayout/customHeaderLayout';
+import { COLORS } from '../../constants';
+import React, { useRef, useState } from 'react';
+import Section from '../../components/common/section/Section';
+import { Userpic } from 'react-native-userpic';
+import ActionButton from '../../components/common/buttons/actionButton/actionButton';
+import { useRouter } from 'expo-router';
+import { AntDesign } from '@expo/vector-icons';
+import AddPayee from '../../components/payee/addPayee/addPayee';
+import { useAppSelector } from '../../redux/hooks';
 
 const Select = () => {
-  const router = useRouter();
+	const router = useRouter();
 
-  const [addPayee, setAddPayee] = useState(false);
+	const payees = useAppSelector((state) => state.payee.payees);
 
-  const slideDownRef: React.MutableRefObject<any> =
-    useRef<() => void | undefined>();
-  const slideUpRef: React.MutableRefObject<any> =
-    useRef<() => void | undefined>();
+	const [addPayee, setAddPayee] = useState(false);
 
-  const handleOutsidePress = () => {
-    if (addPayee && slideDownRef.current) {
-      slideDownRef.current(); // Call slideDown from the parent
-    }
-  };
+	const slideDownRef: React.MutableRefObject<any> =
+		useRef<() => void | undefined>();
+	const slideUpRef: React.MutableRefObject<any> =
+		useRef<() => void | undefined>();
 
-  const slideUp = () => {
-    if (slideUpRef.current) {
-      slideUpRef.current(); // Call slideUp from the parent
-    }
-  };
+	const handleOutsidePress = () => {
+		if (addPayee && slideDownRef.current) {
+			slideDownRef.current(); // Call slideDown from the parent
+		}
+	};
 
-  return (
-    <CustomHeaderLayout handleOutsidePress={handleOutsidePress}>
-      <View>
-        <View
-          style={{
-            backgroundColor: COLORS.Black,
-            paddingLeft: 20,
-          }}
-        >
-          <Text
-            style={{
-              color: COLORS.White,
-              fontSize: 18,
-              fontWeight: "bold",
-              paddingBottom: 1,
-            }}
-          >
-            Pay to bank or UPI
-          </Text>
+	const slideUp = () => {
+		if (slideUpRef.current) {
+			slideUpRef.current(); // Call slideUp from the parent
+		}
+	};
 
-          <Text
-            style={{
-              color: COLORS.Gray,
-              fontSize: 14,
-              paddingBottom: 10,
-            }}
-          >
-            Send money to any mobile number or UPI ID
-          </Text>
-        </View>
+	return (
+		<CustomHeaderLayout handleOutsidePress={handleOutsidePress}>
+			<View>
+				<View
+					style={{
+						backgroundColor: COLORS.Black,
+						paddingLeft: 20,
+					}}>
+					<Text
+						style={{
+							color: COLORS.White,
+							fontSize: 18,
+							fontWeight: 'bold',
+							paddingBottom: 1,
+						}}>
+						Pay to bank or UPI
+					</Text>
 
-        <Section
-          title={"Payees"}
-          actionButtonWithLogo={
-            <AntDesign name="adduser" size={20} color="black" />
-          }
-          actionButtonWithLogoOnPress={() => slideUp()}
-          style={{
-            gap: 12,
-          }}
-        >
-          {Payees.map((payee) => (
-            <ActionButton
-              key={payee.id}
-              title={payee.name}
-              description={payee.lastPaid}
-              onPress={() => router.push(`/payees/${payee.id}/transfer`)}
-              icon={
-                <Userpic
-                  name={payee.name}
-                  radius={4}
-                  size={34}
-                  color={"transparent"}
-                  textStyle={{ color: COLORS.Black, fontSize: 14 }}
-                />
-              }
-            />
-          ))}
-        </Section>
-      </View>
+					<Text
+						style={{
+							color: COLORS.Gray,
+							fontSize: 14,
+							paddingBottom: 10,
+						}}>
+						Send money to any mobile number or UPI ID
+					</Text>
+				</View>
 
-      <AddPayee
-        addPayee={addPayee}
-        setAddPayee={setAddPayee}
-        slideDownRef={slideDownRef}
-        slideUpRef={slideUpRef}
-      />
-    </CustomHeaderLayout>
-  );
+				<Section
+					title={'Payees'}
+					actionButtonWithLogo={
+						<AntDesign
+							name='adduser'
+							size={20}
+							color='black'
+						/>
+					}
+					actionButtonWithLogoOnPress={() => slideUp()}
+					style={{
+						gap: 12,
+					}}>
+					{payees.map((payee) => (
+						<ActionButton
+							key={payee.payee_id}
+							title={payee.name}
+							description={payee.lastPaid}
+							onPress={() => router.push(`/payees/${payee.payee_id}/transfer`)}
+							icon={
+								<Userpic
+									name={payee.name}
+									radius={4}
+									size={34}
+									color={'transparent'}
+									textStyle={{ color: COLORS.Black, fontSize: 14 }}
+								/>
+							}
+						/>
+					))}
+				</Section>
+			</View>
+
+			<AddPayee
+				addPayee={addPayee}
+				setAddPayee={setAddPayee}
+				slideDownRef={slideDownRef}
+				slideUpRef={slideUpRef}
+			/>
+		</CustomHeaderLayout>
+	);
 };
 
 export default Select;

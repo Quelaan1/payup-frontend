@@ -19,6 +19,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authSlice } from './slices/auth';
 import { appSlice } from './slices/appSlice';
+import { transactionSlice } from './slices/transactionSlice';
+import { payeeSlice } from './slices/payeeSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -37,6 +39,8 @@ const rootReducer = combineReducers({
 	userDetails: userDetailsSlice.reducer,
 	aadhaar: aadhaarSlice.reducer,
 	app: appSlice.reducer,
+	transaction: transactionSlice.reducer,
+	payee: payeeSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

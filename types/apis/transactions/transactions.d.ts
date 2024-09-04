@@ -1,10 +1,10 @@
 type Transaction = {
-  id: number;
-  name: string;
-  date: string;
-  amount: number;
+	transaction_id: string;
+	name: string;
+	date: string;
+	amount: number;
 };
 
 type Transactions = {
-  [month: string]: Transaction[];
+	[month: string]: Transaction[];
 };

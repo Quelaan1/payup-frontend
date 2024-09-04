@@ -8,6 +8,8 @@ import ActionButton from '../../../components/common/buttons/actionButton/action
 import { Userpic } from 'react-native-userpic';
 import { AntDesign } from '@expo/vector-icons';
 import { Dialog, Portal } from 'react-native-paper';
+import { useAppSelector } from '../../../redux/hooks';
+import { useLocalSearchParams } from 'expo-router';
 
 interface InfoRowProps {
 	// @ts-ignore
@@ -35,6 +37,12 @@ const InfoRow = ({ iconName, iconSize, label, value }: InfoRowProps) => (
 );
 
 const Profile = () => {
+	const payee_id = useLocalSearchParams().id;
+
+	const payee: Payee = useAppSelector((state) => state.payee.payees).filter(
+		(payee) => payee.payee_id === payee_id
+	)[0];
+
 	const [visible, setVisible] = React.useState(false);
 
 	const hideDialog = () => setVisible(false);
@@ -44,7 +52,7 @@ const Profile = () => {
 			<View>
 				<View style={styles.header}>
 					<Userpic
-						name={'John Doe'}
+						name={payee.name}
 						size={50}
 						radius={4}
 					/>
@@ -57,14 +65,14 @@ const Profile = () => {
 							iconName='bank'
 							iconSize={20}
 							label='Account number'
-							value='1234 5678 9012 3456'
+							value={payee.accountNumber}
 						/>
 
 						<InfoRow
 							iconName='phone'
 							iconSize={24}
 							label='Phone number'
-							value='1234567890'
+							value={payee.phoneNumber}
 						/>
 					</View>
 				</Section>
