@@ -7,62 +7,14 @@ import { Userpic } from "react-native-userpic";
 import ActionButton from "../../components/common/buttons/actionButton/actionButton";
 import Section from "../../components/common/section/Section";
 import moment from "moment";
-
-const data: Transactions = {
-  "March 2024": [
-    {
-      id: 3,
-      name: "Tilak Kumar G",
-      date: "2024-03-01",
-      amount: 1000,
-    },
-    {
-      id: 4,
-      name: "Tilak Kumar G",
-      date: "2024-03-02",
-      amount: 200,
-    },
-  ],
-
-  "April 2024": [
-    {
-      id: 1,
-      name: "Tilak Kumar G",
-      date: "2024-04-01",
-      amount: 1000,
-    },
-    {
-      id: 2,
-      name: "Tilak Kumar G",
-      date: "2024-04-02",
-      amount: 200,
-    },
-  ],
-
-  "July 2024": [
-    {
-      id: 6,
-      name: "Tilak Kumar G",
-      date: "2024-07-28",
-      amount: 1000,
-    },
-    {
-      id: 7,
-      name: "Tilak Kumar G",
-      date: "2024-07-28",
-      amount: 200,
-    },
-    {
-      id: 8,
-      name: "Tilak Kumar G",
-      date: "2024-07-27",
-      amount: 200,
-    },
-  ],
-};
+import { useAppSelector } from "../../redux/hooks";
 
 const Transactions = () => {
-  const months = Object.keys(data);
+  const transactions = useAppSelector(
+    (state) => state.transaction.transactions,
+  );
+
+  const months = Object.keys(transactions);
   const [selectedMonth, setSelectedMonth] = useState("April 2024");
 
   const handlePreviousMonth = () => {
@@ -107,7 +59,9 @@ const Transactions = () => {
     );
   };
 
-  const transactionsByCategory = categorizeTransactions(data[selectedMonth]);
+  // const transactionsByCategory = categorizeTransactions(
+  //   transactions[selectedMonth],
+  // );
 
   return (
     <CustomHeaderLayout title={"All Transactions"}>
@@ -140,30 +94,32 @@ const Transactions = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ gap: 10 }}>
-          {Object.keys(transactionsByCategory).map((category) => (
-            <Section key={category} title={category}>
-              {transactionsByCategory[category].map((transaction) => (
-                <ActionButton
-                  key={transaction.id}
-                  title={transaction.name}
-                  description={transaction.date}
-                  details={`₹${transaction.amount}`}
-                  // onPress={() => router.push(`/payees/${payee.id}/transfer`)}
-                  icon={
-                    <Userpic
-                      name={transaction.name}
-                      radius={4}
-                      size={34}
-                      color={"transparent"}
-                      textStyle={{ color: COLORS.Black, fontSize: 14 }}
-                    />
-                  }
-                />
-              ))}
-            </Section>
-          ))}
-        </View>
+        {/*<View style={{ gap: 10 }}>*/}
+        {/*	{Object.keys(transactionsByCategory).map((category) => (*/}
+        {/*		<Section*/}
+        {/*			key={category}*/}
+        {/*			title={category}>*/}
+        {/*			{transactionsByCategory[category].map((transaction) => (*/}
+        {/*				<ActionButton*/}
+        {/*					key={transaction.transaction_id}*/}
+        {/*					title={transaction.name}*/}
+        {/*					description={transaction.date}*/}
+        {/*					details={`₹${transaction.amount}`}*/}
+        {/*					// onPress={() => router.push(`/payees/${payee.id}/transfer`)}*/}
+        {/*					icon={*/}
+        {/*						<Userpic*/}
+        {/*							name={transaction.name}*/}
+        {/*							radius={4}*/}
+        {/*							size={34}*/}
+        {/*							color={'transparent'}*/}
+        {/*							textStyle={{ color: COLORS.Black, fontSize: 14 }}*/}
+        {/*						/>*/}
+        {/*					}*/}
+        {/*				/>*/}
+        {/*			))}*/}
+        {/*		</Section>*/}
+        {/*	))}*/}
+        {/*</View>*/}
       </View>
     </CustomHeaderLayout>
   );

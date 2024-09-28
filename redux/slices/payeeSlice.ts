@@ -7,7 +7,9 @@ interface PayeeState {
 }
 
 const initialState: PayeeState = {
-	payees: [],
+	payees: [
+		
+	],
 	loading: false,
 	error: null,
 };
@@ -39,7 +41,7 @@ export const payeeSlice = createSlice({
 			state.loading = false;
 			state.error = action.payload;
 		},
-		addPayeeStart: (state) => {
+		addPayeeStart: (state, action) => {
 			state.loading = true;
 			state.error = null;
 		},

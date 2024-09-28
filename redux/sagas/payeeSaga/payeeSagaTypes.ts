@@ -7,6 +7,9 @@ export interface DeletePayeeAction {
 	payload: DeletePayeeRequest;
 }
 
+
+type AddPayeeRequest = AddPayeeRequestUpi | AddPayeeRequestBank;
+
 export interface AddPayeeAction {
 	type: typeof ADD_PAYEE_REQUEST;
 	payload: AddPayeeRequest;

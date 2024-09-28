@@ -2,16 +2,20 @@ import { COLORS, ICONS } from "../../constants";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { Keyboard, View } from "react-native";
-import { CommonButton, InfoBox, InputBox } from "../../components";
+import { CommonButton, InfoBox, InputBox, Loader } from "../../components";
 import {
   validatePAN,
   validatePhoneNumber,
   validateUPI,
 } from "../../utils/validators/validators";
 import { extractPhoneNumber } from "../../utils/formatters/phoneFormatter";
+import ErrorAlert from "../../components/common/alerts/errorAlerts";
+import { addPayeeFailure, addPayeeStart } from "../../redux/slices/payeeSlice";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 
 const AddUpi = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const [name, setName] = React.useState("");
   const [pan, setPan] = React.useState("");
@@ -19,10 +23,11 @@ const AddUpi = () => {
   const [upiId, setUpiId] = React.useState("");
 
   const [phoneNumberError, setPhoneNumberError] = React.useState<string | null>(
-    null,
+    null
   );
   const [panError, setPanError] = React.useState<string | null>(null);
   const [upiIdError, setUpiIdError] = React.useState<string | null>(null);
+  const { error, loading } = useAppSelector((state) => state.payee);
 
   const handleOnValidation = () => {
     Keyboard.dismiss();
@@ -36,6 +41,27 @@ const AddUpi = () => {
     if (temp.length <= 10) {
       setPhoneNumber(temp);
     }
+  };
+
+  const handleSubmit = async () => {
+    if (
+      upiIdError ||
+      phoneNumberError ||
+      panError ||
+      !upiId ||
+      !phoneNumber ||
+      !pan
+    ) {
+      return;
+    }
+
+    dispatch(
+      addPayeeStart({
+        name: "John Doe",
+        upi_id: upiId,
+        phone_number: phoneNumber,
+      })
+    );
   };
 
   return (
@@ -127,7 +153,7 @@ const AddUpi = () => {
           info={"Payee name will be auto fetched \n" + "from the UPI ID"}
         />
 
-        <InfoBox info={"Payee GST/PAN is mandatory as per RBI Guidelines"} />
+        <InfoBox info={"Payee GST/PAN is mandatory \nas per RBI Guidelines"} />
       </View>
 
       <View
@@ -138,8 +164,28 @@ const AddUpi = () => {
           bottom: 50,
         }}
       >
-        <CommonButton text={"Verify & Continue"} onPress={() => {}} />
+        <CommonButton
+          disabled={
+            !!upiIdError ||
+            !!phoneNumberError ||
+            !!panError ||
+            !upiId ||
+            !phoneNumber ||
+            !pan
+          }
+          text={"Verify & Continue"}
+          onPress={handleSubmit}
+        />
       </View>
+
+      {loading && <Loader ImagePath={ICONS.phone} Message={"Adding Payee"} />}
+
+      {error && (
+        <ErrorAlert
+          errorMessage={error}
+          setErrorMessage={() => dispatch(addPayeeFailure(null))}
+        />
+      )}
     </View>
   );
 };

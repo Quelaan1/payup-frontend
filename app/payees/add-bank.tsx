@@ -2,16 +2,21 @@ import { COLORS, ICONS } from "../../constants";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { Keyboard, View } from "react-native";
-import { CommonButton, InfoBox, InputBox } from "../../components";
+import { CommonButton, InfoBox, InputBox, Loader } from "../../components";
 import {
   validateIFSC,
   validatePAN,
   validatePhoneNumber,
 } from "../../utils/validators/validators";
 import { extractPhoneNumber } from "../../utils/formatters/phoneFormatter";
+import ErrorAlert from "../../components/common/alerts/errorAlerts";
+import { addPayee } from "../../utils/apis/payees/payees";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addPayeeFailure, addPayeeStart } from "../../redux/slices/payeeSlice";
 
 const AddBank = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const [name, setName] = React.useState("");
   const [pan, setPan] = React.useState("");
@@ -21,13 +26,13 @@ const AddBank = () => {
   const [accountNumberConfirmation, setAccountNumberConfirmation] =
     React.useState("");
   const [IFSC, setIFSC] = React.useState("");
-
   const [phoneNumberError, setPhoneNumberError] = React.useState<string | null>(
-    null,
+    null
   );
   const [accountNumberConfirmationError, setAccountNumberConfirmationError] =
     React.useState<string | null>(null);
   const [IFSCError, setIFSCError] = React.useState<string | null>(null);
+  const { error, loading } = useAppSelector((state) => state.payee);
 
   const handleOnValidation = () => {
     Keyboard.dismiss();
@@ -51,6 +56,29 @@ const AddBank = () => {
 
     setAccountNumberConfirmationError(null);
     return true;
+  };
+
+  const handleSubmit = async () => {
+    if (
+      phoneNumberError ||
+      panError ||
+      !accountNumber ||
+      !accountNumberConfirmation ||
+      !phoneNumber ||
+      !pan ||
+      !IFSC
+    ) {
+      return;
+    }
+
+    dispatch(
+      addPayeeStart({
+        name: "John Doe",
+        phone_number: phoneNumber,
+        ifsc: IFSC,
+        account_number: accountNumber,
+      })
+    );
   };
 
   return (
@@ -173,8 +201,17 @@ const AddBank = () => {
           bottom: 50,
         }}
       >
-        <CommonButton text={"Verify & Continue"} onPress={() => {}} />
+        <CommonButton text={"Verify & Continue"} onPress={handleSubmit} />
       </View>
+
+      {loading && <Loader ImagePath={ICONS.phone} Message={"Adding Payee"} />}
+
+      {error && (
+        <ErrorAlert
+          errorMessage={error}
+          setErrorMessage={() => dispatch(addPayeeFailure(null))}
+        />
+      )}
     </View>
   );
 };

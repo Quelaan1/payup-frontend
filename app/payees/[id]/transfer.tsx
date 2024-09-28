@@ -1,12 +1,13 @@
 import CustomHeaderLayout from '../../../components/common/customHeaderLayout/customHeaderLayout';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { COLORS } from '../../../constants';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Userpic } from 'react-native-userpic';
 import { Ionicons } from '@expo/vector-icons';
 import { CommonButton } from '../../../components';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAppSelector } from '../../../redux/hooks';
+// import EasebuzzCheckout from 'react-native-easebuzz-kit';
 
 const Transfer = () => {
 	const payee_id = useLocalSearchParams().id;
@@ -103,6 +104,30 @@ const Transfer = () => {
 		router.push('/payees/1/receipt');
 	};
 
+	// const callPaymentGateway = () => {
+	// 	var options = {
+	// 		access_key:
+	// 			'397adf8fe4751d01944c72250bf5a851f32827c04eed4d9a29b5709b4026d47f',
+	// 		pay_mode: 'test',
+	// 	};
+
+	// 	EasebuzzCheckout.open(options)
+	// 		.then((data) => {
+	// 			//handle the payment success & failed response here
+	// 			console.log('Payment Response:');
+	// 			console.log(data);
+	// 		})
+	// 		.catch((error) => {
+	// 			//handle sdk failure issue here
+	// 			console.log('SDK Error:');
+	// 			console.log(error);
+	// 		});
+	// };
+
+	// useEffect(() => {
+	// 	callPaymentGateway();
+	// }, []);
+
 	return (
 		<CustomHeaderLayout
 			title={'Send Money'}
@@ -123,6 +148,7 @@ const Transfer = () => {
 						color={'white'}
 						textStyle={{ color: COLORS.Black }}
 					/>
+
 					<Text style={styles.nameText}>{payee.name}</Text>
 				</View>
 
