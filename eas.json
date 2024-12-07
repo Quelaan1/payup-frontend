@@ -1,0 +1,42 @@
+{
+  "build": {
+    "preview": {
+      "developmentClient": false,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "backend-url",
+        "EXPO_PUBLIC_MOCK_AXIOS": "false",
+        "EXPO_PUBLIC_EASEBUZZ_BASE_URL": "easebuzz-base-url",
+        "EXPO_PUBLIC_EASEBUZZ_API_KEY": "easebuzz-api-key"
+      }
+    },
+    "production": {
+      "developmentClient": false,
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "backend-url",
+        "EXPO_PUBLIC_MOCK_AXIOS": "false",
+        "EXPO_PUBLIC_EASEBUZZ_BASE_URL": "easebuzz-base-url",
+        "EXPO_PUBLIC_EASEBUZZ_API_KEY": "easebuzz-api-key"
+      }
+    },
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_BASE_URL": "backend-url",
+        "EXPO_PUBLIC_MOCK_AXIOS": "false",
+        "EXPO_PUBLIC_EASEBUZZ_BASE_URL": "easebuzz-base-url",
+        "EXPO_PUBLIC_EASEBUZZ_API_KEY": "easebuzz-api-key"
+      }
+    }
+  }
+}
